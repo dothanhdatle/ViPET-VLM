@@ -1,78 +1,340 @@
+"""
+ViMed-PET-CT Dataset
+HuggingFace: thainamhoang/ViMed-PET-CT
+
+Whole-body PET/CT volumes (.npz, key='data', shape=(D,H,W), dtype=int16)
+Report JSON structure:
+{
+    "Nhận định kết quả": ...,   ← clinical impression
+    "Mô tả hình ảnh": {
+        "Đầu - cổ": ...,
+        "Lồng ngực": ...,
+        "Ổ bụng - khung chậu": ...,
+        "Hệ cơ - xương": ...
+    }
+}
+
+Split strategy (temporal, following paper):
+    2017 (THANG 8-12):     train=8-10,  val=11,    test=12
+    2018 (THANG 1-4,7-12): train=1-4,7-9, val=10,  test=11-12
+    2019 (THANG 5,6,10-12):train=5,6,10, val=11,   test=12
+    2023 (THANG 1-12):     train=1-9,   val=10,    test=11-12
+"""
+
 import os
+import re
 import json
 import numpy as np
 import pandas as pd
+from typing import Optional, Tuple, Dict, Any
 from torch.utils.data import Dataset
 from huggingface_hub import hf_hub_download
 
+
+HF_REPO = "thainamhoang/ViMed-PET-CT"
+
+# Report keys
+IMPRESSION_KEY = "Nhận định kết quả"
+FINDINGS_KEY   = "Mô tả hình ảnh"
+
+# Temporal split config — theo paper ViMed-PET
+# large data: 2018, 2023 | small data: 2017, 2019
+SPLIT_CONFIG = {
+    2017: {  # small, THANG 8-12
+        "train": {"exclude": ["THANG 11", "THANG 12"]},
+        "val":   {"include": ["THANG 11"]},
+        "test":  {"include": ["THANG 12"]},
+    },
+    2018: {  # large, THANG 1-4, 7-12
+        "train": {"exclude": ["THANG 10", "THANG 11", "THANG 12"]},
+        "val":   {"include": ["THANG 10"]},
+        "test":  {"include": ["THANG 11", "THANG 12"]},
+    },
+    2019: {  # small, THANG 5,6,10-12
+        "train": {"exclude": ["THANG 11", "THANG 12"]},
+        "val":   {"include": ["THANG 11"]},
+        "test":  {"include": ["THANG 12"]},
+    },
+    2023: {  # large, whole year
+        "train": {"exclude": ["THANG 10", "THANG 11", "THANG 12"]},
+        "val":   {"include": ["THANG 10"]},
+        "test":  {"include": ["THANG 11", "THANG 12"]},
+    },
+}
+
+
+# ─────────────────────────────────────────────
+# Helpers
+# ─────────────────────────────────────────────
+
+def extract_month(pet_path: str) -> str:
+    """Extract 'THANG X' từ path. Ví dụ: 'PETCT2023/THANG 10/PET/...' → 'THANG 10'"""
+    match = re.search(r'(THANG \d+)', pet_path)
+    return match.group(1) if match else ""
+
+
+def parse_report(data: Dict) -> Dict[str, str]:
+    """
+    Parse report JSON thành structured dict.
+
+    Returns dict với keys:
+        full_text, impression, findings,
+        head_neck, chest, abdomen, skeleton
+    """
+    impression    = data.get(IMPRESSION_KEY, "")
+    findings_dict = data.get(FINDINGS_KEY, {})
+
+    head_neck = findings_dict.get("Đầu - cổ", "")
+    chest     = findings_dict.get("Lồng ngực", "")
+    abdomen   = findings_dict.get("Ổ bụng - khung chậu", "")
+    skeleton  = findings_dict.get("Hệ cơ - xương", "")
+
+    findings_text = " ".join(filter(None, [head_neck, chest, abdomen, skeleton]))
+    full_text     = " ".join(filter(None, [findings_text, impression]))
+
+    return {
+        "full_text":  full_text,
+        "impression": impression,
+        "findings":   findings_text,
+        "head_neck":  head_neck,
+        "chest":      chest,
+        "abdomen":    abdomen,
+        "skeleton":   skeleton,
+    }
+
+
+# ─────────────────────────────────────────────
+# Base class
+# ─────────────────────────────────────────────
+
 class BaseViPETDataset(Dataset):
-    """Base class to read metadata and download from HuggingFace"""
-    def __init__(self, metadata_path, repo_id="thainamhoang/ViMed-PET-CT", split="train"):
-        self.repo_id = repo_id
-        self.split = split
-        
+    """
+    Base class: load metadata và handle HuggingFace download.
+
+    Args:
+        metadata_path: path tới metadata.csv local.
+                       Nếu không tồn tại → tự download từ HuggingFace.
+        repo_id:       HuggingFace dataset repo ID.
+        use_english:   True → dùng reports_en/ thay vì reports/.
+        cache_dir:     HuggingFace local cache directory.
+    """
+
+    def __init__(
+        self,
+        metadata_path: str,
+        repo_id: str = HF_REPO,
+        use_english: bool = False,
+        cache_dir: Optional[str] = None,
+    ):
+        self.repo_id     = repo_id
+        self.use_english = use_english
+        self.cache_dir   = cache_dir
+
         if os.path.exists(metadata_path):
             self.df = pd.read_csv(metadata_path)
         else:
-            csv_path = hf_hub_download(repo_id=repo_id, filename="metadata.csv", repo_type="dataset")
+            print("Downloading metadata.csv from HuggingFace...")
+            csv_path = hf_hub_download(
+                repo_id=repo_id,
+                filename="metadata.csv",
+                repo_type="dataset",
+                cache_dir=cache_dir,
+            )
             self.df = pd.read_csv(csv_path)
 
-    def __len__(self):
+        print(f"Loaded {len(self.df)} patients")
+
+    def __len__(self) -> int:
         return len(self.df)
 
-    def _load_report(self, report_path):
-        local_path = hf_hub_download(repo_id=self.repo_id, filename=report_path, repo_type="dataset")
-        with open(local_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+    def _download(self, relative_path: str) -> str:
+        """Download file từ HuggingFace, trả về local path. Tự cache."""
+        return hf_hub_download(
+            repo_id=self.repo_id,
+            filename=relative_path,
+            repo_type="dataset",
+            cache_dir=self.cache_dir,
+        )
 
-    def _load_npz(self, npz_path):
-        local_path = hf_hub_download(repo_id=self.repo_id, filename=npz_path, repo_type="dataset")
-        return np.load(local_path)['data']
+    def _load_npz(self, npz_path: str) -> Optional[np.ndarray]:
+        """
+        Load CT hoặc PET volume.
+        key='data', shape=(D,H,W), dtype int16 → convert float32.
+        """
+        try:
+            local_path = self._download(npz_path)
+            return np.load(local_path)["data"].astype(np.float32)
+        except Exception as e:
+            print(f"Warning: Cannot load {npz_path}: {e}")
+            return None
+
+    def _load_report(self, row: pd.Series) -> Dict[str, str]:
+        """
+        Load và parse report JSON.
+        Returns dict: full_text, impression, findings,
+                      head_neck, chest, abdomen, skeleton
+        """
+        path_col = "report_en_path" if self.use_english else "report_path"
+        try:
+            local_path = self._download(row[path_col])
+            with open(local_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return parse_report(data)
+        except Exception as e:
+            print(f"Warning: Cannot load report {row[path_col]}: {e}")
+            return parse_report({})
 
 
-class ViPET2DDataset(BaseViPETDataset):
-    """Dataset return 2D images for 2D vision encoder (using MIP to convert 3D to 2D)"""
-    def __init__(self, metadata_path, repo_id="thainamhoang/ViMed-PET-CT", split="train", transform=None, mip_axis=1):
-        super().__init__(metadata_path, repo_id, split)
-        self.transform = transform
-        self.mip_axis = mip_axis # 0: Sagittal, 1: Coronal, 2: Axial
-
-    def __getitem__(self, idx):
-        row = self.df.iloc[idx]
-        
-        pet_3d = self._load_npz(row['pet_path'])
-        report_data = self._load_report(row['report_path'])
-        
-        # Convert 3D to 2D (MIP) based on config axis
-        pet_2d = np.max(pet_3d, axis=self.mip_axis)
-        
-        if self.transform:
-            pet_2d = self.transform(pet_2d)
-        
-        return {
-            'image': pet_2d, 
-            'report_dict': report_data,
-            'patient_id': row['name']
-        }
-
+# ─────────────────────────────────────────────
+# Main dataset — 3D (CT-ViT, Cosmos)
+# ─────────────────────────────────────────────
 
 class ViPET3DDataset(BaseViPETDataset):
-    """Dataset return 3D PET/CT for 3D vision encoder"""
-    def __init__(self, metadata_path, repo_id="thainamhoang/ViMed-PET-CT", split="train", transform_3d=None):
-        super().__init__(metadata_path, repo_id, split)
-        self.transform_3d = transform_3d
+    """
+    Main dataset cho ViMed-PET pipeline.
+    Load whole-body CT + PET volume (3D) và structured report.
 
-    def __getitem__(self, idx):
-        row = self.df.iloc[idx]
-        
-        pet_3d = self._load_npz(row['pet_path'])
-        report_data = self._load_report(row['report_path'])
-        
-        if self.transform_3d:
-            pet_3d = self.transform_3d(pet_3d)
-            
-        return {
-            'volume': pet_3d, 
-            'report_dict': report_data,
-            'patient_id': row['name']
+    Args:
+        load_ct:   load CT volume (default True)
+        load_pet:  load PET volume (default True)
+        transform: optional transform áp lên numpy array
+    """
+
+    def __init__(
+        self,
+        metadata_path: str,
+        repo_id: str = HF_REPO,
+        use_english: bool = False,
+        load_ct: bool = True,
+        load_pet: bool = True,
+        transform=None,
+        cache_dir: Optional[str] = None,
+    ):
+        super().__init__(metadata_path, repo_id, use_english, cache_dir)
+        self.load_ct   = load_ct
+        self.load_pet  = load_pet
+        self.transform = transform
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        row    = self.df.iloc[idx]
+        report = self._load_report(row)
+
+        item = {
+            "patient_id": row["name"],
+            "sex":        row.get("sex", ""),
+            "height":     float(row["height"]) if pd.notna(row.get("height")) else None,
+            "weight":     float(row["weight"]) if pd.notna(row.get("weight")) else None,
+            "year":       int(row["year"])      if pd.notna(row.get("year"))   else None,
+            "report":     report,
         }
+
+        if self.load_ct:
+            ct = self._load_npz(row["ct_path"])
+            item["ct"] = self.transform(ct) if (self.transform and ct is not None) else ct
+
+        if self.load_pet:
+            pet = self._load_npz(row["pet_path"])
+            item["pet"] = self.transform(pet) if (self.transform and pet is not None) else pet
+
+        return item
+
+
+# ─────────────────────────────────────────────
+# Experimental — 2D baseline via MIP
+# ─────────────────────────────────────────────
+
+class ViPET2DDataset(BaseViPETDataset):
+    """
+    Experimental dataset cho 2D vision encoder baseline (CLIP, ViT).
+    Convert 3D PET → 2D bằng Maximum Intensity Projection (MIP).
+
+    NOTE: Không dùng trong main pipeline. Chỉ để so sánh baseline.
+
+    Args:
+        mip_axis: 0=Sagittal, 1=Coronal, 2=Axial (default)
+    """
+
+    def __init__(
+        self,
+        metadata_path: str,
+        repo_id: str = HF_REPO,
+        use_english: bool = False,
+        mip_axis: int = 2,
+        transform=None,
+        cache_dir: Optional[str] = None,
+    ):
+        super().__init__(metadata_path, repo_id, use_english, cache_dir)
+        self.mip_axis  = mip_axis
+        self.transform = transform
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        row    = self.df.iloc[idx]
+        report = self._load_report(row)
+        pet_3d = self._load_npz(row["pet_path"])
+
+        pet_2d = np.max(pet_3d, axis=self.mip_axis) if pet_3d is not None else None
+        if self.transform and pet_2d is not None:
+            pet_2d = self.transform(pet_2d)
+
+        return {
+            "image":      pet_2d,
+            "report":     report,
+            "patient_id": row["name"],
+        }
+
+
+# ─────────────────────────────────────────────
+# Split — temporal strategy theo paper
+# ─────────────────────────────────────────────
+
+def split_metadata(
+    df: pd.DataFrame,
+    split: str,
+) -> pd.DataFrame:
+    """
+    Split metadata theo temporal strategy của paper ViMed-PET.
+
+    Strategy per year:
+        2017 (THANG 8-12):       train=8-10,    val=11,  test=12
+        2018 (THANG 1-4, 7-12):  train=1-4,7-9, val=10,  test=11-12
+        2019 (THANG 5,6,10-12):  train=5,6,10,  val=11,  test=12
+        2023 (THANG 1-12):       train=1-9,     val=10,  test=11-12
+
+    Args:
+        df:    full metadata DataFrame (2757 rows)
+        split: "train", "val", hoặc "test"
+
+    Returns:
+        Filtered DataFrame
+    """
+    assert split in ["train", "val", "test"], \
+        f"split phải là train/val/test, got '{split}'"
+
+    df = df.copy()
+    df["_month"] = df["pet_path"].apply(extract_month)
+
+    result_rows = []
+    for _, row in df.iterrows():
+        year  = int(row["year"]) if pd.notna(row.get("year")) else None
+        month = row["_month"]
+
+        if year is None or month == "" or year not in SPLIT_CONFIG:
+            continue
+
+        config = SPLIT_CONFIG[year][split]
+
+        if "include" in config:
+            if month in config["include"]:
+                result_rows.append(row)
+        elif "exclude" in config:
+            if month not in config["exclude"]:
+                result_rows.append(row)
+
+    result_df = (pd.DataFrame(result_rows)
+                   .drop(columns=["_month"])
+                   .reset_index(drop=True))
+
+    # Summary
+    year_dist = result_df["year"].value_counts().sort_index().to_dict()
+    print(f"Split '{split}': {len(result_df)} samples | years: {year_dist}")
+    return result_df
