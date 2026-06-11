@@ -39,12 +39,17 @@ class CTViTEncoder(nn.Module):
 
     def forward(self, video: torch.Tensor) -> torch.Tensor:
         """
-        autocast bfloat16 chỉ trong encoder để tránh OOM từ VQ one_hot.
-        Cast về float32 sau encoder để compatible với projection head.
+        Input:  (B, 1, 128, 256, 256)
+        Output: (B, 131072) — mean over T dimension, float32
+
+        CT-ViT returns (B, T, H*W*dim) với T=64, H*W*dim=131072.
+        Mean over T để có fixed-size representation.
+        autocast bfloat16 để handle VQ one_hot memory.
         """
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
             tokens = self.ctvit(video, return_encoded_tokens=True)
-        return tokens.float()  # (B, 131072)
+        # (B, T, H*W*dim) → mean over T → (B, H*W*dim)
+        return tokens.mean(dim=1).float()  # (B, 131072)
 
     @property
     def output_dim(self) -> int:
