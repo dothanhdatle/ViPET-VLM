@@ -72,9 +72,10 @@ class PhoBERTEncoder(nn.Module):
 
     def forward(self, texts: list, device: torch.device) -> torch.Tensor:
         """Float32 — không dùng autocast."""
+        # PhoBERT max_position_embeddings=258 — không được vượt quá
         encoded = self.tokenizer(
             texts, padding=True, truncation=True,
-            max_length=512, return_tensors="pt",
+            max_length=256, return_tensors="pt",
         ).to(device)
         outputs = self.model(**encoded)
         return outputs.last_hidden_state[:, 0, :]  # [CLS] (B, 768)
