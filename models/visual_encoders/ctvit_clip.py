@@ -1,10 +1,13 @@
 """
 Stage 1: CLIP-style fine-tuning của CT-ViT trên PET data.
 
+Dùng return_encoded_tokens=True — đi qua VQ như paper ViMed-PET.
+Training với autocast bfloat16 để handle memory.
+
 Config match pretrained weights từ GenerateCT:
     patch_size=16, temporal_patch_size=2
     input: (B, 1, 128, 256, 256)
-    output: (B, 131072) sau mean pool → (B, embed_dim) sau projection
+    output: (B, 294912) sau VQ + mean pool + flatten
 
 Attribution: CT-ViT from https://github.com/ibrahimethemhamamci/GenerateCT
              License: CC-BY 4.0
@@ -21,22 +24,18 @@ from models.visual_encoders.ctvit import CTViT
 class CTViTEncoder(nn.Module):
     """
     Wrapper cho CT-ViT với pretrained weights từ GenerateCT.
+    Dùng return_encoded_tokens=True — đi qua VQ như paper.
 
-    Config (match pretrained):
-        patch_size=16, temporal_patch_size=2, image_size=256
-        input:  (B, 1, 128, 256, 256)
-        output: (B, 131072) — mean pooled
-
-    Pretrained: GenerateCT (chest CT + radiology reports)
-    Fine-tune:  Stage 1 CLIP-style trên PET data
+    Input:  (B, 1, 128, 256, 256)
+    Output: (B, 294912) — sau VQ, mean pool over T, flatten H*W*dim
     """
 
     CTVIT_CONFIG = dict(
         dim=512,
         codebook_size=8192,
-        image_size=256,          # match pretrained
-        patch_size=16,           # match pretrained
-        temporal_patch_size=2,   # match pretrained
+        image_size=256,
+        patch_size=16,
+        temporal_patch_size=2,
         spatial_depth=4,
         temporal_depth=4,
         dim_head=32,
@@ -44,7 +43,7 @@ class CTViTEncoder(nn.Module):
         use_vgg_and_gan=False,
     )
 
-    OUTPUT_DIM = 131072  # 64 * 16 * 16 * 512 / ... = n_spatial^2 * dim = 256 * 512
+    OUTPUT_DIM = 131072  # 16*16*512 = 131072 (sau mean pool over T=64)
 
     def __init__(self, weights_path: str, freeze: bool = False):
         super().__init__()
@@ -68,12 +67,12 @@ class CTViTEncoder(nn.Module):
     def forward(self, video: torch.Tensor) -> torch.Tensor:
         """
         Input:  (B, 1, 128, 256, 256)
-        Output: (B, 131072)
+        Output: (B, 131072) float32
         """
-        # return_encoded_tokens=True → (B, T, spatial_dim)
+        # return_encoded_tokens=True → (B, T*H*W, dim) sau VQ
+        # ctvit_llava.py: mean(dim=1) rồi view(-1)
         tokens = self.ctvit(video, return_encoded_tokens=True)
-        # Mean pool over temporal dimension T
-        return tokens.mean(dim=1)  # (B, 131072)
+        return tokens.float()  # cast về float32
 
     @property
     def output_dim(self) -> int:
@@ -85,7 +84,7 @@ class PhoBERTEncoder(nn.Module):
     PhoBERT text encoder cho Vietnamese clinical reports.
 
     Input:  list of B strings
-    Output: (B, 768) — [CLS] token embedding
+    Output: (B, 768) float32 — [CLS] token embedding
     """
 
     MODEL_NAME = "vinai/phobert-base-v2"
@@ -110,7 +109,7 @@ class PhoBERTEncoder(nn.Module):
             return_tensors="pt",
         ).to(device)
         outputs = self.model(**encoded)
-        return outputs.last_hidden_state[:, 0, :]  # [CLS] (B, 768)
+        return outputs.last_hidden_state[:, 0, :].float()  # [CLS] (B, 768)
 
     @property
     def output_dim(self) -> int:
@@ -120,6 +119,9 @@ class PhoBERTEncoder(nn.Module):
 class CTViTCLIP(nn.Module):
     """
     CLIP-style model cho Stage 1: fine-tune CT-ViT trên PET data.
+
+    Training: dùng torch.amp.autocast('cuda', dtype=torch.bfloat16)
+              để handle VQ memory requirement.
 
     Args:
         weights_path:  path tới ctvit_pretrained.pt
@@ -142,7 +144,7 @@ class CTViTCLIP(nn.Module):
         self.visual_encoder = CTViTEncoder(weights_path, freeze=freeze_vision)
         self.text_encoder   = PhoBERTEncoder(freeze=freeze_text)
 
-        # Projection heads → shared embed_dim
+        # Projection heads — float32
         self.visual_proj = nn.Linear(self.visual_encoder.output_dim, embed_dim)
         self.text_proj   = nn.Linear(self.text_encoder.output_dim,   embed_dim)
 
