@@ -167,3 +167,70 @@ def get_transform(encoder_name: str, modality: str = "pet", **kwargs) -> BaseViP
 
 def list_transforms() -> list:
     return list(_TRANSFORM_REGISTRY.keys())
+
+
+# ─────────────────────────────────────────────
+# PET/CT Fusion
+# ─────────────────────────────────────────────
+
+def fuse_pet_ct(
+    pet: np.ndarray,
+    ct: np.ndarray,
+    strategy: str = "depth_concat",
+    target_depth: int = 140,
+    target_height: int = 480,
+    target_width: int = 480,
+) -> torch.Tensor:
+    """
+    Fusion PET và CT volume thành 1 tensor cho encoder.
+
+    Strategies:
+        depth_concat:   PET (D/2) + CT (D/2) → (1, D, H, W)
+
+        channel_concat: PET (1, D, H, W) + CT (1, D, H, W) → (2, D, H, W)
+                        Encoder can distinguish modality qua channel dimension.
+
+    Args:
+        pet:            (D, H, W) np.ndarray PET volume
+        ct:             (D, H, W) np.ndarray CT volume
+        strategy:       "depth_concat" or "channel_concat"
+        target_depth:   depth after resize (each modality has target_depth//2 if depth_concat)
+        target_height:  spatial height sau resize
+        target_width:   spatial width sau resize
+
+    Returns:
+        depth_concat:   (1, target_depth, H, W) torch.Tensor
+        channel_concat: (2, target_depth, H, W) torch.Tensor
+
+    Example:
+        >>> fused = fuse_pet_ct(pet, ct, strategy="depth_concat")
+        >>> fused.shape  # (1, 140, 480, 480)
+
+        >>> fused = fuse_pet_ct(pet, ct, strategy="channel_concat")
+        >>> fused.shape  # (2, 140, 480, 480)
+    """
+    assert strategy in ["depth_concat", "channel_concat"], \
+        f"strategy phải là depth_concat/channel_concat, got '{strategy}'"
+
+    # Normalize each modality
+    pet_norm = normalize_pet(pet)
+    ct_norm  = normalize_ct(ct)
+
+    if strategy == "depth_concat":
+        # Each modality has a half depth
+        depth_per_modal = target_depth // 2
+
+        # Resize
+        pet_tensor = resize_volume(pet_norm, depth_per_modal, target_height, target_width)
+        ct_tensor  = resize_volume(ct_norm,  depth_per_modal, target_height, target_width)
+
+        # Concat along depth
+        # (1, D/2, H, W) + (1, D/2, H, W) → (1, D, H, W)
+        return torch.cat([pet_tensor, ct_tensor], dim=1)
+
+    else:  # channel_concat
+        pet_tensor = resize_volume(pet_norm, target_depth, target_height, target_width)
+        ct_tensor  = resize_volume(ct_norm,  target_depth, target_height, target_width)
+
+        # Concat along channel: (1, D, H, W) + (1, D, H, W) → (2, D, H, W)
+        return torch.cat([pet_tensor, ct_tensor], dim=0)
