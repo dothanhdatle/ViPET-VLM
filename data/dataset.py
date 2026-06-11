@@ -125,10 +125,12 @@ class BaseViPETDataset(Dataset):
         repo_id: str = HF_REPO,
         use_english: bool = False,
         cache_dir: Optional[str] = None,
+        local_data_dir: Optional[str] = None,
     ):
-        self.repo_id     = repo_id
-        self.use_english = use_english
-        self.cache_dir   = cache_dir
+        self.repo_id        = repo_id
+        self.use_english    = use_english
+        self.cache_dir      = cache_dir
+        self.local_data_dir = local_data_dir
 
         if os.path.exists(metadata_path):
             self.df = pd.read_csv(metadata_path)
