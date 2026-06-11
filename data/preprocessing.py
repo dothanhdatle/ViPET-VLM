@@ -84,8 +84,15 @@ class BaseViPETTransform(ABC):
 
 
 class CTViTTransform(BaseViPETTransform):
-    """CT-ViT encoder. Paper: resize → (140, 480, 480)."""
-    def __init__(self, modality="pet", depth=140, height=480, width=480):
+    """
+    CT-ViT encoder.
+    Config match pretrained weights từ GenerateCT:
+        patch_size=16, temporal_patch_size=2
+        depth=128, spatial=256 → 64×16×16 = 16384 tokens
+    PET spatial gốc 256×256 → không resize spatial.
+    CT spatial gốc 512×512  → resize xuống 256.
+    """
+    def __init__(self, modality="pet", depth=128, height=256, width=256):
         super().__init__(modality)
         self._depth, self._height, self._width = depth, height, width
 

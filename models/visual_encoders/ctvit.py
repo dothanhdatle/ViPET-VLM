@@ -806,7 +806,7 @@ class ContinuousPositionBias(nn.Module):
 
             self.register_buffer('rel_pos', rel_pos, persistent = False)
 
-        rel_pos = self.rel_pos.to(torch.bfloat16)
+        rel_pos = self.rel_pos.to(next(self.net[0].parameters()).dtype)
 
         for layer in self.net:
             # rel_pos = layer(rel_pos.float())
