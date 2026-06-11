@@ -148,7 +148,19 @@ class BaseViPETDataset(Dataset):
         return len(self.df)
 
     def _download(self, relative_path: str) -> str:
-        """Download file từ HuggingFace, trả về local path. Tự cache."""
+        """
+        Load file từ local nếu có, không thì download từ HuggingFace.
+        
+        Args:
+            relative_path: path tương đối trong dataset (e.g. "PETCT2017/THANG 8/PET/...")
+        """
+        # Check local trước
+        if self.local_data_dir is not None:
+            local_path = os.path.join(self.local_data_dir, relative_path)
+            if os.path.exists(local_path):
+                return local_path
+
+        # Fallback về HuggingFace
         return hf_hub_download(
             repo_id=self.repo_id,
             filename=relative_path,
@@ -209,8 +221,9 @@ class ViPET3DDataset(BaseViPETDataset):
         load_pet: bool = True,
         transform=None,
         cache_dir: Optional[str] = None,
+        local_data_dir: Optional[str] = None,
     ):
-        super().__init__(metadata_path, repo_id, use_english, cache_dir)
+        super().__init__(metadata_path, repo_id, use_english, cache_dir, local_data_dir)
         self.load_ct   = load_ct
         self.load_pet  = load_pet
         self.transform = transform

@@ -84,6 +84,7 @@ class Stage1Trainer:
             load_ct=False,   # Stage 1 chỉ dùng PET
             load_pet=True,
             transform=transform,
+            local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
 
