@@ -251,3 +251,31 @@ class ViPETVLM(BaseVLM):
             token_ids,
             skip_special_tokens=True,
         )
+
+
+def build_model(config: dict, device: torch.device) -> ViPETVLM:
+    """
+    Build ViPETVLM from config dict.
+
+    Example config:
+        model:
+            encoder_weights_path: "/path/to/stage1_best.pt"
+            projector_type:       "linear"
+            llm_name:             "Qwen/Qwen2.5-0.5B-Instruct"
+            token_dim:            512
+            use_lora:             false
+            lora_r:               64
+            lora_alpha:           16
+            lora_dropout:         0.05
+    """
+    cfg = config["model"]
+    return ViPETVLM(
+        encoder_weights_path = cfg["encoder_weights_path"],
+        projector_type       = cfg.get("projector_type", "linear"),
+        llm_name             = cfg["llm_name"],
+        token_dim            = cfg.get("token_dim", 512),
+        use_lora             = cfg.get("use_lora", False),
+        lora_r               = cfg.get("lora_r", 64),
+        lora_alpha           = cfg.get("lora_alpha", 16),
+        lora_dropout         = cfg.get("lora_dropout", 0.05),
+    ).to(device)
