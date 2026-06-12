@@ -165,6 +165,8 @@ class ViPETVLM(BaseVLM):
         text_embeds = self.llm.get_input_embeddings()(input_ids)  # (B, seq_len, llm_dim)
 
         # Concat: [visual | text]
+        # Cast to float16 to match LLM dtype
+        visual_embeds = visual_embeds.to(text_embeds.dtype)
         inputs_embeds = torch.cat([visual_embeds, text_embeds], dim=1)
 
         # Extend attention mask for visual tokens
