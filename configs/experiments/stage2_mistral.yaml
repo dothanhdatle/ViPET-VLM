@@ -1,0 +1,33 @@
+# Stage 2: Alignment with Mistral-7B (for Vast.ai A100)
+
+stage: "stage2"
+
+model:
+  encoder_weights_path: "/workspace/checkpoints/stage1_best.pt"
+  projector_type:       "linear"
+  llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
+  token_dim:            512
+  use_lora:             false
+
+data:
+  metadata_path:  "/workspace/data/metadata.csv"
+  local_data_dir: "/workspace/data"
+  use_english:    false
+  encoder:        "ctvit"
+
+training:
+  epochs:        20
+  batch_size:    16
+  learning_rate: 2.0e-3
+  weight_decay:  0.01
+  warmup_steps:  100
+  max_length:    512
+  log_every:     10
+  eval_every:    500
+  save_every:    500
+  gradient_clip: 1.0
+  num_workers:   4
+
+output:
+  checkpoint_dir: "/workspace/checkpoints/stage2"
+  log_dir:        "/workspace/logs"

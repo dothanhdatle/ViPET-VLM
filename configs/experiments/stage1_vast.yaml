@@ -1,0 +1,32 @@
+# Stage 1: DualCTViTCLIP CLIP fine-tuning (for Vast.ai A100)
+
+stage: "stage1"
+
+model:
+  type:          "dual_ctvit_clip"
+  weights_path:  "/workspace/weights/ctvit_pretrained.pt"
+  embed_dim:     512
+  freeze_text:   true
+  freeze_vision: false
+
+data:
+  metadata_path:  "/workspace/data/metadata.csv"
+  local_data_dir: "/workspace/data"
+  use_english:    false
+  encoder:        "ctvit"
+
+training:
+  epochs:        30
+  batch_size:    8
+  learning_rate: 1.25e-6
+  weight_decay:  0.01
+  warmup_steps:  100
+  log_every:     10
+  eval_every:    500
+  save_every:    500
+  gradient_clip: 1.0
+  num_workers:   4
+
+output:
+  checkpoint_dir: "/workspace/checkpoints/stage1"
+  log_dir:        "/workspace/logs"
