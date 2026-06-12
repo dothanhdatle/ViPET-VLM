@@ -81,7 +81,7 @@ class Stage1Trainer:
         dataset    = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
-            load_ct=False,   # Stage 1 chỉ dùng PET
+            load_ct=True,    # Dual encoder: load both CT and PET
             load_pet=True,
             transform=transform,
             local_data_dir=self.config["data"].get("local_data_dir", None),
@@ -101,11 +101,12 @@ class Stage1Trainer:
         self.model.train()
         self.optimizer.zero_grad()
 
-        pet   = batch["pet"].to(self.device)       # (B, 1, 128, 256, 256)
+        pet   = batch["pet"].to(self.device)       # (B, 1, D, H, W)
+        ct    = batch["ct"].to(self.device)         # (B, 1, D, H, W)
         texts = batch["report"]["full_text"]        # list of B strings
 
-        # Forward — CTViTCLIP tính InfoNCE bên trong
-        out  = self.model(pet, texts)
+        # Forward — DualCTViTCLIP computes InfoNCE internally
+        out  = self.model(pet, ct, texts)
         loss = out["loss"]
 
         # Accuracy từ logits
@@ -139,9 +140,10 @@ class Stage1Trainer:
 
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
+            ct    = batch["ct"].to(self.device)
             texts = batch["report"]["full_text"]
 
-            out = self.model(pet, texts)
+            out = self.model(pet, ct, texts)
             losses.append(out["loss"].item())
 
             # Accuracy

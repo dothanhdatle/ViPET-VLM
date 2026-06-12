@@ -133,3 +133,126 @@ class CTViTCLIP(nn.Module):
             "logits_per_image": logits_per_image,
             "logits_per_text":  logits_per_text,
         }
+
+
+class DualCTViTCLIP(nn.Module):
+    """
+    Dual-encoder CLIP with simple concat fusion.
+
+    Compared to ViPET-VLM (cross-attention fusion):
+        - Simpler: concat instead of cross-attention
+        - No GPT-4o report splitting needed
+        - Single InfoNCE loss on full report
+        - Fewer parameters
+
+    Architecture:
+        PET -> CT-ViT_PET -> v_PET --|
+                                      |--> concat -> proj -> embed_dim
+        CT  -> CT-ViT_CT  -> v_CT  --|
+        Full report -> PhoBERT -> text_proj -> embed_dim
+        Loss: InfoNCE(fused_image_features, text_features)
+    """
+
+    def __init__(
+        self,
+        weights_path: str,
+        embed_dim: int = 512,
+        freeze_text: bool = True,
+        freeze_vision: bool = False,
+        temperature: float = 0.07,
+    ):
+        super().__init__()
+
+        # Two independent encoders — same init weights but fine-tuned separately
+        self.pet_encoder = CTViTEncoder(weights_path, freeze=freeze_vision)
+        self.ct_encoder  = CTViTEncoder(weights_path, freeze=freeze_vision)
+
+        # Text encoder
+        self.text_encoder = PhoBERTEncoder(freeze=freeze_text)
+
+        # Vision projection: concat(v_PET, v_CT) -> embed_dim
+        vision_dim = self.pet_encoder.output_dim + self.ct_encoder.output_dim
+        self.vision_proj = nn.Linear(vision_dim, embed_dim)
+        self.text_proj   = nn.Linear(self.text_encoder.output_dim, embed_dim)
+
+        # Learnable temperature
+        self.logit_scale = nn.Parameter(
+            torch.ones([]) * torch.tensor(temperature).log()
+        )
+
+    def encode_image(
+        self,
+        pet: torch.Tensor,
+        ct:  torch.Tensor,
+    ) -> torch.Tensor:
+        """
+        Encode PET and CT volumes into a single fused representation.
+
+        Args:
+            pet: (B, 1, D, H, W)
+            ct:  (B, 1, D, H, W)
+        Returns:
+            (B, embed_dim) L2-normalized
+        """
+        v_pet = self.pet_encoder(pet)              # (B, 131072)
+        v_ct  = self.ct_encoder(ct)                # (B, 131072)
+        fused = torch.cat([v_pet, v_ct], dim=-1)   # (B, 262144)
+        return F.normalize(self.vision_proj(fused), dim=-1)
+
+    def encode_text(
+        self,
+        texts: list,
+        device: torch.device,
+    ) -> torch.Tensor:
+        """
+        Encode report strings into text features.
+
+        Args:
+            texts: list of B Vietnamese report strings
+        Returns:
+            (B, embed_dim) L2-normalized
+        """
+        return F.normalize(
+            self.text_proj(self.text_encoder(texts, device)),
+            dim=-1,
+        )
+
+    def forward(
+        self,
+        pet:   torch.Tensor,
+        ct:    torch.Tensor,
+        texts: list,
+    ) -> dict:
+        """
+        Args:
+            pet:   (B, 1, D, H, W) PET volume
+            ct:    (B, 1, D, H, W) CT volume
+            texts: list of B Vietnamese report strings
+        Returns:
+            dict with keys: loss, logits_per_image, logits_per_text
+        """
+        device = pet.device
+
+        # Text encoding first — float32, outside autocast
+        text_features  = self.encode_text(texts, device)
+
+        # Image encoding — autocast bfloat16 applied inside CTViTEncoder
+        image_features = self.encode_image(pet, ct)
+
+        # Similarity matrix
+        logit_scale      = self.logit_scale.exp().clamp(max=100)
+        logits_per_image = logit_scale * image_features @ text_features.T
+        logits_per_text  = logits_per_image.T
+
+        # Symmetric InfoNCE loss
+        labels = torch.arange(len(pet), device=device)
+        loss   = (
+            F.cross_entropy(logits_per_image, labels) +
+            F.cross_entropy(logits_per_text,  labels)
+        ) / 2
+
+        return {
+            "loss":             loss,
+            "logits_per_image": logits_per_image,
+            "logits_per_text":  logits_per_text,
+        }
