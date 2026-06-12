@@ -1,0 +1,37 @@
+# Stage 2: Vision-Language Concept Alignment
+# Frozen: vision encoder + LLM
+# Trained: linear projector only
+
+stage: "stage2"
+
+model:
+  type:                 "vipet_vlm"
+  encoder_weights_path: "/content/drive/MyDrive/weights/stage1_best.pt"
+  projector_type:       "linear"
+  llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
+  token_dim:            512
+  use_lora:             false
+
+data:
+  metadata_path:  "/content/ViPET-data/metadata_subset.csv"
+  local_data_dir: "/content/ViPET-data"
+  use_english:    false
+  encoder:        "ctvit"
+
+training:
+  epochs:        20
+  batch_size:    4
+  learning_rate: 2.0e-3     # higher LR — only projector trained
+  weight_decay:  0.01
+  warmup_ratio:  0.03
+  warmup_steps:  100
+  max_length:    512
+  log_every:     1
+  eval_every:    2
+  save_every:    500
+  gradient_clip: 1.0
+  num_workers:   2
+
+output:
+  checkpoint_dir: "/content/drive/MyDrive/ViPET-VLM/checkpoints/stage2"
+  log_dir:        "/content/drive/MyDrive/ViPET-VLM/logs"
