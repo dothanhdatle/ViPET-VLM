@@ -209,6 +209,25 @@ class DualCTViTCLIP(nn.Module):
         fused = torch.cat([v_pet, v_ct], dim=-1)   # (B, token_dim * 2)
         return F.normalize(self.vision_proj(fused), dim=-1)
 
+    def encode_image_tokens(
+        self,
+        pet: torch.Tensor,
+        ct:  torch.Tensor,
+    ) -> torch.Tensor:
+        """
+        Encode PET and CT into full token sequence for Stage 2/3.
+        No mean pooling — keeps all spatial tokens following LLaVA convention.
+
+        Args:
+            pet: (B, 1, D, H, W)
+            ct:  (B, 1, D, H, W)
+        Returns:
+            (B, T_pet + T_ct, token_dim) — concat along token dimension
+        """
+        v_pet = self.pet_encoder(pet)              # (B, T, token_dim)
+        v_ct  = self.ct_encoder(ct)                # (B, T, token_dim)
+        return torch.cat([v_pet, v_ct], dim=1)     # (B, 2T, token_dim)
+
     def encode_text(
         self,
         texts: list,
