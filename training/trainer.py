@@ -260,9 +260,9 @@ class Stage2Trainer:
     """
 
     PROMPT = (
-        "Below is a PET/CT scan. "
-        "Please write a detailed medical report for this image.\n"
-        "Report: "
+        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
+        "Hãy viết báo cáo y tế chi tiết cho ảnh này.\n"
+        "Báo cáo: "
     )
 
     def __init__(self, model, config: dict, device: torch.device):
@@ -448,9 +448,9 @@ class Stage3Trainer:
     """
 
     PROMPT = (
-        "Below is a PET/CT scan. "
-        "Please write a detailed medical report for this image.\n"
-        "Report: "
+        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
+        "Hãy viết báo cáo y tế chi tiết cho ảnh này.\n"
+        "Báo cáo: "
     )
 
     def __init__(self, model, config: dict, device: torch.device):
