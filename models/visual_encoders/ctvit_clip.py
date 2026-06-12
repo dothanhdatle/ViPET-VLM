@@ -19,11 +19,16 @@ class CTViTEncoder(nn.Module):
         spatial_depth=4, temporal_depth=4,
         dim_head=32, heads=8, use_vgg_and_gan=False,
     )
-    OUTPUT_DIM = 131072
+    RAW_DIM    = 131072  # raw CT-ViT token dim — too large to project directly
+    OUTPUT_DIM = 512     # reduced dim — compact token representation
 
-    def __init__(self, weights_path: str, freeze: bool = False):
+    def __init__(self, weights_path: str, freeze: bool = False, token_dim: int = 512):
         super().__init__()
         self.ctvit = CTViT(**self.CTVIT_CONFIG)
+        # Dimension reduction: 131072 -> token_dim
+        # Applied per token: (B, T, 131072) -> (B, T, token_dim)
+        self.token_proj = nn.Linear(self.RAW_DIM, token_dim)
+        self.OUTPUT_DIM = token_dim
 
         print(f"Loading CT-ViT weights from {weights_path}...")
         state_dict = torch.load(weights_path, map_location="cpu")
@@ -39,17 +44,18 @@ class CTViTEncoder(nn.Module):
 
     def forward(self, video: torch.Tensor) -> torch.Tensor:
         """
-        Input:  (B, 1, 128, 256, 256)
-        Output: (B, 131072) — mean over T dimension, float32
+        Input:  (B, 1, D, H, W)
+        Output: (B, T, OUTPUT_DIM) — all spatial tokens, dim-reduced, float32
 
-        CT-ViT returns (B, T, H*W*dim) với T=64, H*W*dim=131072.
-        Mean over T để có fixed-size representation.
-        autocast bfloat16 để handle VQ one_hot memory.
+        Pipeline:
+            CT-ViT → (B, T, 131072) raw tokens
+            token_proj → (B, T, OUTPUT_DIM=512) compact tokens
+            No mean pool — keep all T tokens following LLaVA convention
         """
         with torch.amp.autocast("cuda", dtype=torch.bfloat16):
             tokens = self.ctvit(video, return_encoded_tokens=True)
-        # (B, T, H*W*dim) → mean over T → (B, H*W*dim)
-        return tokens.mean(dim=1).float()  # (B, 131072)
+        tokens = tokens.float()                     # (B, T, 131072)
+        return self.token_proj(tokens)              # (B, T, OUTPUT_DIM)
 
     @property
     def output_dim(self) -> int:
@@ -104,7 +110,10 @@ class CTViTCLIP(nn.Module):
         )
 
     def encode_image(self, video: torch.Tensor) -> torch.Tensor:
-        return F.normalize(self.visual_proj(self.visual_encoder(video)), dim=-1)
+        # Mean pool over T tokens for CLIP loss — needs single vector per sample
+        tokens = self.visual_encoder(video)          # (B, T, token_dim)
+        pooled = tokens.mean(dim=1)                  # (B, token_dim)
+        return F.normalize(self.visual_proj(pooled), dim=-1)
 
     def encode_text(self, texts: list, device: torch.device) -> torch.Tensor:
         return F.normalize(self.text_proj(self.text_encoder(texts, device)), dim=-1)
@@ -194,9 +203,10 @@ class DualCTViTCLIP(nn.Module):
         Returns:
             (B, embed_dim) L2-normalized
         """
-        v_pet = self.pet_encoder(pet)              # (B, 131072)
-        v_ct  = self.ct_encoder(ct)                # (B, 131072)
-        fused = torch.cat([v_pet, v_ct], dim=-1)   # (B, 262144)
+        # Mean pool over T tokens — needed for CLIP loss (single vector per sample)
+        v_pet = self.pet_encoder(pet).mean(dim=1)  # (B, T, token_dim) -> (B, token_dim)
+        v_ct  = self.ct_encoder(ct).mean(dim=1)    # (B, T, token_dim) -> (B, token_dim)
+        fused = torch.cat([v_pet, v_ct], dim=-1)   # (B, token_dim * 2)
         return F.normalize(self.vision_proj(fused), dim=-1)
 
     def encode_text(
