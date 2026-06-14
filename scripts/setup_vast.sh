@@ -28,13 +28,9 @@ pip install -q \
     pyyaml \
     beartype \
     einops \
-    vector_quantize_pytorch
-
-# ── Clone repo ────────────────────────────────────────────
-echo "Cloning repo..."
-cd /workspace
-git clone https://github.com/dothanhdatle/ViPET-VLM.git
-cd ViPET-VLM
+    vector_quantize_pytorch \
+    torchio \
+    "torchao>=0.16.0"
 
 # ── Download CT-ViT weights ───────────────────────────────
 echo "Downloading CT-ViT pretrained weights..."
