@@ -1,0 +1,35 @@
+stage: "stage3_vqa"
+
+model:
+  encoder_weights_path: "/workspace/checkpoints/stage1_best.pt"
+  projector_type:       "linear"
+  llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
+  token_dim:            512
+  use_lora:             true
+  lora_r:               64
+  lora_alpha:           16
+  lora_dropout:         0.05
+
+data:
+  metadata_path:  "/workspace/data/metadata.csv"
+  vqa_path:       "/workspace/data/vqa_conversations.json"
+  local_data_dir: "/workspace/data"
+  use_english:    false
+  encoder:        "ctvit"
+
+training:
+  epochs:        10
+  batch_size:    8
+  learning_rate: 2.0e-5
+  weight_decay:  0.01
+  warmup_steps:  50
+  max_length:    256
+  log_every:     10
+  eval_every:    100
+  save_every:    100
+  gradient_clip: 1.0
+  num_workers:   4
+
+output:
+  checkpoint_dir: "/workspace/checkpoints/stage3_vqa"
+  log_dir:        "/workspace/logs"
