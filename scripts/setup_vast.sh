@@ -33,7 +33,7 @@ pip install -q \
 # ── Clone repo ────────────────────────────────────────────
 echo "Cloning repo..."
 cd /workspace
-git clone https://github.com/YOUR_USERNAME/ViPET-VLM.git
+git clone https://github.com/dothanhdatle/ViPET-VLM.git
 cd ViPET-VLM
 
 # ── Download CT-ViT weights ───────────────────────────────
