@@ -41,11 +41,13 @@ echo "Downloading CT-ViT pretrained weights..."
 python -c "
 from huggingface_hub import hf_hub_download
 path = hf_hub_download(
-    repo_id='pytorchvideo/ctvit',
-    filename='ctvit_pretrained.pt',
+    repo_id='generatect/GenerateCT',
+    filename='pretrained_models/ctvit_pretrained.pt',
     local_dir='/workspace/weights',
 )
-print(f'CT-ViT weights saved to {path}')
+import shutil
+shutil.move(path, '/workspace/weights/ctvit_pretrained.pt')
+print(f'CT-ViT weights saved to /workspace/weights/ctvit_pretrained.pt')
 "
 
 # ── Download dataset metadata ─────────────────────────────
