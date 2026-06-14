@@ -353,3 +353,99 @@ def split_metadata(
     year_dist = result_df["year"].value_counts().sort_index().to_dict()
     print(f"Split '{split}': {len(result_df)} samples | years: {year_dist}")
     return result_df
+
+
+# ─────────────────────────────────────────────
+# VQA dataset — multi-turn conversations from GPT
+# ─────────────────────────────────────────────
+
+class ViPETVQADataset(BaseViPETDataset):
+    """
+    VQA dataset built from GPT-generated multi-turn conversations
+    (output of scripts/generate_vqa.py).
+
+    Each conversation is exploded into individual (image, question, answer)
+    training samples — one PET/CT volume paired with each QA pair.
+
+    Expected JSON format (vqa_path):
+        [
+            {
+                "patient_id": "patient_0",
+                "report": "...",
+                "conversation": [
+                    {"question": "...", "answer": "..."},
+                    ...
+                ]
+            },
+            ...
+        ]
+
+    Args:
+        vqa_path: path to VQA conversations JSON
+        load_ct:  load CT volume (default True)
+        load_pet: load PET volume (default True)
+        transform: optional transform applied to numpy arrays
+    """
+
+    def __init__(
+        self,
+        metadata_path:  str,
+        vqa_path:       str,
+        repo_id:        str = HF_REPO,
+        use_english:    bool = False,
+        load_ct:        bool = True,
+        load_pet:       bool = True,
+        transform=None,
+        cache_dir:      Optional[str] = None,
+        local_data_dir: Optional[str] = None,
+    ):
+        super().__init__(metadata_path, repo_id, use_english, cache_dir, local_data_dir)
+        self.load_ct   = load_ct
+        self.load_pet  = load_pet
+        self.transform = transform
+
+        # Load VQA conversations and explode into flat QA pairs
+        with open(vqa_path, "r", encoding="utf-8") as f:
+            conversations = json.load(f)
+
+        self.qa_pairs = []
+        for conv in conversations:
+            patient_id = conv["patient_id"]
+            matches = self.df[self.df["name"] == patient_id]
+            if len(matches) == 0:
+                print(f"Warning: patient_id '{patient_id}' not found in metadata, skipping")
+                continue
+            row = matches.iloc[0]
+
+            for qa in conv["conversation"]:
+                self.qa_pairs.append({
+                    "patient_id": patient_id,
+                    "ct_path":    row["ct_path"],
+                    "pet_path":   row["pet_path"],
+                    "question":   qa["question"],
+                    "answer":     qa["answer"],
+                })
+
+        print(f"Loaded {len(self.qa_pairs)} QA pairs from {len(conversations)} conversations")
+
+    def __len__(self) -> int:
+        return len(self.qa_pairs)
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.qa_pairs[idx]
+
+        result = {
+            "patient_id": item["patient_id"],
+            "question":   item["question"],
+            "answer":     item["answer"],
+        }
+
+        if self.load_ct:
+            ct = self._load_npz(item["ct_path"])
+            result["ct"] = self.transform(ct) if (self.transform and ct is not None) else ct
+
+        if self.load_pet:
+            pet = self._load_npz(item["pet_path"])
+            result["pet"] = self.transform(pet) if (self.transform and pet is not None) else pet
+
+        return result
