@@ -221,14 +221,16 @@ class ViPET3DDataset(BaseViPETDataset):
         use_english: bool = False,
         load_ct: bool = True,
         load_pet: bool = True,
-        transform=None,
+        pet_transform=None,
+        ct_transform=None,
         cache_dir: Optional[str] = None,
         local_data_dir: Optional[str] = None,
     ):
         super().__init__(metadata_path, repo_id, use_english, cache_dir, local_data_dir)
-        self.load_ct   = load_ct
-        self.load_pet  = load_pet
-        self.transform = transform
+        self.load_ct       = load_ct
+        self.load_pet      = load_pet
+        self.pet_transform = pet_transform
+        self.ct_transform  = ct_transform
 
     def __getitem__(self, idx: int) -> Dict[str, Any]:
         row    = self.df.iloc[idx]
@@ -245,11 +247,11 @@ class ViPET3DDataset(BaseViPETDataset):
 
         if self.load_ct:
             ct = self._load_npz(row["ct_path"])
-            item["ct"] = self.transform(ct) if (self.transform and ct is not None) else ct
+            item["ct"] = self.ct_transform(ct) if (self.ct_transform and ct is not None) else ct
 
         if self.load_pet:
             pet = self._load_npz(row["pet_path"])
-            item["pet"] = self.transform(pet) if (self.transform and pet is not None) else pet
+            item["pet"] = self.pet_transform(pet) if (self.pet_transform and pet is not None) else pet
 
         return item
 
@@ -395,14 +397,16 @@ class ViPETVQADataset(BaseViPETDataset):
         use_english:    bool = False,
         load_ct:        bool = True,
         load_pet:       bool = True,
-        transform=None,
+        pet_transform=None,
+        ct_transform=None,
         cache_dir:      Optional[str] = None,
         local_data_dir: Optional[str] = None,
     ):
         super().__init__(metadata_path, repo_id, use_english, cache_dir, local_data_dir)
-        self.load_ct   = load_ct
-        self.load_pet  = load_pet
-        self.transform = transform
+        self.load_ct       = load_ct
+        self.load_pet      = load_pet
+        self.pet_transform = pet_transform
+        self.ct_transform  = ct_transform
 
         # Load VQA conversations and explode into flat QA pairs
         with open(vqa_path, "r", encoding="utf-8") as f:
@@ -442,10 +446,10 @@ class ViPETVQADataset(BaseViPETDataset):
 
         if self.load_ct:
             ct = self._load_npz(item["ct_path"])
-            result["ct"] = self.transform(ct) if (self.transform and ct is not None) else ct
+            result["ct"] = self.ct_transform(ct) if (self.ct_transform and ct is not None) else ct
 
         if self.load_pet:
             pet = self._load_npz(item["pet_path"])
-            result["pet"] = self.transform(pet) if (self.transform and pet is not None) else pet
+            result["pet"] = self.pet_transform(pet) if (self.pet_transform and pet is not None) else pet
 
         return result

@@ -73,17 +73,17 @@ class Stage1Trainer:
         shuffle: bool,
     ) -> DataLoader:
         """Build DataLoader từ metadata DataFrame."""
-        transform = get_transform(
-            self.config["data"].get("encoder", "ctvit"),
-            modality="pet",
-        )
+        encoder_name  = self.config["data"].get("encoder", "ctvit")
+        pet_transform = get_transform(encoder_name, modality="pet")
+        ct_transform  = get_transform(encoder_name, modality="ct")
 
         dataset    = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,    # Dual encoder: load both CT and PET
             load_pet=True,
-            transform=transform,
+            pet_transform=pet_transform,
+            ct_transform=ct_transform,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -293,13 +293,16 @@ class Stage2Trainer:
         return SequentialLR(self.optimizer, schedulers=[warmup, cosine], milestones=[warmup_steps])
 
     def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
-        transform = get_transform(self.config["data"].get("encoder", "ctvit"), modality="pet")
+        encoder_name  = self.config["data"].get("encoder", "ctvit")
+        pet_transform = get_transform(encoder_name, modality="pet")
+        ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,
             load_pet=True,
-            transform=transform,
+            pet_transform=pet_transform,
+            ct_transform=ct_transform,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -486,13 +489,16 @@ class Stage3Trainer:
         )
 
     def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
-        transform = get_transform(self.config["data"].get("encoder", "ctvit"), modality="pet")
+        encoder_name  = self.config["data"].get("encoder", "ctvit")
+        pet_transform = get_transform(encoder_name, modality="pet")
+        ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,
             load_pet=True,
-            transform=transform,
+            pet_transform=pet_transform,
+            ct_transform=ct_transform,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -656,14 +662,17 @@ class Stage3VQATrainer(Stage3Trainer):
         """Build DataLoader using ViPETVQADataset."""
         from data.dataset import ViPETVQADataset
 
-        transform = get_transform(self.config["data"].get("encoder", "ctvit"), modality="pet")
+        encoder_name  = self.config["data"].get("encoder", "ctvit")
+        pet_transform = get_transform(encoder_name, modality="pet")
+        ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPETVQADataset(
             metadata_path=self.config["data"]["metadata_path"],
             vqa_path=self.config["data"]["vqa_path"],
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,
             load_pet=True,
-            transform=transform,
+            pet_transform=pet_transform,
+            ct_transform=ct_transform,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
 
