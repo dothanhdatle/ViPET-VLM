@@ -1,2 +1,2 @@
 from .ctvit import CTViT
-from .ctvit_clip import CTViTCLIP, CTViTEncoder, PhoBERTEncoder
+from .ctvit_clip import CTViTEncoder, PhoBERTEncoder, DualCTViTCLIP, CTViTEncoderOnly
