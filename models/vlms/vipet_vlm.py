@@ -39,7 +39,10 @@ class ViPETVLM(BaseVLM):
                 → Mistral-7B → report
 
     Args:
-        encoder_weights_path: path to DualCTViTCLIP Stage 1 checkpoint
+        pet_encoder_weights_path: path to Stage1 PET-encoder split checkpoint
+                                   (stage1_best_pet_encoder.pt)
+        ct_encoder_weights_path:  path to Stage1 CT-encoder split checkpoint
+                                   (stage1_best_ct_encoder.pt)
         projector_type:       "linear" or "mlp"
         llm_name:             HuggingFace model name for LLM
         token_dim:            vision encoder output token dim
@@ -51,7 +54,8 @@ class ViPETVLM(BaseVLM):
 
     def __init__(
         self,
-        encoder_weights_path: str,
+        pet_encoder_weights_path: str,
+        ct_encoder_weights_path:  str,
         projector_type:       str   = "linear",
         llm_name:             str   = "mistralai/Mistral-7B-Instruct-v0.2",
         token_dim:            int   = 512,
@@ -65,7 +69,8 @@ class ViPETVLM(BaseVLM):
         # ── Vision encoder (frozen after Stage 1) ──
         print("Loading vision encoder...")
         self.vision_encoder = DualCTViTCLIP(
-            weights_path=encoder_weights_path,
+            pet_weights_path=pet_encoder_weights_path,
+            ct_weights_path=ct_encoder_weights_path,
             embed_dim=token_dim,
             freeze_text=True,
             freeze_vision=False,
@@ -261,7 +266,8 @@ def build_model(config: dict, device: torch.device) -> ViPETVLM:
 
     Example config:
         model:
-            encoder_weights_path: "/path/to/stage1_best.pt"
+            pet_encoder_weights_path: "/path/to/stage1_best_pet_encoder.pt"
+            ct_encoder_weights_path:  "/path/to/stage1_best_ct_encoder.pt"
             projector_type:       "linear"
             llm_name:             "Qwen/Qwen2.5-0.5B-Instruct"
             token_dim:            512
@@ -272,7 +278,8 @@ def build_model(config: dict, device: torch.device) -> ViPETVLM:
     """
     cfg = config["model"]
     return ViPETVLM(
-        encoder_weights_path = cfg["encoder_weights_path"],
+        pet_encoder_weights_path = cfg["pet_encoder_weights_path"],
+        ct_encoder_weights_path  = cfg["ct_encoder_weights_path"],
         projector_type       = cfg.get("projector_type", "linear"),
         llm_name             = cfg["llm_name"],
         token_dim            = cfg.get("token_dim", 512),

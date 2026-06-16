@@ -5,7 +5,8 @@
 stage: "stage3"
 
 model:
-  encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best.pt"
+  pet_encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best_pet_encoder.pt"
+  ct_encoder_weights_path:  "/workspace/checkpoints/stage1/stage1_best_ct_encoder.pt"
   projector_type:       "linear"
   llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
   token_dim:            512

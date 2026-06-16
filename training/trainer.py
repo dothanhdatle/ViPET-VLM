@@ -173,6 +173,11 @@ class Stage1Trainer:
 
         if is_best:
             torch.save(ckpt, os.path.join(self.checkpoint_dir, "stage1_best.pt"))
+            # Per-encoder splits for Stage 2/3 — avoids the "pet_encoder."/"ct_encoder."
+            # key-prefix mismatch when CTViTEncoder later loads a single encoder
+            # from this checkpoint.
+            torch.save(self.model.pet_encoder.state_dict(), f"{self.checkpoint_dir}/stage1_best_pet_encoder.pt")
+            torch.save(self.model.ct_encoder.state_dict(),  f"{self.checkpoint_dir}/stage1_best_ct_encoder.pt")
             print(f"Best saved (val_loss={val_loss:.4f})")
 
     def train(self, train_df: pd.DataFrame, val_df: pd.DataFrame):

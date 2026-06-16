@@ -75,22 +75,35 @@ class CTViTEncoder(nn.Module):
     def __init__(self, weights_path: str, freeze: bool = False, token_dim: int = 512):
         super().__init__()
 
-        full_ctvit = CTViT(**self.CTVIT_CONFIG)
-
-        print(f"Loading CT-ViT weights from {weights_path}...")
-        ckpt = torch.load(weights_path, map_location="cpu", weights_only=False)
-        # Handle both flat state_dict (external pretrained) and nested
-        # checkpoint dict format (Stage1Trainer.save_checkpoint output)
-        state_dict = ckpt["model"] if (isinstance(ckpt, dict) and "model" in ckpt) else ckpt
-        state_dict = {k: v for k, v in state_dict.items()
-                      if not any(x in k for x in ["discr", "vgg"])}
-        missing, unexpected = full_ctvit.load_state_dict(state_dict, strict=False)
-        print(f"Loaded. Missing: {len(missing)} | Unexpected: {len(unexpected)}")
-
+        # Build skeleton first so weights can be loaded into it below, in
+        # either checkpoint format.
+        full_ctvit         = CTViT(**self.CTVIT_CONFIG)
         self.ctvit_encoder = CTViTEncoderOnly(full_ctvit)
         del full_ctvit
-
         self.token_proj = nn.Linear(self.RAW_DIM, token_dim)
+
+        print(f"Loading CT-ViT weights from {weights_path}...")
+        ckpt       = torch.load(weights_path, map_location="cpu", weights_only=False)
+        state_dict = ckpt["model"] if (isinstance(ckpt, dict) and "model" in ckpt) else ckpt
+
+        # Two possible checkpoint formats:
+        #   "own"  — a single CTViTEncoder.state_dict() (keys "ctvit_encoder.*" /
+        #            "token_proj.*"), e.g. the per-modality split saved after
+        #            Stage 1 fine-tuning (see Stage1Trainer.save_checkpoint).
+        #   "flat" — the original external pretrained CT-ViT checkpoint
+        #            (e.g. GenerateCT), un-prefixed encoder/decoder/VQ keys.
+        is_own_format = any(
+            k.startswith("ctvit_encoder.") or k.startswith("token_proj.")
+            for k in state_dict
+        )
+        if is_own_format:
+            missing, unexpected = self.load_state_dict(state_dict, strict=False)
+        else:
+            flat_state = {k: v for k, v in state_dict.items()
+                          if not any(x in k for x in ["discr", "vgg"])}
+            missing, unexpected = self.ctvit_encoder.load_state_dict(flat_state, strict=False)
+        print(f"Loaded. Missing: {len(missing)} | Unexpected: {len(unexpected)}")
+
         self.OUTPUT_DIM = token_dim
 
         if freeze:
@@ -156,16 +169,36 @@ class DualCTViTCLIP(nn.Module):
 
     def __init__(
         self,
-        weights_path: str,
+        weights_path: str = None,
+        pet_weights_path: str = None,
+        ct_weights_path: str = None,
         embed_dim: int = 512,
         freeze_text: bool = True,
         freeze_vision: bool = False,
         temperature: float = 0.07,
     ):
+        """
+        Args:
+            weights_path:      single checkpoint used to seed BOTH encoders —
+                                Stage 1 usage, e.g. the external GenerateCT
+                                pretrained CT-ViT.
+            pet_weights_path:  per-encoder checkpoint for the PET branch —
+                                Stage 2/3 usage, e.g. stage1_best_pet_encoder.pt.
+                                Overrides `weights_path` for this encoder.
+            ct_weights_path:   per-encoder checkpoint for the CT branch.
+                                Overrides `weights_path` for this encoder.
+        """
         super().__init__()
 
-        self.pet_encoder = CTViTEncoder(weights_path, freeze=freeze_vision)
-        self.ct_encoder  = CTViTEncoder(weights_path, freeze=freeze_vision)
+        pet_path = pet_weights_path or weights_path
+        ct_path  = ct_weights_path  or weights_path
+        assert pet_path and ct_path, (
+            "DualCTViTCLIP needs weights_path (shared) or both "
+            "pet_weights_path and ct_weights_path."
+        )
+
+        self.pet_encoder = CTViTEncoder(pet_path, freeze=freeze_vision)
+        self.ct_encoder  = CTViTEncoder(ct_path,  freeze=freeze_vision)
         self.text_encoder = PhoBERTEncoder(freeze=freeze_text)
 
         vision_dim = self.pet_encoder.output_dim + self.ct_encoder.output_dim

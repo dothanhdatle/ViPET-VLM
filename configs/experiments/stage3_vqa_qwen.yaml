@@ -3,7 +3,8 @@
 stage: "stage3_vqa"
 
 model:
-  encoder_weights_path: "/content/drive/MyDrive/weights/ctvit_pretrained.pt"
+  pet_encoder_weights_path: "/content/drive/MyDrive/weights/ctvit_pretrained.pt"
+  ct_encoder_weights_path:  "/content/drive/MyDrive/weights/ctvit_pretrained.pt"
   projector_type:       "linear"
   llm_name:             "Qwen/Qwen2.5-0.5B-Instruct"
   token_dim:            512
