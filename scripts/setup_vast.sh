@@ -9,9 +9,7 @@ echo "=== ViPET-VLM Vast.ai Setup ==="
 # ── Directories ──────────────────────────────────────────
 mkdir -p /workspace/data
 mkdir -p /workspace/weights
-mkdir -p /workspace/checkpoints/stage1
-mkdir -p /workspace/checkpoints/stage2
-mkdir -p /workspace/checkpoints/stage3
+mkdir -p /workspace/checkpoints/{stage1,stage2,stage3,stage3_vqa}
 mkdir -p /workspace/logs
 
 # ── Install dependencies ──────────────────────────────────
@@ -44,19 +42,6 @@ path = hf_hub_download(
 import shutil
 shutil.move(path, '/workspace/weights/ctvit_pretrained.pt')
 print(f'CT-ViT weights saved to /workspace/weights/ctvit_pretrained.pt')
-"
-
-# ── Download dataset metadata ─────────────────────────────
-echo "Downloading dataset metadata..."
-python -c "
-from huggingface_hub import hf_hub_download
-hf_hub_download(
-    repo_id='thainamhoang/ViMed-PET-CT',
-    filename='metadata.csv',
-    repo_type='dataset',
-    local_dir='/workspace/data',
-)
-print('metadata.csv downloaded')
 "
 
 echo ""
