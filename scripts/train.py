@@ -67,6 +67,14 @@ def main():
         # Stage 3: LoRA instruction tuning
         config["model"]["use_lora"] = True
         model   = build_model(config, device)
+        # Load Stage 2 aligned projector before LoRA tuning
+        proj_path = config["model"].get("projector_weights_path")
+        if proj_path and os.path.exists(proj_path):
+            ckpt = torch.load(proj_path, map_location="cpu", weights_only=False)
+            model.projector.load_state_dict(ckpt["projector"])
+            print(f"[stage3] Loaded Stage 2 projector from {proj_path}")
+        else:
+            print(f"[stage3] WARNING: no Stage 2 projector loaded (path={proj_path}) — projector is RANDOM")
         trainer = Stage3Trainer(model, config, device)
 
     else:

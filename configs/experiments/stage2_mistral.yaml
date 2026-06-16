@@ -3,7 +3,7 @@
 stage: "stage2"
 
 model:
-  encoder_weights_path: "/workspace/checkpoints/stage1_best.pt"
+  encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best.pt"
   projector_type:       "linear"
   llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
   token_dim:            512
@@ -17,7 +17,7 @@ data:
 
 training:
   epochs:        20
-  batch_size:    16
+  batch_size:    8
   learning_rate: 2.0e-3
   weight_decay:  0.01
   warmup_steps:  100
