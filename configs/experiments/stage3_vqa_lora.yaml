@@ -1,18 +1,21 @@
 stage: "stage3_vqa"
 
 model:
-  encoder_weights_path: "/workspace/checkpoints/stage1_best.pt"
+  encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best.pt"
   projector_type:       "linear"
   llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
   token_dim:            512
   use_lora:             true
   lora_r:               64
-  lora_alpha:           16
+  lora_alpha:           64
   lora_dropout:         0.05
+  projector_weights_path: "/workspace/checkpoints/stage2/stage2_best.pt"
 
 data:
   metadata_path:  "/workspace/data/metadata.csv"
-  vqa_path:       "/workspace/data/vqa_conversations.json"
+  vqa_path:
+    train: "/workspace/data/vqa_train.json"
+    val:   "/workspace/data/vqa_val.json"
   local_data_dir: "/workspace/data"
   use_english:    false
   encoder:        "ctvit"

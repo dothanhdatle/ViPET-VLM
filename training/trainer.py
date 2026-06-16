@@ -662,12 +662,18 @@ class Stage3VQATrainer(Stage3Trainer):
         """Build DataLoader using ViPETVQADataset."""
         from data.dataset import ViPETVQADataset
 
+        vqa_path_cfg = self.config["data"]["vqa_path"]
+        if isinstance(vqa_path_cfg, dict):
+            vqa_path = vqa_path_cfg["train"] if shuffle else vqa_path_cfg["val"]
+        else:
+            vqa_path = vqa_path_cfg
+
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
         ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPETVQADataset(
             metadata_path=self.config["data"]["metadata_path"],
-            vqa_path=self.config["data"]["vqa_path"],
+            vqa_path=vqa_path,
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,
             load_pet=True,
@@ -676,10 +682,12 @@ class Stage3VQATrainer(Stage3Trainer):
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
 
-        # Filter dataset.qa_pairs to only include patients in df
-        valid_ids = set(df["name"])
+        # Filter by report_path (per-study) — patients with multiple visits
+        # could otherwise leak QA pairs across splits.
+        valid_report_paths = set(df["report_path"])
         dataset.qa_pairs = [
-            qa for qa in dataset.qa_pairs if qa["patient_id"] in valid_ids
+            qa for qa in dataset.qa_pairs
+            if qa.get("report_path") in valid_report_paths
         ]
         print(f"  Filtered to {len(dataset.qa_pairs)} QA pairs for this split")
 

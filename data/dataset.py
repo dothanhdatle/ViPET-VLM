@@ -414,20 +414,33 @@ class ViPETVQADataset(BaseViPETDataset):
 
         self.qa_pairs = []
         for conv in conversations:
-            patient_id = conv["patient_id"]
-            matches = self.df[self.df["name"] == patient_id]
+            patient_id  = conv["patient_id"]
+            report_path = conv.get("report_path")
+
+            # Match by report_path (unique per study/visit) when available.
+            # Some patients have multiple PET/CT visits (different years/months),
+            # so matching by patient_id alone would silently pair QA pairs from
+            # one visit's report with the image from a DIFFERENT visit.
+            # Fallback to patient_id match for older VQA files without report_path.
+            if report_path:
+                matches = self.df[self.df["report_path"] == report_path]
+            else:
+                matches = self.df[self.df["name"] == patient_id]
+
             if len(matches) == 0:
-                print(f"Warning: patient_id '{patient_id}' not found in metadata, skipping")
+                print(f"Warning: no match for patient_id='{patient_id}' "
+                      f"report_path='{report_path}', skipping")
                 continue
             row = matches.iloc[0]
 
             for qa in conv["conversation"]:
                 self.qa_pairs.append({
-                    "patient_id": patient_id,
-                    "ct_path":    row["ct_path"],
-                    "pet_path":   row["pet_path"],
-                    "question":   qa["question"],
-                    "answer":     qa["answer"],
+                    "patient_id":  patient_id,
+                    "report_path": row["report_path"],
+                    "ct_path":     row["ct_path"],
+                    "pet_path":    row["pet_path"],
+                    "question":    qa["question"],
+                    "answer":      qa["answer"],
                 })
 
         print(f"Loaded {len(self.qa_pairs)} QA pairs from {len(conversations)} conversations")
