@@ -57,7 +57,7 @@ PROMPT_VQA = (
 # ── Checkpoint loading ────────────────────────────────────
 def load_checkpoint(model, checkpoint_path: str):
     """Load projector + LoRA weights from checkpoint."""
-    ckpt = torch.load(checkpoint_path, map_location="cpu")
+    ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
 
     if "projector" in ckpt:
         model.projector.load_state_dict(ckpt["projector"])

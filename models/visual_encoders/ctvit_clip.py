@@ -78,7 +78,10 @@ class CTViTEncoder(nn.Module):
         full_ctvit = CTViT(**self.CTVIT_CONFIG)
 
         print(f"Loading CT-ViT weights from {weights_path}...")
-        state_dict = torch.load(weights_path, map_location="cpu")
+        ckpt = torch.load(weights_path, map_location="cpu", weights_only=False)
+        # Handle both flat state_dict (external pretrained) and nested
+        # checkpoint dict format (Stage1Trainer.save_checkpoint output)
+        state_dict = ckpt["model"] if (isinstance(ckpt, dict) and "model" in ckpt) else ckpt
         state_dict = {k: v for k, v in state_dict.items()
                       if not any(x in k for x in ["discr", "vgg"])}
         missing, unexpected = full_ctvit.load_state_dict(state_dict, strict=False)

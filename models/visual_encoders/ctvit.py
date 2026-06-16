@@ -270,7 +270,7 @@ class CTViT(nn.Module):
     def load(self, path):
         path = Path(path)
         assert path.exists()
-        pt = torch.load(str(path))
+        pt = torch.load(str(path), weights_only=False)
         self.load_state_dict(pt)
 
     def decode_from_codebook_indices(self, indices):
