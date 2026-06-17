@@ -128,8 +128,8 @@ def compute_nlp_metrics(
 
 def evaluate_predictions_file(
     predictions_path: str,
-    pred_key: str = "prediction",
-    ref_key: str = "reference",
+    pred_key: str = "generated",
+    ref_key: str = "ground_truth",
 ) -> Dict[str, float]:
     """
     Load a JSON file of [{"prediction": ..., "reference": ...}, ...]
@@ -152,8 +152,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Compute NLP metrics for a predictions JSON file")
     parser.add_argument("predictions_path", help="Path to predictions JSON file")
-    parser.add_argument("--pred_key", default="prediction", help="JSON key for generated text")
-    parser.add_argument("--ref_key", default="reference", help="JSON key for ground-truth text")
+    parser.add_argument("--pred_key", default="generated", help="JSON key for generated text")
+    parser.add_argument("--ref_key", default="ground_truth", help="JSON key for ground-truth text")
     args = parser.parse_args()
 
     scores = evaluate_predictions_file(args.predictions_path, args.pred_key, args.ref_key)
