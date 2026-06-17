@@ -5,11 +5,6 @@ import json
 from typing import Dict, List, Any, Set
 from collections import defaultdict
 
-path = "pretrain_data/single_turn/align_test.json"
-
-with open(path, "r") as f:
-    data = json.load(f)
-
 def convert_path(path):
     paths = path.split(".")[0].split("/")
     petct = paths[0]
