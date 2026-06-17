@@ -24,8 +24,8 @@ training:
   warmup_steps:  100
   max_length:    512
   log_every:     10
-  eval_every:    500
-  save_every:    500
+  eval_every:    200
+  save_every:    200
   gradient_clip: 1.0
   num_workers:   4
 
