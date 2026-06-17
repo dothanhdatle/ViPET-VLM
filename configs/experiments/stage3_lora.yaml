@@ -12,7 +12,7 @@ model:
   token_dim:            512
   use_lora:             true
   lora_r:               64
-  lora_alpha:               64
+  lora_alpha:           16
   lora_dropout:         0.05
   projector_weights_path: "/workspace/checkpoints/stage2/stage2_best.pt"
 

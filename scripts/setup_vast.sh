@@ -28,7 +28,11 @@ pip install -q \
     einops \
     vector_quantize_pytorch \
     torchio \
-    "torchao>=0.16.0"
+    "torchao>=0.16.0" \
+    rouge-score \
+    bert-score \
+    nltk \
+    sacrebleu
 
 # ── Download CT-ViT weights ───────────────────────────────
 echo "Downloading CT-ViT pretrained weights..."
