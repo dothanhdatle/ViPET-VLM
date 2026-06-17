@@ -50,6 +50,7 @@ class ViPETVLM(BaseVLM):
         lora_r:               LoRA rank
         lora_alpha:           LoRA alpha
         lora_dropout:         LoRA dropout
+        lora_target_modules:  LoRA target modules
     """
 
     def __init__(
@@ -63,8 +64,15 @@ class ViPETVLM(BaseVLM):
         lora_r:               int   = 64,
         lora_alpha:           int   = 16,
         lora_dropout:         float = 0.05,
+        lora_target_modules:  list  = None,
     ):
         super().__init__()
+
+        if lora_target_modules is None:
+            lora_target_modules = [
+                "q_proj", "k_proj", "v_proj",
+                "o_proj", "gate_proj", "up_proj", "down_proj",
+            ]
 
         # ── Vision encoder (frozen after Stage 1) ──
         print("Loading vision encoder...")
@@ -105,16 +113,13 @@ class ViPETVLM(BaseVLM):
 
         # ── LoRA for Stage 3 ──
         if use_lora:
-            print(f"Applying LoRA: r={lora_r}, alpha={lora_alpha}...")
+            print(f"Applying LoRA: r={lora_r}, alpha={lora_alpha}, target_modules={lora_target_modules}...")
             lora_config = LoraConfig(
                 r=lora_r,
                 lora_alpha=lora_alpha,
                 lora_dropout=lora_dropout,
                 task_type=TaskType.CAUSAL_LM,
-                target_modules=[
-                    "q_proj", "k_proj", "v_proj",
-                    "o_proj", "gate_proj", "up_proj", "down_proj",
-                ],
+                target_modules=lora_target_modules,
             )
             self.llm = get_peft_model(self.llm, lora_config)
             self.llm.print_trainable_parameters()
@@ -286,5 +291,6 @@ def build_model(config: dict, device: torch.device) -> ViPETVLM:
         use_lora             = cfg.get("use_lora", False),
         lora_r               = cfg.get("lora_r", 64),
         lora_alpha           = cfg.get("lora_alpha", 16),
+        lora_target_modules  = cfg.get("lora_target_modules", None),
         lora_dropout         = cfg.get("lora_dropout", 0.05),
     ).to(device)

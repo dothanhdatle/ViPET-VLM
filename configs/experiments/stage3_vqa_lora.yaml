@@ -10,6 +10,7 @@ model:
   lora_r:               64
   lora_alpha:           16
   lora_dropout:         0.05
+  lora_target_modules:  ["q_proj", "v_proj"]
   projector_weights_path: "/workspace/checkpoints/stage2/stage2_best.pt"
 
 data:
@@ -22,7 +23,7 @@ data:
   encoder:        "ctvit"
 
 training:
-  epochs:        10
+  epochs:        3
   batch_size:    8
   learning_rate: 2.0e-5
   weight_decay:  0.01
