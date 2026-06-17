@@ -22,8 +22,8 @@ training:
   weight_decay:  0.01
   warmup_steps:  100
   log_every:     10
-  eval_every:    500
-  save_every:    500
+  eval_every:    250
+  save_every:    250
   gradient_clip: 1.0
   num_workers:   4
 
