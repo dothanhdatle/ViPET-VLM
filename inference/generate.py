@@ -192,14 +192,18 @@ def main():
     df      = pd.read_csv(config["data"]["metadata_path"])
     data_df = split_metadata(df, args.split)
 
-    transform = get_transform(
+    pet_transform = get_transform(
         config["data"].get("encoder", "ctvit"), modality="pet"
+    )
+    ct_transform = get_transform(
+        config["data"].get("encoder", "ctvit"), modality="ct"
     )
     dataset = ViPET3DDataset(
         metadata_path=config["data"]["metadata_path"],
         load_ct=True,
         load_pet=True,
-        transform=transform,
+        pet_transform=pet_transform,
+        ct_transform=ct_transform,
         local_data_dir=config["data"].get("local_data_dir", None),
     )
     dataset.df = data_df.reset_index(drop=True)
