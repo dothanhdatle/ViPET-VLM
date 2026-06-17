@@ -150,6 +150,69 @@ def generate_outputs(
 
     return results
 
+# ── Single-sample inference (for demo app) ─────────────────
+def load_npz_volume(npz_path: str):
+    """Load a raw PET or CT .npz file the same way ViPET3DDataset does."""
+    import numpy as np
+    return np.load(npz_path)["data"].astype(np.float32)
+
+
+def predict_single(
+    model,
+    device:         torch.device,
+    pet_path:       str,
+    ct_path:        str,
+    encoder_name:   str = "ctvit",
+    task:           str = "report",
+    question:       str = None,
+    max_new_tokens: int = 512,
+) -> str:
+    """
+    Run inference on ONE patient's PET/CT .npz files -- for the Gradio
+    demo app (no DataLoader/Dataset, just direct file paths).
+    """
+    if task == "vqa" and not question:
+        raise ValueError("question is required for task='vqa'")
+
+    pet_transform = get_transform(encoder_name, modality="pet")
+    ct_transform  = get_transform(encoder_name, modality="ct")
+
+    pet_raw = load_npz_volume(pet_path)
+    ct_raw  = load_npz_volume(ct_path)
+
+    pet = pet_transform(pet_raw).unsqueeze(0).to(device)
+    ct  = ct_transform(ct_raw).unsqueeze(0).to(device)
+
+    prompt = PROMPT_VQA.format(question=question) if task == "vqa" else PROMPT_REPORT
+
+    model.eval()
+    prompt_ids = model.tokenizer(
+        prompt, return_tensors="pt", add_special_tokens=True,
+    ).input_ids.to(device)
+    prompt_mask = torch.ones_like(prompt_ids)
+
+    with torch.no_grad():
+        visual_tokens = model.vision_encoder.encode_image_tokens(pet, ct)
+        visual_embeds = model.projector(visual_tokens)
+
+        text_embeds   = model.llm.get_input_embeddings()(prompt_ids)
+        visual_embeds = visual_embeds.to(text_embeds.dtype)
+        inputs_embeds = torch.cat([visual_embeds, text_embeds], dim=1)
+
+        num_visual     = visual_embeds.shape[1]
+        vis_mask       = torch.ones(1, num_visual, device=device)
+        attention_mask = torch.cat([vis_mask, prompt_mask], dim=1)
+
+        output_ids = model.llm.generate(
+            inputs_embeds=inputs_embeds,
+            attention_mask=attention_mask,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            pad_token_id=model.tokenizer.eos_token_id,
+        )
+
+    generated = model.tokenizer.batch_decode(output_ids, skip_special_tokens=True)
+    return generated[0]
 
 # ── Main ──────────────────────────────────────────────────
 def main():
