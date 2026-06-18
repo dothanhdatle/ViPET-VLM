@@ -206,7 +206,7 @@ class DualCTViTCLIP(nn.Module):
         self.text_proj   = nn.Linear(self.text_encoder.output_dim, embed_dim)
 
         self.logit_scale = nn.Parameter(
-            torch.ones([]) * torch.tensor(temperature).log()
+            torch.ones([]) * torch.log(torch.tensor(1.0 / temperature))
         )
 
     def encode_image(self, pet: torch.Tensor, ct: torch.Tensor) -> torch.Tensor:
