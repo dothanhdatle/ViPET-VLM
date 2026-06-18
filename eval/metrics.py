@@ -149,12 +149,37 @@ def evaluate_predictions_file(
 if __name__ == "__main__":
     import argparse
     import json
+    import os
+    import datetime
 
     parser = argparse.ArgumentParser(description="Compute NLP metrics for a predictions JSON file")
     parser.add_argument("predictions_path", help="Path to predictions JSON file")
     parser.add_argument("--pred_key", default="generated", help="JSON key for generated text")
     parser.add_argument("--ref_key", default="ground_truth", help="JSON key for ground-truth text")
+    parser.add_argument("--output_file", default=None,
+                        help="Optional path to save the computed scores as JSON, for later retrieval "
+                             "(otherwise results only print to terminal and are lost when it closes)")
+    parser.add_argument("--label", default=None,
+                        help="Optional label stored alongside the scores (e.g. 'report-gen full v2', "
+                             "'vqa subsample 300') -- useful once you have several output files to "
+                             "tell them apart later")
     args = parser.parse_args()
 
     scores = evaluate_predictions_file(args.predictions_path, args.pred_key, args.ref_key)
     print(json.dumps(scores, indent=2, ensure_ascii=False))
+
+    if args.output_file:
+        output = {
+            "label":             args.label,
+            "predictions_path":  os.path.abspath(args.predictions_path),
+            "pred_key":          args.pred_key,
+            "ref_key":           args.ref_key,
+            "computed_at":       datetime.datetime.now().isoformat(timespec="seconds"),
+            "scores":            scores,
+        }
+        out_dir = os.path.dirname(os.path.abspath(args.output_file))
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+        with open(args.output_file, "w", encoding="utf-8") as f:
+            json.dump(output, f, ensure_ascii=False, indent=2)
+        print(f"\nSaved -> {args.output_file}")

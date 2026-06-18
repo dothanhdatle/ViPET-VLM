@@ -466,3 +466,94 @@ class ViPETVQADataset(BaseViPETDataset):
             result["pet"] = self.pet_transform(pet) if (self.pet_transform and pet is not None) else pet
 
         return result
+
+
+class MixedStage2Dataset(Dataset):
+    """
+    Combines full-report samples (a ViPET3DDataset, restricted to the
+    train split) with a sample of single-turn QA pairs (loaded from a
+    TRAIN-ONLY vqa json via ViPETVQADataset) into ONE dataset for Stage 2
+    training.
+
+    Why: Stage 2 trained on full-report targets ONLY teaches the model
+    one response style (a full structured report) regardless of what's
+    asked -- this is the root cause of VQA answers all starting with
+    "Đây là ảnh PET/CT toàn thân..." even for very specific questions.
+    Mixing in QA-style (short, question-specific answer) targets gives
+    the projector exposure to "the right response depends on the
+    question" before Stage 3 ever sees a question at all.
+
+    CRITICAL: qa_dataset must be built from a TRAIN-only vqa json (e.g.
+    vqa_train.json), never vqa_test.json -- otherwise this leaks test
+    patients' QA pairs into training.
+
+    Each item is normalized to {"pet", "ct", "patient_id", "prompt",
+    "target"} regardless of source, so the trainer doesn't need to know
+    which type a given sample is.
+    """
+
+    QA_PROMPT = (
+        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
+        "{question}\n"
+        "Trả lời: "
+    )
+
+    def __init__(self, report_dataset, qa_dataset, report_prompt: str,
+                 qa_per_patient: int = 2, seed: int = 42):
+        """
+        Args:
+            report_dataset: a ViPET3DDataset instance, already restricted
+                             to the train split (dataset.df already set)
+            qa_dataset:      a ViPETVQADataset instance built from a
+                             TRAIN-ONLY vqa json
+            report_prompt:   the fixed prompt used for report samples
+                             (pass Stage2Trainer.PROMPT)
+            qa_per_patient:  how many QA pairs to sample per patient.
+                             Paper's single-turn pool averages ~5
+                             questions per image; with only 684 report
+                             samples here, keep this small (1-3) so QA
+                             doesn't dominate the training signal.
+        """
+        self.report_dataset = report_dataset
+        self.qa_dataset      = qa_dataset
+        self.report_prompt   = report_prompt
+
+        rng = random.Random(seed)
+        by_patient = {}
+        for qa in qa_dataset.qa_pairs:
+            by_patient.setdefault(qa["patient_id"], []).append(qa)
+        self.qa_items = []
+        for pid, items in by_patient.items():
+            self.qa_items.extend(rng.sample(items, min(qa_per_patient, len(items))))
+
+        print(f"MixedStage2Dataset: {len(report_dataset)} report samples + "
+              f"{len(self.qa_items)} QA samples "
+              f"(from {len(by_patient)} patients, {qa_per_patient}/patient max)")
+
+    def __len__(self):
+        return len(self.report_dataset) + len(self.qa_items)
+
+    def __getitem__(self, idx):
+        if idx < len(self.report_dataset):
+            item = self.report_dataset[idx]
+            return {
+                "pet": item["pet"], "ct": item["ct"],
+                "patient_id": item["patient_id"],
+                "prompt": self.report_prompt,
+                "target": item["report"]["full_text"],
+            }
+
+        qa = self.qa_items[idx - len(self.report_dataset)]
+        pet = self.qa_dataset._load_npz(qa["pet_path"])
+        ct  = self.qa_dataset._load_npz(qa["ct_path"])
+        if self.qa_dataset.pet_transform and pet is not None:
+            pet = self.qa_dataset.pet_transform(pet)
+        if self.qa_dataset.ct_transform and ct is not None:
+            ct = self.qa_dataset.ct_transform(ct)
+
+        return {
+            "pet": pet, "ct": ct,
+            "patient_id": qa["patient_id"],
+            "prompt": self.QA_PROMPT.format(question=qa["question"]),
+            "target": qa["answer"],
+        }

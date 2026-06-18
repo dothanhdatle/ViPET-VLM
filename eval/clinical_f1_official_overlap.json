@@ -1,0 +1,72 @@
+{
+  "overlap_count": 27,
+  "overlap_patient_ids": [
+    "patient_195",
+    "patient_277",
+    "patient_289",
+    "patient_708",
+    "patient_723",
+    "patient_751",
+    "patient_759",
+    "patient_1424",
+    "patient_1435",
+    "patient_1439",
+    "patient_1446",
+    "patient_1476",
+    "patient_1496",
+    "patient_1501",
+    "patient_1502",
+    "patient_1524",
+    "patient_1532",
+    "patient_1542",
+    "patient_1545",
+    "patient_1564",
+    "patient_1565",
+    "patient_1592",
+    "patient_1594",
+    "patient_1625",
+    "patient_1629",
+    "patient_1652",
+    "patient_1694"
+  ],
+  "scores": {
+    "F1-T": {
+      "precision": 15.71,
+      "recall": 7.64,
+      "f1": 10.28,
+      "correct": 11,
+      "total_gt": 144,
+      "total_pred": 70
+    },
+    "F1-TP": {
+      "precision": 1.43,
+      "recall": 0.69,
+      "f1": 0.93,
+      "correct": 1,
+      "total_gt": 144,
+      "total_pred": 70
+    },
+    "F1-TF": {
+      "precision": 5.71,
+      "recall": 2.78,
+      "f1": 3.74,
+      "correct": 4,
+      "total_gt": 144,
+      "total_pred": 70
+    },
+    "F1-TPF": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "correct": 0,
+      "total_gt": 144,
+      "total_pred": 70
+    }
+  },
+  "paper_gpt4o_table4_for_reference": {
+    "F1-T": 24.21,
+    "F1-TP": 13.62,
+    "F1-TF": 20.57,
+    "F1-TPF": 7.87
+  }
+}

@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 
-from data.dataset import ViPET3DDataset, split_metadata
+from data.dataset import ViPET3DDataset, split_metadata, MixedStage2Dataset
 from data.preprocessing import get_transform
 
 
@@ -249,6 +249,10 @@ class Stage1Trainer:
 
 
 
+# changed in your trainer.py. Everything above this line is
+# only test scaffolding.
+# ============================================================
+
 class Stage2Trainer:
     """
     Trainer for Stage 2: Vision-Language Concept Alignment.
@@ -259,9 +263,16 @@ class Stage2Trainer:
     Each step:
         1. Encode PET + CT -> visual tokens (frozen encoder)
         2. Project visual tokens -> LLM embedding space (trainable projector)
-        3. Concat with tokenized prompt + report
+        3. Concat with tokenized prompt + target
         4. Forward through frozen LLM
-        5. Cross-entropy loss on report tokens only
+        5. Cross-entropy loss on target tokens only
+
+    If qa_path is given, the TRAIN loader mixes in single-turn QA samples
+    (short, question-specific targets) alongside full-report samples, to
+    fix the "always answers like a generic report regardless of the
+    question" failure mode. The VAL loader stays full-report-only (no
+    vqa_val.json dependency, and keeps checkpoint selection comparable to
+    the original Stage 2 objective).
     """
 
     PROMPT = (
@@ -270,10 +281,14 @@ class Stage2Trainer:
         "Báo cáo: "
     )
 
-    def __init__(self, model, config: dict, device: torch.device):
+    def __init__(self, model, config: dict, device: torch.device,
+                 qa_path: str = None, qa_per_patient: int = 2):
         self.model  = model
         self.config = config
         self.device = device
+
+        self.qa_path        = qa_path          # None -> original behavior, unchanged
+        self.qa_per_patient = qa_per_patient
 
         # Only optimize projector parameters
         self.optimizer = AdamW(
@@ -298,10 +313,13 @@ class Stage2Trainer:
         return SequentialLR(self.optimizer, schedulers=[warmup, cosine], milestones=[warmup_steps])
 
     def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
+        from data.dataset import ViPET3DDataset, ViPETVQADataset  # adjust import path to match your project
+        from data.preprocessing import get_transform
+
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
         ct_transform  = get_transform(encoder_name, modality="ct")
-        dataset   = ViPET3DDataset(
+        dataset = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
             load_ct=True,
@@ -311,6 +329,23 @@ class Stage2Trainer:
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
+
+        # Mix in QA samples for the TRAIN loader only.
+        if shuffle and self.qa_path:
+            qa_dataset = ViPETVQADataset(
+                metadata_path=self.config["data"]["metadata_path"],
+                vqa_path=self.qa_path,
+                load_ct=True,
+                load_pet=True,
+                pet_transform=pet_transform,
+                ct_transform=ct_transform,
+                local_data_dir=self.config["data"].get("local_data_dir", None),
+            )
+            dataset = MixedStage2Dataset(
+                dataset, qa_dataset, report_prompt=self.PROMPT,
+                qa_per_patient=self.qa_per_patient,
+            )
+
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
@@ -319,18 +354,26 @@ class Stage2Trainer:
             pin_memory=True,
         )
 
-    def _tokenize(self, reports: list):
+    def _tokenize(self, prompts: list, targets: list):
         """
-        Tokenize prompt + report for language modeling.
-        Mask prompt tokens with -100 in labels.
-        """
-        tokenizer  = self.model.tokenizer
-        prompt_len = tokenizer(
-            self.PROMPT, return_tensors="pt", add_special_tokens=True,
-        ).input_ids.shape[1]
+        Tokenize prompt+target pairs for causal LM training.
 
-        full_texts = [self.PROMPT + r for r in reports]
-        encoded    = tokenizer(
+        Computes prompt length PER SAMPLE (not one shared scalar for the
+        whole batch) -- required the moment prompts differ in length
+        within a batch, which they do as soon as QA samples (each with
+        their own question) are mixed in alongside report samples (all
+        sharing one fixed PROMPT). Using a single shared prompt_len here
+        would silently corrupt the label mask for every sample whose real
+        prompt is a different length.
+        """
+        tokenizer = self.model.tokenizer
+
+        prompt_lens = [
+            len(tokenizer(p, add_special_tokens=True).input_ids) for p in prompts
+        ]
+
+        full_texts = [p + t for p, t in zip(prompts, targets)]
+        encoded = tokenizer(
             full_texts,
             return_tensors="pt",
             padding=True,
@@ -339,20 +382,30 @@ class Stage2Trainer:
         ).to(self.device)
 
         labels = encoded.input_ids.clone()
-        labels[:, :prompt_len]                       = -100  # mask prompt
-        labels[labels == tokenizer.pad_token_id]     = -100  # mask padding
+        for i, plen in enumerate(prompt_lens):
+            labels[i, :plen] = -100                          # mask prompt
+        labels[labels == tokenizer.pad_token_id] = -100       # mask padding
 
         return encoded.input_ids, encoded.attention_mask, labels
+
+    @staticmethod
+    def _prompts_and_targets(batch: dict, fixed_prompt: str):
+        """Extract (prompts, targets) lists from a batch, whether it came
+        from the original report-only dataset or MixedStage2Dataset."""
+        if "prompt" in batch:                      # MixedStage2Dataset
+            return batch["prompt"], batch["target"]
+        texts = batch["report"]["full_text"]        # original report-only dataset
+        return [fixed_prompt] * len(texts), texts
 
     def _train_step(self, batch: dict) -> dict:
         self.model.train()
         self.optimizer.zero_grad()
 
-        pet   = batch["pet"].to(self.device)
-        ct    = batch["ct"].to(self.device)
-        texts = batch["report"]["full_text"]
+        pet = batch["pet"].to(self.device)
+        ct  = batch["ct"].to(self.device)
+        prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
 
-        input_ids, attention_mask, labels = self._tokenize(texts)
+        input_ids, attention_mask, labels = self._tokenize(prompts, targets)
         out  = self.model(pet, ct, input_ids, attention_mask, labels)
         loss = out["loss"]
 
@@ -371,11 +424,11 @@ class Stage2Trainer:
         self.model.eval()
         losses = []
         for batch in val_loader:
-            pet   = batch["pet"].to(self.device)
-            ct    = batch["ct"].to(self.device)
-            texts = batch["report"]["full_text"]
-            input_ids, attention_mask, labels = self._tokenize(texts)
-            out   = self.model(pet, ct, input_ids, attention_mask, labels)
+            pet = batch["pet"].to(self.device)
+            ct  = batch["ct"].to(self.device)
+            prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
+            input_ids, attention_mask, labels = self._tokenize(prompts, targets)
+            out = self.model(pet, ct, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())
         return {"val_loss": np.mean(losses)}
 
@@ -402,9 +455,11 @@ class Stage2Trainer:
         self.scheduler = self._build_scheduler(total_steps)
 
         print(f"\n{'='*60}")
-        print(f"Stage 2: Vision-Language Concept Alignment")
+        print(f"Stage 2: Vision-Language Concept Alignment"
+              + (" (+ QA mix)" if self.qa_path else ""))
         print(f"{'='*60}")
-        print(f"Train: {len(train_df)} | Val: {len(val_df)}")
+        print(f"Train: {len(train_df)} report rows -> {len(train_loader.dataset)} total samples")
+        print(f"Val:   {len(val_df)} (report-only)")
         print(f"Batch size:  {cfg['batch_size']}")
         print(f"Epochs:      {cfg['epochs']}")
         print(f"Steps/epoch: {len(train_loader)}")
@@ -440,7 +495,6 @@ class Stage2Trainer:
             print(f"\n[Epoch {epoch+1}/{cfg['epochs']}] Loss: {np.mean(losses):.4f} | Time: {elapsed:.1f}s\n")
 
         print(f"\nTraining complete! Best val loss: {self.best_val_loss:.4f}")
-
 
 class Stage3Trainer:
     """

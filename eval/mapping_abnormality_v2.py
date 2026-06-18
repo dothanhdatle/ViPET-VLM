@@ -57,7 +57,7 @@ class AbnormalityMapper:
         Returns:
             str: Category phù hợp
         """
-        fdg_desc = fdg_info.get("Tăng chuyển hóa FDG", "")
+        fdg_desc = fdg_info.get("Tăng chuyển hoá FDG", "")
         return self._find_matching_category(fdg_desc, self.fdg_categories)
 
     def map_sample(self, sample_data: Dict[str, Any]) -> Dict[str, str]:
@@ -96,7 +96,7 @@ def main():
         "Vị trí của khối u, tổn thương, bất thường": "Ngoại vi thùy dưới phổi trái",
         "Mức độ FDG": {
             "SUVmax": 13.9,
-            "Tăng chuyển hóa FDG": "Cao"
+            "Tăng chuyển hoá FDG": "Cao"
         },
         "Xâm lấn": "xâm lấn rốn phổi phải, dính vào màng phổi trung thất"
     }

@@ -1,0 +1,48 @@
+[ 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "117 x 60 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh nhiều hạch trung thất dính với nhau tạo thành khối hạch", 
+        "Vị trí của khối u, tổn thương, bất thường": "hạ đòn trái, trước mạch máu, cạnh quai động mạch chủ, hạch rốn phổi trái", 
+        "Mức độ FDG": { 
+            "SUVmax": 11.1, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Gây xẹp thụ động thùy trên phổi trái", 
+        "Giai đoạn chuyển hoá": "U nguyên phát" 
+    }, 
+
+ 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "19 x 18 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh hạch", 
+        "Vị trí của khối u, tổn thương, bất thường": " hạ đòn trái, trước mạch máu, cạnh quai động mạch chủ, hạch rốn phổi trái ", 
+        "Mức độ FDG": { 
+            "SUVmax": 7.4, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Khả năng di căn" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "hạch lớn nhất có kích thước 15 x 13 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh vài hạch", 
+        "Vị trí của khối u, tổn thương, bất thường": "tâm hoành phải", 
+        "Mức độ FDG": { 
+            "SUVmax": 4.0, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Khả năng di căn" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "nốt lớn nhất có kích thước 16 x 17 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh vài nốt mờ bờ đa cung", 
+        "Vị trí của khối u, tổn thương, bất thường": "thùy trên phổi trái", 
+        "Mức độ FDG": { 
+            "SUVmax": 10.3, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Khả năng di căn" 
+    } 
+] 

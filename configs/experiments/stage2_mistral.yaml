@@ -15,6 +15,8 @@ data:
   local_data_dir: "/workspace/data"
   use_english:    false
   encoder:        "ctvit"
+  qa_path: "/workspace/data/vqa_train.json"
+  qa_per_patient: 2
 
 training:
   epochs:        10

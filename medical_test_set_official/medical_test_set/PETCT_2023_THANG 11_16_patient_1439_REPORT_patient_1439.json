@@ -1,0 +1,57 @@
+[ 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "13 x 14 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh vài hạch trung thất", 
+        "Vị trí của khối u, tổn thương, bất thường": "cửa sổ chủ phổi, trước và dưới carina, trước mạch máu và hạch rốn phổi phải", 
+        "Mức độ FDG": { 
+            "SUVmax": 4.7, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Khả năng di căn" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "Không có", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh dày dính màng phổi", 
+        "Vị trí của khối u, tổn thương, bất thường": "thành sau bên trái", 
+        "Mức độ FDG": { 
+            "SUVmax": 3.3, 
+            "Tăng chuyển hoá FDG": "Cao" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Không có" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "đường kính 9 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh nhiều nốt mờ nhỏ", 
+        "Vị trí của khối u, tổn thương, bất thường": "nhu mô hạ phân thùy I thùy trên, hạ phân thùy IV - V thùy giữa và hạ phân thùy VI thùy dưới phổi phải", 
+        "Mức độ FDG": { 
+            "SUVmax": 3.0, 
+            "Tăng chuyển hoá FDG": "Tăng nhẹ" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Không có" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "Không có", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh dày tổ chức kẽ và tổn thương dạng nụ cành", 
+        "Vị trí của khối u, tổn thương, bất thường": "rải rác nhu mô thùy trên phổi phải, thùy giữa phổi phải và thùy dưới phổi phải, thùy trên phổi trái", 
+        "Mức độ FDG": { 
+            "SUVmax": 3.9, 
+            "Tăng chuyển hoá FDG": "Không đều" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Khả năng do viêm" 
+    }, 
+    { 
+        "Kích thước khối u, tổn thương, bất thường": "5 x 4 mm", 
+        "Hình dạng của khối u, tổn thương, bất thường": "Hình ảnh nốt vôi hóa", 
+        "Vị trí của khối u, tổn thương, bất thường": "ngoại vi thùy dưới phổi trái", 
+        "Mức độ FDG": { 
+            "SUVmax": "Không có", 
+            "Tăng chuyển hoá FDG": "Không tăng" 
+        }, 
+        "Xâm lấn": "Không có", 
+        "Giai đoạn chuyển hoá": "Lành tính" 
+    } 
+] 
