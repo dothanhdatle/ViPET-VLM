@@ -21,11 +21,13 @@ from models.vlms.vipet_vlm import build_model
 from inference.generate import load_checkpoint, predict_single
 
 
+# !!! VERIFY these 4 paths actually exist on the new Vast.ai instance
+# before relying on this for the demo -- a wrong path crashes on first click.
 REPORT_CONFIG     = "configs/experiments/stage3_lora.yaml"
 REPORT_CHECKPOINT = "/workspace/checkpoints/stage3/stage3_best_inference.pt"
 
-VQA_CONFIG     = "configs/experiments/stage3_vqa_lora.yaml"
-VQA_CHECKPOINT = "/workspace/checkpoints/stage3_vqa/stage3_vqa_best_inference.pt"
+VQA_CONFIG     = "configs/experiments/stage3_vqa.yaml"
+VQA_CHECKPOINT = "/workspace/checkpoints/stage3_vqa/stage3_best.pt"
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -53,14 +55,14 @@ def get_model_for_task(task: str):
     return model
 
 
-def run_report(pet_file, ct_file):
-    if pet_file is None or ct_file is None:
+def run_report(pet_path, ct_path):
+    if pet_path is None or ct_path is None:
         return "Vui lòng tải lên cả file PET (.npz) và CT (.npz)."
     model = get_model_for_task("report")
     try:
         result = predict_single(
             model, DEVICE,
-            pet_path=pet_file.name, ct_path=ct_file.name,
+            pet_path=pet_path, ct_path=ct_path,
             task="report",
         )
         return result
@@ -68,8 +70,8 @@ def run_report(pet_file, ct_file):
         return f"Lỗi: {e}"
 
 
-def run_vqa(pet_file, ct_file, question):
-    if pet_file is None or ct_file is None:
+def run_vqa(pet_path, ct_path, question):
+    if pet_path is None or ct_path is None:
         return "Vui lòng tải lên cả file PET (.npz) và CT (.npz)."
     if not question or not question.strip():
         return "Vui lòng nhập câu hỏi."
@@ -77,7 +79,7 @@ def run_vqa(pet_file, ct_file, question):
     try:
         result = predict_single(
             model, DEVICE,
-            pet_path=pet_file.name, ct_path=ct_file.name,
+            pet_path=pet_path, ct_path=ct_path,
             task="vqa", question=question.strip(),
         )
         return result
@@ -94,16 +96,16 @@ with gr.Blocks(title="ViPET-VLM Demo") as demo:
 
     with gr.Tab("Sinh báo cáo"):
         with gr.Row():
-            report_pet = gr.File(label="File PET (.npz)")
-            report_ct  = gr.File(label="File CT (.npz)")
+            report_pet = gr.File(label="File PET (.npz)", type="filepath")
+            report_ct  = gr.File(label="File CT (.npz)",  type="filepath")
         report_btn    = gr.Button("Sinh báo cáo", variant="primary")
         report_output = gr.Textbox(label="Báo cáo sinh ra", lines=12)
         report_btn.click(run_report, inputs=[report_pet, report_ct], outputs=report_output)
 
     with gr.Tab("Hỏi - Đáp (VQA)"):
         with gr.Row():
-            vqa_pet = gr.File(label="File PET (.npz)")
-            vqa_ct  = gr.File(label="File CT (.npz)")
+            vqa_pet = gr.File(label="File PET (.npz)", type="filepath")
+            vqa_ct  = gr.File(label="File CT (.npz)",  type="filepath")
         vqa_question = gr.Textbox(label="Câu hỏi", placeholder="Ví dụ: Có phát hiện khối u không?")
         vqa_btn       = gr.Button("Trả lời", variant="primary")
         vqa_output    = gr.Textbox(label="Trả lời", lines=6)
