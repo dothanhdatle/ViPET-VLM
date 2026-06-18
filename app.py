@@ -24,9 +24,9 @@ from inference.generate import load_checkpoint, predict_single
 # !!! VERIFY these 4 paths actually exist on the new Vast.ai instance
 # before relying on this for the demo -- a wrong path crashes on first click.
 REPORT_CONFIG     = "configs/experiments/stage3_lora.yaml"
-REPORT_CHECKPOINT = "/workspace/checkpoints/stage3/stage3_best_inference.pt"
+REPORT_CHECKPOINT = "/workspace/checkpoints/stage3/stage3_best.pt"
 
-VQA_CONFIG     = "configs/experiments/stage3_vqa.yaml"
+VQA_CONFIG     = "configs/experiments/stage3_vqa_lora.yaml"
 VQA_CHECKPOINT = "/workspace/checkpoints/stage3_vqa/stage3_best.pt"
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
