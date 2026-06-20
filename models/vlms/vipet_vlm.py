@@ -104,7 +104,7 @@ class ViPETVLM(BaseVLM):
         llm_dim = self.llm.config.hidden_size  # Mistral-7B: 4096
 
         # ── Projector (trained in Stage 2, continue in Stage 3) ──
-        print(f"Building {projector_type} projector: {token_dim*2} -> {llm_dim}...")
+        print(f"Building {projector_type} projector: {token_dim} -> {llm_dim}...")
         self.projector = get_projector(
             projector_type,
             token_dim=token_dim,   # each token dim after dim reduction
@@ -266,23 +266,8 @@ class ViPETVLM(BaseVLM):
 
 
 def build_model(config: dict, device: torch.device) -> ViPETVLM:
-    """
-    Build ViPETVLM from config dict.
-
-    Example config:
-        model:
-            pet_encoder_weights_path: "/path/to/stage1_best_pet_encoder.pt"
-            ct_encoder_weights_path:  "/path/to/stage1_best_ct_encoder.pt"
-            projector_type:       "linear"
-            llm_name:             "Qwen/Qwen2.5-0.5B-Instruct"
-            token_dim:            512
-            use_lora:             false
-            lora_r:               64
-            lora_alpha:           16
-            lora_dropout:         0.05
-    """
     cfg = config["model"]
-    return ViPETVLM(
+    model = ViPETVLM(
         pet_encoder_weights_path = cfg["pet_encoder_weights_path"],
         ct_encoder_weights_path  = cfg["ct_encoder_weights_path"],
         projector_type       = cfg.get("projector_type", "linear"),
@@ -293,4 +278,8 @@ def build_model(config: dict, device: torch.device) -> ViPETVLM:
         lora_alpha           = cfg.get("lora_alpha", 16),
         lora_target_modules  = cfg.get("lora_target_modules", None),
         lora_dropout         = cfg.get("lora_dropout", 0.05),
-    ).to(device)
+    )
+    # Chỉ move encoder và projector — LLM đã được device_map="auto" xử lý
+    model.vision_encoder.to(device)
+    model.projector.to(device)
+    return model

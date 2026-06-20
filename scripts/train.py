@@ -61,7 +61,9 @@ def main():
         # Stage 2: Projector alignment — frozen encoder + frozen LLM
         config["model"]["use_lora"] = False
         model   = build_model(config, device)
-        trainer = Stage2Trainer(model, config, device)
+        trainer = Stage2Trainer(model, config, device,
+                                qa_path=config["data"].get("qa_path"),
+                                qa_per_patient=config["data"].get("qa_per_patient", 2))
 
     elif stage == "stage3":
         # Stage 3: LoRA instruction tuning

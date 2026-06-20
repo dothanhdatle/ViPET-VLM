@@ -16,14 +16,12 @@ data:
   encoder:        "ctvit"
 
 training:
-  epochs:        30
+  epochs:        50
   batch_size:    8
   learning_rate: 1.25e-6
   weight_decay:  0.01
-  warmup_steps:  100
+  warmup_steps:  130
   log_every:     10
-  eval_every:    250
-  save_every:    250
   gradient_clip: 1.0
   num_workers:   4
 
