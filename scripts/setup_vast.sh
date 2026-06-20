@@ -1,9 +1,5 @@
 #!/bin/bash
-# Setup script for Vast.ai A100 instance
-# Run once after instance starts:
-#   bash scripts/setup_vast.sh
-
-set -e  # exit on error
+set -e
 echo "=== ViPET-VLM Vast.ai Setup ==="
 
 # ── Directories ──────────────────────────────────────────
@@ -17,18 +13,16 @@ echo "Installing dependencies..."
 pip install -q \
     transformers==4.46.3 \
     peft \
+    accelerate \
     datasets \
     huggingface_hub \
     pandas \
     numpy \
-    torch \
     tqdm \
     pyyaml \
     beartype \
     einops \
     vector_quantize_pytorch \
-    torchio \
-    "torchao>=0.16.0" \
     rouge-score \
     bert-score \
     nltk \
@@ -38,21 +32,43 @@ pip install -q \
 echo "Downloading CT-ViT pretrained weights..."
 python -c "
 from huggingface_hub import hf_hub_download
-path = hf_hub_download(
-    repo_id='generatect/GenerateCT',
-    filename='pretrained_models/ctvit_pretrained.pt',
-    local_dir='/workspace/weights',
-)
-import shutil
-shutil.move(path, '/workspace/weights/ctvit_pretrained.pt')
-print(f'CT-ViT weights saved to /workspace/weights/ctvit_pretrained.pt')
+import shutil, os
+
+# Verify repo trước khi chạy — thử Project-MONAI/GenerateCT
+try:
+    path = hf_hub_download(
+        repo_id='Project-MONAI/GenerateCT',
+        filename='pretrained_models/ctvit_pretrained.pt',
+        local_dir='/workspace/weights',
+    )
+except Exception as e:
+    print(f'Project-MONAI failed: {e}')
+    print('Trying generatect/GenerateCT...')
+    path = hf_hub_download(
+        repo_id='generatect/GenerateCT',
+        filename='pretrained_models/ctvit_pretrained.pt',
+        local_dir='/workspace/weights',
+    )
+
+dest = '/workspace/weights/ctvit_pretrained.pt'
+if path != dest:
+    shutil.move(path, dest)
+print(f'CT-ViT weights saved to {dest}')
+"
+
+# ── Verify PyTorch CUDA ───────────────────────────────────
+echo "Verifying PyTorch CUDA..."
+python -c "
+import torch
+print(f'PyTorch: {torch.__version__}')
+print(f'CUDA available: {torch.cuda.is_available()}')
+if torch.cuda.is_available():
+    print(f'GPU: {torch.cuda.get_device_name(0)}')
+    print(f'VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.0f} GB')
+else:
+    print('WARNING: CUDA not available!')
 "
 
 echo ""
 echo "=== Setup complete! ==="
-echo ""
-echo "Next steps:"
-echo "  1. Download full dataset (run scripts/download_data.sh)"
-echo "  2. Train Stage 1: python scripts/train.py --config configs/experiments/stage1_vast.yaml"
-echo "  3. Train Stage 2: python scripts/train.py --config configs/experiments/stage2_mistral.yaml"
-echo "  4. Train Stage 3: python scripts/train.py --config configs/experiments/stage3_lora.yaml"
+echo "Next: bash scripts/download_data.sh"
