@@ -1,0 +1,34 @@
+{
+  "F1-T": {
+    "precision": 34.51,
+    "recall": 29.52,
+    "f1": 31.82,
+    "correct": 323,
+    "total_gt": 1094,
+    "total_pred": 936
+  },
+  "F1-TP": {
+    "precision": 11.22,
+    "recall": 9.6,
+    "f1": 10.34,
+    "correct": 105,
+    "total_gt": 1094,
+    "total_pred": 936
+  },
+  "F1-TF": {
+    "precision": 22.65,
+    "recall": 19.38,
+    "f1": 20.89,
+    "correct": 212,
+    "total_gt": 1094,
+    "total_pred": 936
+  },
+  "F1-TPF": {
+    "precision": 6.52,
+    "recall": 5.58,
+    "f1": 6.01,
+    "correct": 61,
+    "total_gt": 1094,
+    "total_pred": 936
+  }
+}

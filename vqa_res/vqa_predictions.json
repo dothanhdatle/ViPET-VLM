@@ -1,0 +1,2501 @@
+[
+  {
+    "patient_id": "patient_400",
+    "question": "Hình ảnh này cho thấy bất thường chính ở vị trí nào?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả. Bắt xạ ở não, tim, gan, lách, thượng thận và đài bể thận hai bên có đặc điểm sinh lý hoặc khác; còn gồm tăng chuyển hóa FDG lan tỏa ở rốn phổi trái và đài bể thận hai b",
+    "ground_truth": "Bất thường chính nằm ở vị trí phẫu thuật u tuyến vú phải, nơi có hình ảnh tăng nhẹ chuyển hóa FDG lan tỏa và có khí tại vùng sau mổ.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_400",
+    "question": "Các cơ quan khác trong PET/CT có phát hiện bất thường tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là PET/CT toàn thân, vì chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường. Chỉ ghi nhận các hạch nhỏ dọc mạnh ở cổ, nách và rốn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG. Ngoài ra còn có một số hạch nhỏ ",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_431",
+    "question": "Não có bất thường chuyển hóa FDG không?",
+    "generated": "Đây là PET/CT toàn thân, nên không có bất thường chuyển hóa FDG. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Hình ảnh này được mô tả là ác tính nguyên phát. Cần lưu ý theo dõi. Không",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_431",
+    "question": "Buồng trứng trái có hình ảnh gì?",
+    "generated": "Đây là hình ảnh buồng trứng trái, không có tăng chuyển hóa FDG. Ngoài ra còn có nhiều hạch trước và dưới carina, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi.",
+    "ground_truth": "Có nang buồng trứng trái, đường kính 22 mm, tăng chuyển hóa FDG không đều với SUVmax 6,2.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_411",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có thể phẫu thuật. Có vài hạch bẹn kích thước khoảng 10 mm tăng chuyển hóa FDG rõ, nhưng được mô tả theo đặc điểm sinh lý. Ngoài ra còn có vài hạch bẹn trong nhu mô hai bên, kích thước",
+    "ground_truth": "Có, có hạch bẹn trái kích thước khoảng 16 x 10 mm, tăng chuyển hóa FDG với SUVmax khoảng 3,5.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_411",
+    "question": "Có ghi nhận vôi hóa màng phổi không?",
+    "generated": "Đây là PET/CT toàn thân, nên không có ghi nhận vôi hóa màng phổi. Báo cáo chỉ đều liệu tăng chuyển hóa FDG lan tỏa ở trước và rốn phổi hai bên, nhưng đây là theo dõi từ tháng 12/2023. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở xươ",
+    "ground_truth": "Có, có hình ảnh vôi hóa màng phổi trước hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_363",
+    "question": "Có bất thường ở gan không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với gan không có bất thường. Báo cáo ghi nghĩa chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở gan. Ngoài ra còn có một số hạch gan lớn khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Cần theo dõi.",
+    "ground_truth": "Có một hình ảnh giảm tỷ trọng kích thước 10 mm ở gan trái, tăng chuyển hóa FDG với SUVmax 5,6. Báo cáo cũng ghi cần đối chiếu với CT ba pha nếu cần.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_362",
+    "question": "Có dấu hiệu nghi ngờ khối u xâm lấn cơ quan lân cận không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có thể phẫu thuật. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở xương đốt sống D10 với SUVmax 4,5, một số hạch trung thất cũng được ghi lần lượt theo dõi. Các hạch này cũng không tăng chuyể",
+    "ground_truth": "Có, hình ảnh gợi ý khối lan vào thân tử cung và nghi ngờ xâm lấn vào thành sau bàng quang. Báo cáo cũng khuyến nghị đối chiếu với MRI để đánh giá mức độ xâm lấn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_362",
+    "question": "Có dấu hiệu tổn thương tăng chuyển hóa ở các cơ quan khác không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở các vị trí khác. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thận, thuộc ngực, thùy và đài bể thận hai bên; cũng không ghi nhận tổn thương tăng chuy",
+    "ground_truth": "Không, báo cáo cho biết chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_371",
+    "question": "Có hạch bất thường ở nách hoặc bẹn không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều hạch nách hai bên và hạch bẹn hai bên. Các hạch có kích thước khoảng 10 mm, tăng chuyển hóa FDG mạnh, SUVmax khoảng 23. Ngoài ra còn có vài hạch bẹn trong nhóm IIB hai bên, kích thước khoảng 10 mm, c",
+    "ground_truth": "Có vài hạch nhỏ ở hố nách hai bên và vài hạch ở hố bẹn hai bên, kích thước khoảng 10 mm, nhưng đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_381",
+    "question": "Có hạch trung thất hoặc rốn phổi nào tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch trung thất được mô tả theo đặc điểm sinh lý. Không ghi nhận hình ảnh tăng chuyển hóa FDG bất thường ở các vị trí khác trên PET/CT toàn thân. Ngoài ra, có một số hạch rốn phổi phải kích thước khoảng 10 mm, nhưng không tăng chuy",
+    "ground_truth": "Có. Có hạch trước-phải khí quản đoạn thấp kích thước 9 mm tăng chuyển hóa FDG với SUVmax 4,0; đồng thời có vài hạch ở rốn phổi trái và phải cũng tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_381",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được gợi ý do viêm. Ngoài ra còn có hình ảnh tăng chuyển hóa FDG lan tỏa ở thân xương ức sống trái, SUVmax 4,6. Báo cáo lưu ý cần",
+    "ground_truth": "Không, không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_354",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi tháp hai bên và cũng có tràn dịch màng tim. Có tăng nhẹ chuyển hóa FDG ở tràn dịch màng phổi tháp hai bên, khoảng 10% so với SUVmax, và được ghi nhận theo đặc điểm sinh lý. Không phát hiện tràn dịch màng tim. Ngoài",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_354",
+    "question": "Tiền liệt tuyến có gì nổi bật trên hình ảnh?",
+    "generated": "Đây là hình ảnh tiền liệt tuyến, nhưng không có tăng chuyển hóa FDG. Ngoài ra còn có một dạng nốt giảm tỷ trọng ở thùy phải tuyến, với kích thước 10 x 8 mm, cũng không tăng chuyển hóa FDG. Cần theo dõi lại. Tiền liệt tuyến nổi b",
+    "ground_truth": "Tiền liệt tuyến to, kích thước 42 x 44 x 50 mm, có vôi hóa và đẩy lồi vào bàng quang.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_424",
+    "question": "Hạch nhóm IIA bên trái có kích thước và mức độ chuyển hóa như thế nào?",
+    "generated": "Đoạn hạch nhóm IIA bên trái có kích thước 10 x 8 mm và tăng chuyển hóa FDG, SUVmax 5,6. Ngoài ra còn có một hạch dọc phần mềm thùy trên cơ ức đòn chũm phải, kích thước 9 x 7 mm, cũng tăng chuyển hóa FDG, SUVmax 4,3. Báo cáo ghi rõ",
+    "ground_truth": "Đó là một hạch nhỏ, đường kính chỉ vài mm, nhưng có tăng chuyển hóa FDG với SUVmax 2,8.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_394",
+    "question": "Tổn thương này có đặc điểm chuyển hóa FDG như thế nào?",
+    "generated": "Đây là tổn thương dày niêm mạc, không tăng chuyển hóa FDG. Ngoài ra còn có vùng đầu trung thất phải tăng nhẹ chuyển hóa FDG, SUVmax khoảng 3,5. Tổn thương này được ghi nhận theo đặc điểm sinh lý. Các tổn thương này không thay ",
+    "ground_truth": "Tổn thương tăng chuyển hóa FDG rõ, với SUVmax khoảng 15,7.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_394",
+    "question": "Khuyến cáo gì được đưa ra đối với tổn thương buồng trứng?",
+    "generated": "Đối với tổn thương buồng trứng, khuyến cáo đối chiếu với nội soi. Ngoài ra còn có một số hình ảnh gợi ý tăng chuyển hóa FDG lan tỏa ở phần bên dưới buồng trứng, cần theo dõi. Hình ảnh này được đánh giá là khả năng do viêm hoặc quá sả",
+    "ground_truth": "Cần đối chiếu với siêu âm và khám chuyên khoa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_712",
+    "question": "Có tràn dịch màng phổi không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên, không tăng chuyển hóa FDG. Báo cáo cho biết được nghĩ nhiều về viêm. Ngoài ra có thêm tràn dịch màng phổi hai bên cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi.",
+    "ground_truth": "Có. Tràn dịch màng phổi trái mức độ nhiều, gây xẹp phổi thụ động, và tràn dịch màng phổi phải mức độ vừa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_787",
+    "question": "Có thấy dấu hiệu gợi ý tái phát tại chỗ ở vùng hàm dưới không?",
+    "generated": "Đây là hình ảnh tái phát, nên cần theo dõi. Chưa thấy tăng chuyển hóa FDG khu trú bất thường ở vùng hàm dưới. Ngoài ra còn có một số hạch cũng gợi ý tái phát, nhưng đều không tăng FDG. Cần lưu ý theo dõi. Hình ảnh cho thấy các hạch",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường do tái phát tại chỗ ở vùng xương hàm dưới.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_787",
+    "question": "Các cơ quan như não, tim, gan, lách và thận có biểu hiện gì trên hình ảnh?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác. Não có bắt xạ theo đặc điểm sinh lý, tim có một nốt sụp giảm tỷ trọng ở thùy dưới bên phải, gan có một nốt tỉ trọng kính, lách có m",
+    "ground_truth": "Bắt xạ ở não, tim, gan, lách, thượng thận và đài bể thận hai bên đều theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_782",
+    "question": "Phổi có tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổn thương đã đánh giá khu trú. Ngoài phổi chũm trái còn có một dải mờ bất thường ở thùy trên phổi trái, kích thước khoảng 12 mm, không tăng chuyển hóa FDG. Tuy nhiên, tổn thương này không gợi",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường, khu trú ở hai trường phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_782",
+    "question": "Hạch bẹn hai bên có tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch bẹn hai bên, kích thước 10 mm và tăng chuyển hóa FDG với SUVmax 4,6. Báo cáo nhân giải trình cho rằng có thể do viêm hoặc quá sản. Ngoài ra còn có một hạch bẹn phải kích thước 9 x 7 mm, không tăng chuyển hóa FDG. Cần lưu ",
+    "ground_truth": "Có vài hạch bẹn kích thước khoảng 10 mm ở hố bẹn hai bên, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_708",
+    "question": "Các hạch ở góc hàm và nhóm IIB hai bên có tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhỏ, kích thước chỉ vài mm. Không tăng chuyển hóa FDG ở các vị trí này. Ngoài ra còn có vài hạch nhỏ ở góc hàm và phía trong cơ ức đòn chũm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Báo cáo cũng ghi cần theo",
+    "ground_truth": "Không. Vài hạch ở góc hàm và phía trong cơ ức đòn chũm nhóm IIB hai bên, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG và được gợi ý nhiều khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_759",
+    "question": "Tổn thương này có tăng chuyển hóa FDG không?",
+    "generated": "Đây là tổn thương tăng chuyển hóa FDG rõ, với SUVmax khoảng 12. Báo cáo gợi ý có thể do viêm. Ngoài ra còn có nhiều hạch trung thất ở cửa sổ phế quản, dưới carina và cầu đống động mạch chủ bụng, cũng tăng chuyển hóa FDG, SUVmax khoảng 8. Cá",
+    "ground_truth": "Có, tổn thương tăng chuyển hóa FDG rõ, với SUVmax khoảng 14,3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_759",
+    "question": "Có vị trí nào khác tăng chuyển hóa FDG đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không chỉ định tổn thương nào cụ thể. Chủ yếu là tăng chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Ngoài ra có một số tổn thương gợi ý viêm ở não, trái phổi và dùng đấu trực tiế",
+    "ground_truth": "Có tăng chuyển hóa FDG khu trú ở xương hàm trên bên phải với SUVmax khoảng 7,5, và được nghĩ nhiều là do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_688",
+    "question": "Tim và các màng serous có phát hiện gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở tim và các màng serous. Ngoài ra còn có một số hạch nhỏ khoang serous hai miền trong serous và rốn lớn hai miền, cũng không tăng chuyển hóa FDG. Cần theo dõi. Hình ảnh này",
+    "ground_truth": "Tim bắt xạ theo đặc điểm sinh lý. Không phát hiện tràn dịch màng phổi hai bên hay tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_703",
+    "question": "Các hạch cổ và thượng đòn có kích thước khoảng bao nhiêu?",
+    "generated": "Đó là các hạch nhỏ khoảng 10 mm. Các hạch này tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra có một hạch thượng đòn trái kích thước 28 x 35 mm, cũng tăng chuyển hóa FDG với SUVmax 7,9. Hình ảnh này được ghi nhận theo đặc điể",
+    "ground_truth": "Các hạch trước và trong cơ ức đòn chũm hai bên có kích thước khoảng 10 mm. Hạch thượng đòn phải lớn nhất khoảng 8 x 6 mm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_703",
+    "question": "Có tổn thương bất thường ở gan, lách, thượng thận, thận, đại tràng hoặc hệ cơ xương không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổn thương bất thường được ghi nhận. Các tổn thương này không cao nhưch, không tăng chuyển hóa FDG, và có một số tổn thương nhỏ trên gan, lách, thượng thận, thận và đại tràng. Ngoài ra còn có m",
+    "ground_truth": "Không. Bắt xạ ở gan, lách, thượng thận và đài bể thận hai bên theo đặc điểm sinh lý; tăng xạ ở khung đại tràng cũng theo đặc điểm sinh lý; và chưa phát hiện tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_664",
+    "question": "Não và tim có biểu hiện tăng bắt xạ bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Não và tim bắt xạ theo đặc điểm sinh lý. Hình ảnh bắt xạ ở não và tim đều được mô tả theo đặc điểm sinh lý. Không phát hiện tràn dịch màng phổi hai bên hoặc tràn dịch màng tim. Cá",
+    "ground_truth": "Không. Não bắt xạ theo đặc điểm sinh lý, và tim cũng bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_664",
+    "question": "Tóm tắt chung của toàn bộ hình ảnh là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều vùng tổ chức bắt xạ dưới da, ngựa, não, lách, thận, đầu cổ, động mạch máu và hệ thống có đặc điểm sinh lý. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở amydal trái, không gợi ý di căn. Cần theo",
+    "ground_truth": "Tóm tắt chung là: sau phẫu thuật tuyến giáp, chưa thấy ổ tăng chuyển hóa FDG bất thường ở giường tuyến giáp; chỉ ghi nhận một hạch nhóm IV bên phải tăng chuyển hóa nhẹ (SUVmax 3,2), tăng chuyển hóa lan tỏa ở vòm họng nhiều khả năng do viêm, một vài hạch cổ/nách/bẹn không tăng chuyển hóa, cùng một số tổn thương dạng nang và chồi xương có tính chất lành tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_731",
+    "question": "Có hạch cổ bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có thể phẫu thuật. Báo cáo cho biết cần lưu ý theo dõi. Hạch cổ tăng chuyển hóa FDG lan tỏa ở vùng trung tâm bụng, cũng như hạch rốn phổi hai bên, hạch cổ hai bên và hạch bẹn hai bên. Ngoài ra cò",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_727",
+    "question": "Hình ảnh này cho thấy các vùng bắt xạ sinh lý nào ở não và vùng hầu họng?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với bắt xạ sinh lý ở não và các vùng tổ chức khung đầu cũng được mô tả. Ngoài ra có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Không phát hiện trao nhiễm, tăng chuyển h",
+    "ground_truth": "Hình ảnh bắt xạ theo đặc điểm sinh lý ở não. Ngoài ra, có tăng nhẹ chuyển hóa FDG ở amygdal và rìa lưỡi hai bên, cũng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_727",
+    "question": "Gan, lách, thượng thận và hệ tiết niệu có thấy bất thường bắt xạ không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không cần phẫu thuật. Các tổn thương đã liệu có giảm chuyển hóa FDG hoặc bắt xạ theo mô tả. Ngoài ra còn có vùng gan trái gợi ý ác tính, cần lưu ý theo dõi. Hình ảnh bắt xạ ở gan, lách, thượng thận v",
+    "ground_truth": "Hình ảnh bắt xạ ở gan, lách, thượng thận và đài bể thận hai bên được mô tả theo đặc điểm sinh lý. Tuy nhiên, lách không to nhưng có tăng chuyển hóa FDG lan tỏa với SUVmax 6,4.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_738",
+    "question": "Có hạch nào ở cổ tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 3,6. Ngoài ra còn có một hạch trung thất dưới carina, đường kính 8 mm, cũng tăng chuyển hóa FDG với SUVmax 4,2. Hình ảnh này được ghi nhận theo đặc điểm sinh lý. Cần lư",
+    "ground_truth": "Có. Có nhiều hạch kích thước nhỏ tạo thành chuỗi dọc cơ ức-đòn-chũm trái, và các hạch này tăng nhẹ chuyển hóa FDG với SUVmax 2,7.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_738",
+    "question": "Có tổn thương tăng chuyển hóa FDG ở hệ thống cơ xương không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổn thương đặc hiệu. Ngoài các tổn thương dịch mô phải, không có tăng chuyển hóa FDG bất thường ở hệ thống cơ xương. Chỉ ghi nhận một số tổn thương nhỏ trên xương đã được điều trị theo d",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_772",
+    "question": "Các hạch mạc treo quanh đại tràng có SUVmax bao nhiêu?",
+    "generated": "10 mm, SUVmax 3,5. Các hạch này tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một hạch trung thất kích thước 8 x 9 mm, SUVmax 2,7. Hình ảnh này được ghi nhận là khả năng do viêm. Cần lưu ý theo dõi.",
+    "ground_truth": "Các hạch này có SUVmax khoảng 3,8.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_627",
+    "question": "Hình ảnh này có ghi nhận bất thường nổi bật nào ở vùng mông trái không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không còn bắt xạ sinh lý. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở vùng mông trái. Chỉ ghi nhận tổn thương dịch mới xuất hiện ở rốn phổi trái, có thể do viêm. Cần theo dõi. Báo cáo",
+    "ground_truth": "Có. Có một tổn thương tỷ trọng mô mềm ở tổ chức dưới da vùng mông trái, và tổn thương này tăng chuyển hóa FDG với SUVmax khoảng 4,8.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_627",
+    "question": "Có tổn thương bất thường ở phổi không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi hai bên. Ngoài ra còn có tăng chuyển hóa lan tỏa ở rốn phổi hai bên và đầu tụy hai bên, theo đặc điểm sinh lý. Kh",
+    "ground_truth": "Không. Không phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_732",
+    "question": "Hình ảnh này cho thấy tổn thương nguyên phát ở vị trí nào?",
+    "generated": "Đây là hình ảnh tổn thương nguyên phát ở trung thất. Báo cáo khuyến nghị đối chiếu với siêu âm và FNA. Ngoài ra, chưa phát hiện ổ tăng chuyển hóa FDG bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "ground_truth": "Tổn thương nguyên phát là một khối mô mềm tăng chuyển hóa FDG ở hố amidan phải.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_732",
+    "question": "Các hạch ở cổ phải thuộc những nhóm nào?",
+    "generated": "Đây là hạch nhóm IIA, IIB và III. Hạch lớn nhất kích thước 12 x 8 mm và tăng chuyển hóa FDG mạnh, SUVmax 13,6. Ngoài ra còn có vài hạch trung thất dọc phải kích thước 7 x 5 mm, cũng tăng chuyển hóa FDG với SUVmax 4,9. Các hạch này đề",
+    "ground_truth": "Các hạch ở cổ phải nằm dọc phía trước và trong cơ ức đòn chũm, thuộc các nhóm IIA, IIB và III.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_732",
+    "question": "Có tổn thương tăng chuyển hóa bất thường ở gan, lách, thượng thận, thận hay hệ thống cơ xương không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các tổn thương nhỏ ở gan, lách, thượng thận, thận trái và hệ thống cơ xương. Các tổn thương này tăng chuyển hóa FDG khu trú, và được ghi nhận theo đặc điểm sinh lý. Ngoài ra có một số tổn thương nh",
+    "ground_truth": "Không, các cơ quan này có bắt xạ theo đặc điểm sinh lý, và chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_470",
+    "question": "Có tổn thương tăng chuyển hóa ở thực quản không?",
+    "generated": "Đây là tổn thương dày niêm mạc, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều đám ở trực quản 1/3 giữa và dưới đoạn động mạch chủ, cũng không tăng chuyển hóa FDG. Các tổn thương này được gợi ý khả năng do viêm. Báo cáo",
+    "ground_truth": "Có. Có hình ảnh tăng chuyển hóa FDG khu trú ở thực quản 1/3 trên với SUVL 10,2, không thay đổi rõ rệt so với PET/CT 9/2018.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_774",
+    "question": "Hình ảnh PET/CT này cho thấy có tổn thương nào ở thùy phải tuyến giáp không?",
+    "generated": "Đây là hình ảnh tổn thương dày niêm mạc, không tăng chuyển hóa FDG, nên cần lấn nhiều vùng khác như trung tâm, ngực, bụng, chậu và hệ cơ xương. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở phân quyếnn đoạn thấp, cũng không gợi ý",
+    "ground_truth": "Có. Tôi thấy một nhân giảm tỷ trọng kích thước khoảng 8 x 10 mm ở thùy phải tuyến giáp, và tổn thương này tăng chuyển hóa FDG với SUVmax khoảng 5,2.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_774",
+    "question": "Có phát hiện tổn thương tăng chuyển hóa FDG ở xương hoặc cơ không?",
+    "generated": "Đây là xương đốt sống, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều hạch cổ và dưới carina, cũng không tăng chuyển hóa FDG. Các hạch lớn nhất khoảng 10 mm. Hình ảnh này được mô tả theo đặc điểm sinh lý. Không ghi nhận tăng",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_788",
+    "question": "Màng phổi bên trái có bất thường gì đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên cần theo dõi. Chưa phát hiện tràn dịch màng phổi bên trái và chỉ có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên, khả năng do viêm hoặc quá sản. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở hang giữa",
+    "ground_truth": "Có dày màng phổi thành sau và thành bên phổi trái, nhưng không tăng chuyển hóa FDG. Tổn thương này được mô tả là có thể do viêm hoặc ảnh hưởng của phẫu thuật.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_788",
+    "question": "Đại tràng có tăng bắt FDG bất thường khu trú không?",
+    "generated": "Đại tràng tăng chuyển hóa FDG rõ, với SUVmax khoảng 12. Báo cáo ghi nhận là cần theo dõi. Hình ảnh này có thể do viêm hoặc quá sản. Ngoài ra còn có một nốt giảm tỷ trọng ở thùy phải đại tràng, kích thước 9 x 8 mm, không tăng chuyển hó",
+    "ground_truth": "Không. Hình ảnh tăng chuyển hóa FDG ở khung đại tràng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_773",
+    "question": "Phổi có tổn thương tăng chuyển hóa FDG nào không?",
+    "generated": "Đây là một tổn thương dày khu trú ở thùy trên phổi phải, nhân giảm chuyển hóa FDG với SUVmax 3,5. Ngoài ra còn có một nốt mờ bất thường đặc hiệu ở thùy dưới phổi phải, kích thước vào khoảng 10 mm, cũng không tăng chuyển hóa FDG. C",
+    "ground_truth": "Có. Có một đám mờ không thuần nhất ở thùy dưới phổi trái tăng chuyển hóa FDG với SUVmax 4,1, và một nốt mờ nhỏ ở nền phổi trái kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 3,9. Báo cáo lưu ý các tổn thương này có thể do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_676",
+    "question": "Hình ảnh này cho thấy có dấu hiệu tái phát tại chỗ ở tuyến giáp đã phẫu thuật không?",
+    "generated": "Đây là hình ảnh tái phát, với nhiều khối mờ bắt xạ ở trung thất, rốn cổ, ngực, bụng, chậu và hệ cơ xương. Các khối này có tăng chuyển hóa FDG với SUVmax khoảng 4,5. Báo cáo gợi ý khả năng do viêm. Ngoài ra còn có dày niêm mạc sâm",
+    "ground_truth": "Không. Theo mô tả, tuyến giáp đã được phẫu thuật và không phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường do tái phát tại chỗ.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_676",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với tràn dịch màng phổi hai bên không tăng chuyển hóa FDG. Khả năng do viêm. Còn cần đối chiếu với siêu âm và FNA. Ngoài ra có một số hạch nhỏ ở trước khí quản và cửa sỷ giữa, cũng không tăng chuyển hóa",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_729",
+    "question": "Ở trung thất có hạch nào đáng chú ý không?",
+    "generated": "Đây là hạch trung thất ở các vị trí không đặc hiệu, nhưng có tăng chuyển hóa FDG lan tỏa theo đặc điểm sinh lý. Ngoài ra còn có một hạch dọc phải khối thùy giữa thực quản 108 x 23 mm, cũng tăng chuyển hóa FDG rõ. Cần theo dõi. Hình ",
+    "ground_truth": "Có. Có nhiều hạch nhỏ, đường kính khoảng 10 mm, nằm ở trước và cạnh khí quản, trước và dưới quai động mạch chủ. Các hạch này có tăng nhẹ chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_729",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện hạch bẹn hai bên không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch ở góc hàm và rốn phải, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Cần theo dõi.",
+    "ground_truth": "Có vài hạch bẹn hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_720",
+    "question": "Có ghi nhận hạch bất thường ở vùng cổ không?",
+    "generated": "Đây là hạch cổ kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 5,3. Ngoài ra có một nốt sản xuất ở trung thất phần dương bên phải, không tăng chuyển hóa FDG, khả năng do viêm. Hình ảnh này được ghi nhận theo ý kiến chuyên khoa. Các h",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_718",
+    "question": "Tuyến giáp hiện tại có dấu hiệu gì đáng chú ý trên hình ảnh không?",
+    "generated": "Đây là hình ảnh tuyến giáp, và chưa phát hiện hạch trung thất hoặc tăng chuyển hóa FDG khu trú bất thường. Ngoài ra còn có một nốt mờ ở thùy dưới tuyến giáp, kích thước khoảng 10 mm, không tăng chuyển hóa FDG. Báo cáo cũng ghi rõ cần theo",
+    "ground_truth": "Tuyến giáp đã được phẫu thuật, nên không còn mô tuyến giáp nguyên vẹn như bình thường. Bất thường nổi bật nhất là khối mô mềm ở giường thùy trái tuyến giáp với tăng chuyển hóa FDG rõ, nghi ngờ tái phát tại chỗ.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_718",
+    "question": "Gan có phát hiện tổn thương nghi ngờ ác tính không?",
+    "generated": "Đây là hình ảnh tổn thương ác tính nguyên phát, và cần lưu ý theo dõi. Ngoài ra chưa phát hiện tràn dịch màng phổi hoặc tràn dịch mạch máu. Các cơ quan gan có kích thước lớn hơn so với hình ảnh bắt xạ sinh lý, và cũng không thay đổi rõ rệt so vớ",
+    "ground_truth": "Không thấy tổn thương tăng chuyển hóa FDG bất thường ở gan. Chỉ ghi nhận một nốt giảm tỉ trọng rất nhỏ ở gan phải, vài mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_673",
+    "question": "Phổi có tổn thương gì đáng chú ý không?",
+    "generated": "Đây là một tổn thương dày phổi trái kích thước 10 x 8 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài nốt mờ ở thùy giữa phổi trái, kích thước nhỏ, không tăng chuyển hóa FDG. Cần theo dõi. Hình ảnh này khả năng do viêm hoặ",
+    "ground_truth": "Có một nốt mờ rất nhỏ, đường kính vài mm, nằm ở nhu mô thùy giữa phổi phải. Tổn thương này không tăng chuyển hóa FDG, nên có thể liên quan đến viêm hoặc xơ hóa; cần lưu ý theo dõi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_668",
+    "question": "Tổn thương chính ở vùng hạ họng và xoang lê có đặc điểm gì trên FDG PET/CT?",
+    "generated": "Đây là tổn thương chính, và đã phẫu thuật. Tổn thương này có hình ảnh dày niêm mạc xung quanh và tăng chuyển hóa FDG rõ, với SUVmax khoảng 12. Ngoài ra còn có xoang lê trái tăng chuyển hóa FDG mức bất thường, với SUVmax khoảng 8. Báo c",
+    "ground_truth": "Tổn thương dày thành ở vùng hạ họng và xoang lê hai bên tăng chuyển hóa FDG rõ, với SUVmax khoảng 13, phù hợp tổn thương ác tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_668",
+    "question": "Có các cơ quan ổ bụng nào tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở các vị trí khác trên PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận và đài bể thận hai bên. Ngoài ra còn có một số cơ quan tăng ch",
+    "ground_truth": "Không, gan, lách, thượng thận và đài bể thận hai bên đều có bắt xạ sinh lý. Cũng chưa ghi nhận tăng chuyển hóa FDG bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_705",
+    "question": "Có hạch nào nghi ngờ di căn ở vùng ổ bụng không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một hạch trung thất dưới carina, đường kính 8 mm, cũng tăng chuyển hóa FDG với SUVmax 5,3. Các hạch này không tăng giám di căn. Hình ảnh này được ghi nhậ",
+    "ground_truth": "Có vài hạch nhỏ ở cạnh môn vị và trước động mạch chủ bụng đoạn phân chia động mạch thân tạng, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_705",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nghĩa là không gợi ý di căn. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở rốn phổi hai bên, với SUVmax 4,3. Báo cáo lưu ý theo dõi. C",
+    "ground_truth": "Không, không phát hiện tràn dịch màng phổi hai bên và không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_682",
+    "question": "Phổi có nốt hoặc tổn thương nào được ghi nhận không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Ngoài ra còn có một nốt sản xuất FDG ở thùy dưới phổi phải, kích thước khoảng 10 mm, nhưng không",
+    "ground_truth": "Có vài nốt mờ vôi hóa ở ngoại vi thùy dưới phổi trái, kích thước vài mm, và một nốt mờ ở thùy giữa phổi phải, kích thước khoảng 8 mm. Các tổn thương này không tăng chuyển hóa FDG, nên cần theo dõi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_742",
+    "question": "Hình ảnh này cho thấy tăng chuyển hóa FDG bất thường rõ ở những vị trí nào?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG rõ ở nhiều vị trí, bao gồm các vùng như: khung đại tràng, phần mềm thực quả sắp xếp, phân thùy VI, VII và VIII, vùng giữa cơ ức đòn chũm trái, vùng lớn hai bên thượng đốt sổ phẫu thủy, và dày niêm m",
+    "ground_truth": "Phát hiện một vài hạch kích thước khoảng 10 mm tăng chuyển hóa FDG ở nhóm hạch IIB bên phải, với SUVmax khoảng 3,0.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_742",
+    "question": "Ở tử cung có thấy gì đáng chú ý không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở thùy trên tử cung, với SUVmax khoảng 4. Ngoài ra có một nốt giảm tỷ trọng đường kính 10 mm ở thùy dưới tử cung, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Báo cáo cũng ghi cần",
+    "ground_truth": "Có một tổn thương kích thước 42 x 34 mm ở tử cung, không tăng chuyển hóa FDG, tương ứng với u xơ tử cung. Báo cáo khuyến nghị đối chiếu siêu âm và khám chuyên khoa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_696",
+    "question": "Ở trung thất có hạch nào không?",
+    "generated": "Đây là hạch trung thất, kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có nhiều hạch rốn phổi phải, hạch lớn nhất đường kính 8 mm, cũng tăng chuyển hóa FDG với SUVmax 4,3. Các hạch này đã được ghi nhận từ P",
+    "ground_truth": "Có vài hạch ở trước và cạnh khí quản, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_696",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không cần phẫu thuật. Có vài hạch bẹn hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch trung thất dọc bên trong cơ ức đòn chũm hai bên, kích thước khoảng",
+    "ground_truth": "Có vài hạch ở hố bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_669",
+    "question": "Tuyến giáp có kích thước bình thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên có thể do viêm. Tuyến giáp kích thước 10 x 8 mm và tăng chuyển hóa FDG mức rất cao, SUVmax 23. Ngoài ra còn có dải mờ bắt xạ ở trung tâm tuyến giáp, không tăng chuyển hóa FDG, khả năng là viêm. Hình ảnh nà",
+    "ground_truth": "Không, tuyến giáp có kích thước lớn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_669",
+    "question": "Khung đại tràng có tăng bắt FDG bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm bất thường. Khung đại tràng tăng chuyển hóa FDG rõ, với SUVmax khoảng 12,5. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở phần mềm dịch một số vùng khác trong ổ túng, lách, thận, ứ",
+    "ground_truth": "Không, hình ảnh tăng chuyển hóa FDG ở khung đại tràng có đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_658",
+    "question": "Ở amydal và rìa lưỡi có gì đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên cần đối chiếu với báo cáo chuyển đổi. Ngoài ra, không phát hiện trao suy y xương ở amydal và rìa lưỡi hai bên. Bắt xạ theo đặc điểm sinh lý ở amydal và rìa lưỡi hai bên. Cũng không có tràn dịch m",
+    "ground_truth": "Có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên, nhưng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_658",
+    "question": "Gan có tổn thương gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổn thương đặc hiệu trên gan. Ngoài ra còn có một nốt giảm tỉ trọng kích thước 10 mm ở thùy dưới phần giáp bên phải, nhưng không tăng chuyển hóa FDG. Cũng cần lưu ý theo dõi. Bất thường gợi ý",
+    "ground_truth": "Có vài nốt giảm tỉ trọng ở gan phải và trái. Nốt lớn nhất kích thước khoảng 15 x 16 mm, không tăng chuyển hóa FDG, khả năng lành tính như nang hoặc hemangioma.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_723",
+    "question": "Khối này có tăng chuyển hóa FDG không?",
+    "generated": "Đây là khối mờ bắt xạ ở thùy trên phổi phải, nhiều không đồng nhất và tăng chuyển hóa FDG. Khối này có kích thước khoảng 38 x 42 mm và tăng chuyển hóa FDG rõ, với SUVmax khoảng 10,6. Ngoài ra còn có một số khung giác, phế quản, thực",
+    "ground_truth": "Có, khối tăng chuyển hóa FDG không đều, với SUVmax khoảng 8.3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_723",
+    "question": "Ngoài khối phổi, có ghi nhận tổn thương nào ở gan không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện tổn thương bất thường khác trên các vị trí gan, lách, thực quản, đại tràng, xương hay hệ cận dọc. Ngoài ra có một số hạch nhỏ ở cửa sổ phế chủ, cửa sổ chủ phổi, và cũng không tăng chuyển hóa",
+    "ground_truth": "Có, có hai nốt giảm tỉ trọng ở gan: một nốt 9 x 8 mm ở hạ phân thùy II và một nốt 9 x 6 mm ở hạ phân thùy IVA. Cả hai không tăng chuyển hóa FDG và được nghĩ nhiều là lành tính, có thể là nang hoặc hemangioma.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_730",
+    "question": "Tuyến giáp có phát hiện gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không ghi nhận tăng chuyển hóa FDG bất thường ở tuyến giáp. Ngoài ra còn có một số hạch trung thất và hạch rải rãi đều kích thước khoảng 10 mm ở trước carina và dọc theo cơ ức đòn chũm hai bên, cần lư",
+    "ground_truth": "Có một nhân giảm tỉ trọng kích thước 5 x 4 mm ở thùy trái tuyến giáp, không tăng chuyển hóa FDG. Cần đối chiếu với siêu âm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_730",
+    "question": "Có ghi nhận tổn thương gì ở gan không?",
+    "generated": "Đây là một tổn thương giảm tỷ trọng kích thước 12 x 9 mm, nhưng không tăng chuyển hóa FDG. Báo cáo ghi rõ cần theo dõi. Ngoài ra có vài nốt mờ gan phải kích thước 5 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi.",
+    "ground_truth": "Có một nốt vôi hóa ở hạ phân thùy VI gan, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_629",
+    "question": "Có hạch nào tăng chuyển hóa FDG gợi ý di căn không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG rõ với SUVmax 23. Ngoài ra còn có một hạch trung thất dưới carina, đường kính 8 mm, tăng chuyển hóa FDG với SUVmax 5,6. Hình ảnh này gợi ý di căn. Cần lưu ý theo dõi.",
+    "ground_truth": "Có nhiều hạch tăng chuyển hóa FDG, bao gồm hạch quanh trực tràng, trước xương cùng, hạch chậu trong hai bên, chậu chung bên trái, hạch bên trái động mạch chủ bụng và hạch bẹn trái. Các hạch này được mô tả là do di căn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_629",
+    "question": "Có hạch nách hoặc hạch góc hàm bất thường không?",
+    "generated": "Đây là hạch nách hai bên và các hạch góc hàm, đều kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Ngoài ra còn có một hạch góc hàm phải kích thước khoảng 8 x 9 mm, cũng không tăng chuy",
+    "ground_truth": "Có vài hạch góc hàm và phía trong cơ ức đòn chũm hai bên, kích thước nhỏ khoảng 10 mm, nhưng không tăng chuyển hóa FDG nên khả năng do viêm hoặc quá sản. Ngoài ra cũng có vài hạch nách nhỏ hai bên khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_764",
+    "question": "Các hạch ở vùng cổ phải này có điểm gì đáng chú ý về diễn tiến?",
+    "generated": "Đây là các hạch nhỏ, kích thước chỉ vài mm, tăng chuyển hóa FDG mức bắt xạ theo đặc điểm sinh lý. Ngoài ra có vài hạch nhỏ ở trung tải dưới carina, cũng diễn tiến theo đặc điểm sinh lý. Cần lưu ý theo dõi. Hình ảnh này không gợi ",
+    "ground_truth": "Các hạch này được ghi nhận là mới xuất hiện so với hình ảnh PET/CT chụp 12/2017.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_764",
+    "question": "Có thấy hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không cần phẫu thuật. Báo cáo ghi chú: có vài hạch bẹn hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch dọc trong cơ ức đòn chũm phải, kích thước kho",
+    "ground_truth": "Có vài hạch ở hai hố bẹn, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_54",
+    "question": "Có hạch cổ nào tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch cổ nhóm IIB bên phải, kích thước 10 x 8 mm và tăng chuyển hóa FDG rõ. Ngoài ra có một hạch dọc trung thất ở cơ ức đòn chũm phải, kích thước 25 x 34 mm, cũng tăng chuyển hóa FDG rõ. Hai hạch này không thay đổi lắp ráp v",
+    "ground_truth": "Không. Không phát hiện hình ảnh hạch tăng chuyển hóa FDG khu trú ở vùng cổ hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_54",
+    "question": "Có tăng chuyển hóa ở đại tràng không?",
+    "generated": "Đại tràng có tăng chuyển hóa FDG, với SUVmax khoảng 12. Báo cáo ghi nhận là cần theo dõi. Ngoài ra, chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở đại tràng. Hình ảnh cũng không gợi ý tổn thương ác tính nguyên phát. Chỉ ghi nh",
+    "ground_truth": "Có tăng chuyển hóa FDG ở khung đại tràng, nhưng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_781",
+    "question": "Có tổn thương nào ở tuyến giáp không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú ở thùy dưới phổi phải, và cần lấn nhận thêm. Ngoài ra còn có tăng chuyển hóa lan tỏa ở tuyến giáp hai bên theo đặc điểm sinh lý. Không ghi nhận tổn thương tăng chuyển hóa FDG khu trú bất thường",
+    "ground_truth": "Có một nhân giảm tỷ trọng ở thùy trái tuyến giáp, đường kính khoảng 10 mm, tăng nhẹ chuyển hóa FDG với SUVmax 2,9. Hình ảnh này cần đối chiếu thêm bằng siêu âm và chọc hút FNA.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_781",
+    "question": "Có tổn thương nào ở cổ tử cung không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG không đều, với SUVmax 10. Ngoài ra còn có nhiều hạch trung thất ở cổ tử cung, dưới quai động mạch chủ, dưới carina và rốn phổi hai bên, kích thước khoảng 10 mm, cũng tăng chuyển hóa FDG với SUVmax 5. Cá",
+    "ground_truth": "Có. Có một tổn thương ở cổ tử cung, không rõ ranh giới trên CT liều thấp, kích thước khoảng 37 x 42 mm và không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_710",
+    "question": "Có tổn thương nào ở phổi không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở nhiều vị trí khác trên PET/CT toàn thân. Ngoài ra còn có một số hạch nhỏ ở phổi phải và phổi trái, cũng không tăng chuyển hóa FDG, khả năng",
+    "ground_truth": "Có vài nốt mờ kích thước vài mm ở thùy trên và thùy dưới phổi phải, cũng như thùy trên phổi trái. Các nốt này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_739",
+    "question": "Hình ảnh này tập trung bất thường rõ nhất ở cơ quan nào?",
+    "generated": "Đây là hình ảnh tập trung bất thường nhất, với các chức năng gợi ý khu trú. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng. Còn có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi",
+    "ground_truth": "Bất thường nổi bật nhất nằm ở thực quản 1/3 giữa, với tổn thương dày thành gây hẹp lòng và xâm lấn xung quanh, kéo dài khoảng 38 mm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_739",
+    "question": "Có tổn thương phổi nào kèm theo không?",
+    "generated": "Đây là tổn thương dạng đặc xảo, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vị trí phù hợp tăng chuyển hóa FDG do di căn. Báo cáo ghi rõ cần lưu ý theo dõi. Chỉ cần đối chiếu với CT sau một thời gian để xác định việc di căn hoặc kh",
+    "ground_truth": "Có, có nhiều nốt mờ dạng chồi cây, tăng nhẹ chuyển hóa FDG ở thùy trên và thùy giữa phổi phải, cũng như thùy dưới phổi trái. Hình ảnh này được nhận định khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_642",
+    "question": "Hạch thượng đòn phải có phải là tổn thương mới không?",
+    "generated": "Đây là một hạch thượng đòn phải kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có nhiều hạch trung thất dọc trên khối mô mềm ở thùy trái thực quản đoạn 2/3, hạch lớn nhất 9 x 7 mm, tăng chuyển hóa FDG v",
+    "ground_truth": "Có. Có vài hạch thượng đòn phải kích thước khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 8,1 và được ghi nhận là mới xuất hiện so với PET/CT 1/2017.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_646",
+    "question": "Kích thước khối tổn thương ở gan là bao nhiêu?",
+    "generated": "Đây là một khối tổn thương ở hạ phân thùy V của gan, có kích thước khoảng 35 x 28 mm. Ngoài ra còn có một nang bên trái kích thước 16 x 9 mm. Cả hai khung này tăng chuyển hóa FDG rõ, với SUVmax khoảng 10,4. Báo cáo cũng ghi cần theo dõi.",
+    "ground_truth": "Khối giảm tỉ trọng ở gan có kích thước khoảng 61 x 44 x 70 mm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_646",
+    "question": "Có bất thường ở phổi hai bên không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Chỉ còn tăng chuyển hóa FDG lan tỏa ở phổi trái với SUVmax 3,5, nhưng được mô tả theo đặc điểm sinh lý. Ngoài ra cũng có dày niêm mạc PHC 10 mm ở rốn phổi phải, nhưng khô",
+    "ground_truth": "Không phát hiện hình ảnh tăng chuyển hóa FDG khu trú hay bất thường ở nhu mô phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_733",
+    "question": "Hình ảnh này là xạ hình PET/CT toàn thân hay chỉ khu trú ở một vùng?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều vùng được mô tả. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng. Cũng có tăng chuyển hóa FDG lan tỏa ở phần mềm cơ xương đốt sống dưới da",
+    "ground_truth": "Đây là xạ hình PET/CT toàn thân, vì mô tả có đánh giá nhiều cơ quan và nhiều nhóm hạch trên toàn cơ thể.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_733",
+    "question": "Gan, lách, thượng thận và hệ tiết niệu có bắt xạ bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với gan, lách, thượng thận và đài bể thận hai bên đều có tăng chuyển hóa FDG. Ngoài ra còn có một nốt giảm tỷ trọng kích thước 10 mm ở hệ thống lách phải, không tăng chuyển hóa FDG, khả năng do viêm. Các cơ",
+    "ground_truth": "Không, hình ảnh bắt xạ theo đặc điểm sinh lý ở gan, lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_745",
+    "question": "Tổn thương ở thành trái tử cung có đặc điểm chuyển hóa FDG như thế nào?",
+    "generated": "Đây là tổn thương dày khu trú ở thành trái tử cung, với SUVmax 12. Tổn thương này tăng chuyển hóa FDG rõ, với SUVmax 13,6. Ngoài ra có một số tổn thương đặc xuất hiện ở phần bên trái thành trái tử cung, đồng thời tăng chuyển hóa FDG v",
+    "ground_truth": "Tổn thương này tăng chuyển hóa FDG, với SUVmax khoảng 15.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_745",
+    "question": "Vùng vú trái có tổn thương gì không?",
+    "generated": "Đây là một tổn thương dạng đặc xả, không đều và có trái trên ngoài vú trái. Tổn thương này kích thước khoảng 15 x 20 mm và cần lưu ý theo dõi. Ngoài ra chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở vùng này. Cũng còn có",
+    "ground_truth": "Có một nang ở 1/4 dưới ngoài vú trái, kích thước 16 x 9 mm, không tăng chuyển hóa FDG, gợi ý lành tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_671",
+    "question": "Nhu mô phổi hai bên có tổn thương tăng chuyển hóa FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Ngoài ra còn có một số hạch nhỏ ở góc hàm và phía trong cơ ức đòn chũm hai bên, cùng cảnh bắt rõ không t",
+    "ground_truth": "Không, chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_671",
+    "question": "Hình ảnh chuyển hóa sinh lý được ghi nhận ở những đâu?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các nốt mờ không tăng chuyển hóa FDG ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và xương. Các hạch trung thất có tăng chuyển hóa FDG rõ, gồm hạch dọc trong cửa sổ phế quản, hạch rốn phổi hai bên",
+    "ground_truth": "Chuyển hóa sinh lý được ghi nhận ở não, amydal, rìa lưỡi hai bên, tim, gan, lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_734",
+    "question": "Có tràn dịch màng phổi hai bên không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên, không tăng chuyển hóa FDG. Báo cáo ghi nhận được nghĩ nhiều với nguồn sinh lý hoặc viêm. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Không thấy tr",
+    "ground_truth": "Không, không phát hiện hình ảnh tràn dịch màng phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_734",
+    "question": "Tổn thương xương ở D12 có đặc điểm gì?",
+    "generated": "Đây là tổn thương xương ở D12, có hình ảnh dày niêm mạc và tăng chuyển hóa FDG rõ. Ngoài ra còn có nhiều khối mờ bắt xạ ở trung thất D12, cũng tăng chuyển hóa FDG rõ. Cần lưu ý theo dõi.",
+    "ground_truth": "Có một nốt đặc xương ở đốt sống D12, không tăng chuyển hóa FDG, khả năng lành tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_662",
+    "question": "Ở phổi có thấy tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú, với SUVmax 12. Ngoài ra còn có một nốt giãn dịch mô mềm ở thùy trên phổi phải, kích thước 8 x 6 mm, không tăng chuyển hóa FDG. Báo cáo gợi ý khả năng do viêm. Hình ảnh này được nghĩ nhi",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở nhu mô phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_662",
+    "question": "Kết luận nổi bật nhất từ hình ảnh này là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả theo dạng tăng chuyển hóa FDG khác nhau. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở phần mềm amydal trái, và tổn thương tăng chuyển hóa FDG ở xương bên phải đã được g",
+    "ground_truth": "Nổi bật là tăng chuyển hóa FDG ở hố Rosenmuller hai bên, đặc biệt bên trái; ngoài ra có vài hạch nách trái tăng chuyển hóa FDG khả năng do viêm, và dày niêm mạc xoang hàm cùng dạ dày gợi ý viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_693",
+    "question": "Có hạch ở góc hàm trái không, và chúng có hoạt tính chuyển hóa thế nào?",
+    "generated": "Đây là hạch nhỏ kích thước chỉ vài mm, tăng chuyển hóa FDG với SUVmax 3,5. Ngoài ra còn có một hạch trung thất dọc phải không tăng chuyển hóa, khác biệt so với PET/CT 10/2022. Cần lưu ý theo dõi.",
+    "ground_truth": "Có vài hạch ở góc hàm trái, hạch lớn nhất đường kính khoảng 10 mm, và có tăng chuyển hóa FDG nhẹ với SUVmax khoảng 3,6.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_691",
+    "question": "Đặc điểm chuyển hóa FDG của tổn thương thực quản là gì?",
+    "generated": "Đặc điểm chuyển hóa FDG khá nổi bật, với SUVmax là 18. Báo cáo ghi rõ cần lưu ý theo dõi. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở thực quản đoạn 1/3 giữa, SUVmax 5,6. Cần theo dõi.",
+    "ground_truth": "Tổn thương dày niêm mạc và thành thực quản 1/3 giữa có tăng chuyển hóa FDG rõ, với SUVmax khoảng 23,5.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_691",
+    "question": "Có ghi nhận gì ở tuyến giáp không?",
+    "generated": "Đây là hình ảnh tuyến giáp, không thấy tràn dịch màng phổi. Có tăng chuyển hóa FDG lan tỏa ở nhu mô tuyến giáp với SUVmax 4,3. Ngoài ra còn có tăng chuyển hóa FDG khu trú ở xương đài bụng, SUVmax 10,5. Báo cáo gợi ý cần lưu ý the",
+    "ground_truth": "Có. Tuyến giáp lớn, tỉ trọng không đều nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_751",
+    "question": "Tổn thương ở phổi trái được đánh giá theo hướng gì?",
+    "generated": "Đây là tổn thương dạng đàm bệnh gồm một hố ngoài vùng khí quản, có trung tâm ở phần cao của thực quản 1/3 giữa. Tổn thương này tăng chuyển hóa FDG rõ, SUVmax khoảng 20. Ngoài ra còn có một số tổn thương nhỏ ở nhu mô hai phổi trái, k",
+    "ground_truth": "Tổn thương này được mô tả là tổn thương ác tính nguyên phát đã được chẩn đoán.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_751",
+    "question": "Các cơ quan như não, tim, gan, lách, thượng thận và hệ tiết niệu có thấy tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên các tổn thương đã liệu khảo sát theo dõi. Ngoài ra có một vùng giữa hai thực quản đoạn 1/3 trên, có tăng chuyển hóa FDG rất mức (SUVmax 24), nghĩ nhiều đến viêm hoặc quá sản do metastases. Cần lưu ý theo dõ",
+    "ground_truth": "Không. Hình ảnh bắt xạ được ghi nhận theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_679",
+    "question": "Tim và màng tim có bất thường gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở tim và màng tim. Các cơ quan khác trên xạ hình PET/CT toàn thân gồm não, amydal, rìa lưỡi hai bên, ngực, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở tim theo đặc điểm sinh lý và không phát hiện tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_679",
+    "question": "Có phát hiện tổn thương bất thường ở các cơ quan khác không?",
+    "generated": "Đây là tổn thương dày khu trú ở thùy trên phổi phải, nhân giáp và tăng chuyển hóa FDG lan tỏa. Ngoài ra còn có một số tổn thương đặc hiệu sinh lý ở não, tim, rốn, lách, bụng và chậu. Các tổn thương này không gợi ý di căn hoặc viêm. Báo cáo c",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại các vị trí khác trên xạ hình PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_692",
+    "question": "Có hạch bất thường ở nách hoặc bẹn không?",
+    "generated": "Đây là hạch nách và bẹn đều không tăng chuyển hóa FDG, nên khả năng do viêm hoặc quá sản. Ngoài ra còn có một hạch bẹn phải kích thước 10 x 8 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh cho biết.",
+    "ground_truth": "Có ghi nhận vài hạch nách nhỏ khoảng 10 mm ở hai hố nách và vài hạch bẹn khoảng 10 mm ở hai hố bẹn, nhưng tất cả đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_634",
+    "question": "Có hạch vùng chậu đi kèm tổn thương trực tràng không?",
+    "generated": "Đây là hạch chậu trước kèm tổn thương dài 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ ở chậu phải, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh này khả năng do viêm",
+    "ground_truth": "Có, có vài hạch cạnh trực tràng, hạch lớn nhất đường kính khoảng 8 mm, và các hạch này cũng tăng chuyển hóa FDG với SUVmax khoảng 2,6, gợi ý di căn hạch.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_638",
+    "question": "Tổn thương vùng chẩm này cần được làm gì thêm theo khuyến nghị?",
+    "generated": "Đây là tổn thương không rõ nguồn, và cần đối chiếu với siêu âm. Ngoài ra còn có hình ảnh dày niêm mạc vùng chẩm phải, kèm tăng chuyển hóa FDG, nên cần theo dõi lâu. Hình ảnh này cũng cần đối chiếu với siêu âm. Không ghi nhận ở tr",
+    "ground_truth": "Nên đối chiếu với lâm sàng và cân nhắc chụp MRI nếu cần để đánh giá thêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_638",
+    "question": "Có khuyến nghị gì liên quan đến các nốt gan này không?",
+    "generated": "Đây là nốt giảm tỷ trọng kích thước 10 x 8 mm, và cần lưu ý theo dõi. Ngoài ra có một số hạch cũng được ghi chú. Các hạch này nhỏ, khoảng 10 mm, không tăng chuyển hóa FDG và được nghĩ nhiều là do viêm hoặc quá sản. Báo cáo cũng",
+    "ground_truth": "Cần đối chiếu với kết quả mô bệnh học.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_717",
+    "question": "Có hạch nào ở mạc treo ruột đáng chú ý không?",
+    "generated": "Đây là hạch trung thất ở mạc treo ruột đáng chú ý. Hình ảnh cho thấy nhiều hạch trung tâm, bên phải khí quản và dưới carina, cùng hạch rốn phổi hai bên. Các hạch lớn nhất khoảng 12 x 8 mm và 9 x 7 mm, tăng chuyển hóa FDG với SUVmax 5,6. Ngo",
+    "ground_truth": "Có. Có vài hạch ở mạc treo ruột, trong đó hạch lớn nhất kích thước khoảng 18 x 16 mm và tăng chuyển hóa FDG rõ, SUVmax khoảng 8,5. Báo cáo gợi ý khả năng là metastases.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_717",
+    "question": "Có tổn thương nào ở gan, lách, thượng thận hoặc hệ niệu không?",
+    "generated": "Đây là tổn thương giảm tỉ trọng bắt xạ theo đặc điểm sinh lý. Báo cáo khuyến nghị đối chiếu với siêu âm và FNA. Có hình ảnh dày gan, lách, thượng thận và đài bể thận hai bên có tăng chuyển hóa FDG, với SUVmax 4,6. Ngoài ra còn có một",
+    "ground_truth": "Không thấy bất thường khu trú; hình ảnh bắt xạ ở gan, lách, thượng thận và đài bể thận hai bên theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_322",
+    "question": "Có hạch trung thất khác không và chúng có tăng chuyển hóa không?",
+    "generated": "Đây là hạch trung thất, kích thước vài mm. Không tăng chuyển hóa FDG. Ngoài ra còn có một hạch nhỏ ở trong cơ ức đòn chũm phải, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh này không gợi ý di",
+    "ground_truth": "Có vài hạch ở trước và cạnh khí quản kích thước khoảng 10 mm, nhưng các hạch này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_296",
+    "question": "Trên hình ảnh PET/CT này, có phát hiện tổn thương nào tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổn thương đặc trị gồm: khối mờ bên phải thùy dưới cạnh chậu vai (tăng chuyển hóa FDG rõ), kích thước 12 x 9 mm; sỡ phức tại thùy trên bụng tăng chuyển hóa FDG lan tỏa; và tổn thương ở th",
+    "ground_truth": "Có. Hình ảnh ghi nhận một hạch rốn phổi phải đường kính khoảng 11 mm có tăng chuyển hóa FDG, với SUVmax khoảng 4.7. Đây là tổn thương nổi bật cần lưu ý theo dõi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_296",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều hạch bẹn không tăng chuyển hóa FDG. Hai hạch lớn nhất có kích thước 12 x 8 mm và được mô tả theo đặc điểm sinh lý. Ngoài ra còn có vài hạch nhỏ khoang bên trái bẹn kích thước khoảng ",
+    "ground_truth": "Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_313",
+    "question": "Hình ảnh này cho thấy tổn thương chính nằm ở đâu?",
+    "generated": "Đây là hình ảnh tổn thương chính, nằm ở trung tâm cạnh phế quản gốc trái. Ngoài ra có một vùng đều dịch mờ ở thực quán đoạn 1/3 giữa, kèm tăng chuyển hóa FDG rõ, nhiều khả năng do viêm. Báo cáo cũng lượt cho biệt di căn bệnh này là ác t",
+    "ground_truth": "Tổn thương chính nằm ở thực quản, gồm một tổn thương dày không đều ở 1/3 trên và một tổn thương dày không đều ở 1/3 dưới thực quản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_313",
+    "question": "Có phát hiện hạch nách hai bên không?",
+    "generated": "Đây là hạch nách hai bên, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch trung thất dọc màng phổi trái, kích thước lần lượt khoảng 10 mm, cũng không tăng chuyển hóa FDG. Ngoài ra còn có vài h",
+    "ground_truth": "Có vài hạch nách nhỏ khoảng 10 mm ở hai hố nách, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_306",
+    "question": "Tổn thương nguyên phát có tăng chuyển hóa FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không chỉ định tổn thương nguyên phát. Chưa phát hiện tràn dịch màng phổi hoặc tràn dịch mờ bất thường ở các vùng khác. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên theo đặc đ",
+    "ground_truth": "Có. Tổn thương tăng chuyển hóa FDG rõ, với SUVmax khoảng 12, phù hợp tổn thương ác tính nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_306",
+    "question": "Gan có bất thường gì đáng chú ý trên hình ảnh không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên cần theo dõi. Gan có bắt xạ ở gan trái với SUVmax khoảng 4,5. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở gan. Cũng không ghi nhận tổn thương giảm tỷ trọng gan. Chỉ có một số nốt mờ đặc bi",
+    "ground_truth": "Có hình ảnh giảm tỷ trọng lan tỏa ở gan, phù hợp với nhiễm mỡ gan.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_285",
+    "question": "Có tổn thương nhu mô phổi bất thường tăng chuyển hóa không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường. Chỉ có một số vị trí đều được mô tả theo dõi, gồm các tổn thương ở phần lớn phổi trái, nhóm IIB, và các tổn thương ở xương đài b",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở nhu mô phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_279",
+    "question": "Có hạch bất thường ở vùng cổ không?",
+    "generated": "Đây là hạch cổ nhỏ kích thước chỉ vài mm, tăng chuyển hóa FDG với SUVmax 3,5. Ngoài ra có một vùng giảm chứng ở trung tâm thực quản phải, kèm dịch đặc xuất ở các cơ quan bên phải, cũng không ghi nhận tăng chuyển hóa FDG. Cần lưu ý the",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, nhiều khả năng là hạch viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_279",
+    "question": "Có phát hiện tăng chuyển hóa FDG bất thường ở gan, lách, thượng thận hay hệ tiết niệu không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các đặc điểm bắt xạ theo đặc điểm sinh lý. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở gan, lách, thượng thận hoặc đài bể thận hai bên. Cần lưu ý theo dõi. Hình ảnh bắt xạ lan t",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở gan, lách, thượng thận và đài bể thận hai bên theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_317",
+    "question": "Có phát hiện hạch nách bất thường tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nách nhỏ khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ ở hố nách hai bên, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Các hạch này khả năng do viêm hoặc quá sản. Hình ảnh gợi ý cần",
+    "ground_truth": "Không. Có vài hạch nách nhỏ ở hai bên, hạch lớn nhất ở nách phải kích thước khoảng 13 x 12 mm, nhưng tất cả đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_317",
+    "question": "Có phát hiện hạch bẹn tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch bẹn kích thước 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch trung thất dọc hai bên khung đám mờ, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Các hạch này ở hố bẹn trái không gợi ý di că",
+    "ground_truth": "Không. Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_299",
+    "question": "Có hạch vùng cổ nào được ghi nhận không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một hạch trung thất dưới quai động mạch chủ, được ghi nhận nhưng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh này không liệu ác tính nguy",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng là viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_299",
+    "question": "Có hạch nách bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không cần phẫu thuật. Có vài hạch nách hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch trung thất dọc phổi phải kích thước 25 x 34 mm, cũng không tăng chuyể",
+    "ground_truth": "Có vài hạch nách nhỏ hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_323",
+    "question": "Có hạch nào ở vùng cổ hoặc trung thất tăng chuyển hóa FDG không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều hạch trung thất tăng chuyển hóa FDG khu trú ở các vị trí như sau: dọc phổi trái, dọc miệng và rốn phổi phải, dọc bên trong mạch chủ lòng phổi trái, dọc bên trong cơ ức đòn chũm trái, và dọc miệng và tr",
+    "ground_truth": "Có. Có một hạch bên trái khí quản đoạn cao và trước thực quản, kích thước khoảng 12 x 10 mm, tăng chuyển hóa FDG với SUVmax khoảng 3,1. Báo cáo sau đó còn ghi khả năng đây là hạch di căn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_323",
+    "question": "Có dấu hiệu bất thường ở xương hoặc quanh dụng cụ kết xương không?",
+    "generated": "Đây là xương ở nhiều vị trí, bao gồm các hạch quanh dụng cụ kết xương, hạch thấp chậu phải, hạch mạnh lớn tăng chuyển hóa FDG lan tỏa ở cổ, ngực, bên phải khung đại tràng, hạch rốn phổi phải và hạch dọc cửa sổ phổi trái. Cần theo dõi.",
+    "ground_truth": "Chưa thấy tăng chuyển hóa FDG bất thường ở hệ thống cơ xương nói chung. Riêng có tăng chuyển hóa FDG quanh dụng cụ kết xương ở xương hàm trên bên trái, và báo cáo cho rằng có thể do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_345",
+    "question": "Các hạch trước carina có tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhỏ, kích thước chỉ vài mm, tăng chuyển hóa FDG với SUVmax 3,5. Ngoài ra còn có vài hạch trong carina, dưới quai động mạch chủ, ở phía trước bên phải, kích thước khoảng 10 mm, cũng tăng chuyển hóa FDG với SUVmax 2,9. Các hạch nà",
+    "ground_truth": "Không, các hạch trước carina không tăng chuyển hóa FDG, khả năng do quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_338",
+    "question": "Mức độ chuyển hóa FDG của tổn thương thực quản như thế nào?",
+    "generated": "Đây là một tổn thương chuyển hóa FDG, với SUVmax khoảng 12. Tổn thương này có thể do viêm. Báo cáo gợi ý cần theo dõi. Ngoài ra còn có một số tổn thương ở trung thất, phía trong cơ ức đòn chũm, trực tràng và rốn phổi hai bên, đều không t",
+    "ground_truth": "Tổn thương dày thành thực quản 1/3 dưới có tăng chuyển hóa FDG rõ, với SUVmax khoảng 13,5; ở một vị trí khác của cùng đoạn thực quản ghi nhận SUVmax khoảng 14,0.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_338",
+    "question": "Có tràn dịch ở màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nhiều khả năng do viêm hoặc quá sản. Ngoài ra còn có tăng nhẹ chuyển hóa FDG lan tỏa ở rốn phổi hai bên, SUVmax 3,5. Cần lưu ý theo dõ",
+    "ground_truth": "Không, không thấy tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_314",
+    "question": "Khối tuyến giáp này có được khuyên theo dõi thêm không?",
+    "generated": "Đây là khối tuyến giáp lớn, nên cần theo dõi thêm bằng siêu âm và FDG. Không ghi nhận được hình ảnh tăng chuyển hóa FDG khu trú bất thường ở tuyến giáp. Ngoài ra còn có một số khung giữa và rốn phổi phải, đều không tăng chuyển hóa FD",
+    "ground_truth": "Có. Báo cáo khuyên đối chiếu và theo dõi bằng siêu âm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_314",
+    "question": "Có hạch nách bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không cần phẫu thuật. Có vài hạch nách hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch trung thất ở hố nách trái, kích thước khoảng 8 x 9 mm, cũng không tăng",
+    "ground_truth": "Có vài hạch nách nhỏ hai bên, khoảng 10 mm, còn cấu trúc rốn hạch và không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_314",
+    "question": "Hệ thống cơ xương có tổn thương tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm tăng chuyển hóa FDG bất thường. Chỉ ghi nhận một số vùng tổn thương tăng chuyển hóa FDG lan tỏa theo đặc điểm sinh lý ở các vị trí đã đề c /******/. Ngoài ra, không phát hiện bất thườ",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_277",
+    "question": "Có hạch nào ở vùng cổ không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Hình ảnh này có thể do viêm hoặc quá sản. Ngoài ra còn có một hạch trung thất dưới carina, kích thước 8 x 9 mm, cũng tăng chuyển hóa FDG với SUVmax 3,5. Cần lưu ý theo dõi.",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, nhóm IIB, kích thước khoảng 10 mm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_277",
+    "question": "Tổn thương đó được đánh giá là gì?",
+    "generated": "Đây là tổn thương ác tính nguyên phát, kích thước vào động tĩnh mạch chủ. Tổn thương này có tăng chuyển hóa FDG rõ, SUVmax khoảng 12,5. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở trung tâm sống mô bụng, SUVmax khoảng 8,6. Cần lưu ý theo",
+    "ground_truth": "Tổn thương này được xem là tương ứng với tổn thương nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_277",
+    "question": "Khung đại tràng có gì bất thường trên PET không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không ghi nhận được tổn thương tăng chuyển hóa FDG bất thường trong khung đại tràng. Ngoài ra còn có một số hạch nhỏ ở rốn phổi phải và dọc thùy trái khí quản, cũng không tăng chuyển hóa FDG. Cần theo",
+    "ground_truth": "Hình ảnh tăng chuyển hóa FDG ở khung đại tràng theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_286",
+    "question": "Mức độ chuyển hóa FDG của tổn thương thực quản như thế nào?",
+    "generated": "Đây là một tổn thương chuyển hóa FDG ở nhu mô phẫu thực quản, với SUVmax khoảng 12. Tổn thương này cần lưu ý theo dõi. Ngoài ra còn có một số tổn thương đặc biệt khác trên PET/CT toàn thân, gồm một nốt mờ ở thùy trên phổi phải và",
+    "ground_truth": "Tổn thương thực quản tăng chuyển hóa FDG mạnh, với SUVmax khoảng 12.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_286",
+    "question": "Có tổn thương tăng chuyển hóa bất thường ở xương không?",
+    "generated": "Đây là PET/CT toàn thân, nên không có hình ảnh tăng chuyển hóa FDG bất thường ở xương. Ngoài ra còn có một số hạch nhỏ ở trung thất vùng phổi hai bên, dọc hai bên và trong các cục trực tràng, nhưng đều không tăng chuyển hóa FDG. Cần theo dõi",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_339",
+    "question": "Có hạch nách trái bất thường không?",
+    "generated": "Đây là hạch nách trái kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 4,6. Báo cáo gợi ý có thể do viêm hoặc quản liệu. Ngoài ra còn có nhiều hạch nách trong nhu mô hai bên, hạch lớn nhất đường kính 12 mm, cũng tăng chuyển hóa FDG với SU",
+    "ground_truth": "Có. Có nhiều hạch nhỏ ở nách trái, kích thước khoảng 10 mm, và các hạch này tăng chuyển hóa FDG với SUVmax 3,3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_340",
+    "question": "Hình ảnh PET/CT này cho thấy có tăng chuyển hóa FDG bệnh lý khu trú ở đâu không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các tổn thương nhỏ khu trú ở não, tim, gan, lách, thượng thận, đại tràng và hệ cơ xương. Các tổn thương này có tăng chuyển hóa FDG rõ, với SUVmax khoảng 12. Ngoài ra còn có một số tổn thương nhỏ ở b��",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở bất kỳ vị trí nào trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_340",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với tràn dịch màng phổi phải được mô tả theo đặc điểm sinh lý. Không có tràn dịch màng tim. Ngoài ra còn có nhiều hẹ hoá học ở hố Rosenmuller hai bên và hệ cơ xương, kích thước nhỏ, không tăng chuyển hóa FDG",
+    "ground_truth": "Không, không thấy tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_288",
+    "question": "Hình ảnh này cho thấy vùng nào có tổn thương dày thành gây hẹp lòng?",
+    "generated": "Đây là hình ảnh dày thành lòng phổi trái, với tăng chuyển hóa FDG không đều. Báo cáo ghi nghĩa có thể do viêm hoặc quá sản. Ngoài ra, chưa phát hiện tăng chuyển hóa FDG bất thường ở amydal, rìa lưỡi hai bên, tim, gan, lách, thuvet, sân thùy, ch",
+    "ground_truth": "Tổn thương nằm ở thực quản 1/3 trên, trên đoạn dài khoảng 38 mm, ngang mức D2 - D3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_288",
+    "question": "Hạch rốn phổi phải có kích thước và mức bắt FDG như thế nào?",
+    "generated": "Đối xạ ở rốn phổi phải có hạch lớn, kích thước 28 x 19 mm và tăng chuyển hóa FDG. Hạch này cũng tăng chuyển hóa FDG mức lan tỏa. Ngoài ra còn có vài hạch trung thất dọc phần bên trái phổi phải, hạch lớn nhất đường kính 7 mm, cũng tă",
+    "ground_truth": "Hạch rốn phổi phải có đường kính khoảng 13 mm và tăng chuyển hóa FDG với SUVmax khoảng 3,7.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_288",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim. Ngoài ra còn có tràn dịch màng tim hai bên, cũng không tăng chuyển hóa F",
+    "ground_truth": "Không, không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_283",
+    "question": "Các hạch ở vùng cổ có đặc điểm như thế nào?",
+    "generated": "Đây là hạch cổ đường kính khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra có một hạch nhỏ ở trung thất đoạn 2/3 phía trên, kích thước 8 x 5 mm, cũng tăng chuyển hóa FDG với SUVmax 7,9. Các hạch này được ghi nhận theo ",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm (nhóm IIB) hai bên, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_283",
+    "question": "Hạch bẹn hai bên có bất thường không?",
+    "generated": "Đây là hạch bẹn hai bên, kích thước 10 mm. Các hạch này tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một hạch bẹn phải kích thước 28 x 35 mm, cũng tăng chuyển hóa FDG với SUVmax 7,9. Hình ảnh này được ghi nhận là k",
+    "ground_truth": "Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_293",
+    "question": "Có tổn thương nào ở xoang hàm không?",
+    "generated": "Đây là xoang hàm phải, không thấy tăng chuyển hóa FDG bất thường. Ngoài ra còn có một nốt đặc ở thùy trên phổi phải, kích thước vài mm, không tăng chuyển hóa FDG. Báo cáo gợi ý cần lưu ý theo dõi. Hình ảnh này đã được kiểm",
+    "ground_truth": "Có dày niêm mạc xoang hàm trái, nhưng không tăng chuyển hóa FDG, nên khả năng nhiều là do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_293",
+    "question": "Có hạch nách bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều hạch nách hai bên không tăng chuyển hóa FDG. Hạch lớn nhất được ghi nhận ở hố nách phải, kích thước 10 x 8 mm và SUVmax 5,3. Ngoài ra còn có một hạch nách trái 12 x 7 mm với SUVmax 4,6. Các h",
+    "ground_truth": "Có vài hạch nách nhỏ khoảng 10 mm ở hai hố nách, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_293",
+    "question": "Có thấy tổn thương tăng chuyển hóa FDG bất thường ở hệ cơ xương không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổn thương tăng chuyển hóa FDG bất thường. Ngoài ra còn có một số tổn thương không tăng chuyển hóa FDG ở trung thất, phần xương đại tràng, rốn phổi hai bên và hệ cơ xương. Các tổn thương này",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_335",
+    "question": "Có hạch trung thất nào tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch trung thất ở cửa sổ chủ phế quản, kích thước vài mm. Hạch này tăng chuyển hóa FDG rõ, với SUVmax khoảng 12,5. Ngoài ra có một hạch nhỏ đường kính 8 mm ở trước khám đoạn 3/4 phải, cũng tăng chuyển hóa FDG với SUVmax khoả",
+    "ground_truth": "Có một số hạch trước quai động mạch chủ, hạch lớn nhất 9 x 8 mm, có tăng chuyển hóa FDG với SUVmax 3,9.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_335",
+    "question": "Có khối bất thường ở lách không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều khối tăng chuyển hóa FDG ở lách. Ngoài ra còn có một số hạch trung thất đường kính khoảng 10 mm ở hai bên phổi, cũng tăng chuyển hóa FDG, nhưng được gợi ý viêm hoặc quá sản. Cần theo dõi.",
+    "ground_truth": "Có. Có một khối giảm tỷ trọng ở cực dưới lách, kích thước 67 x 41 mm, tăng chuyển hóa FDG mạnh với SUVmax 13,7.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_280",
+    "question": "Có thấy tổn thương tăng chuyển hóa FDG bất thường ở não không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các tổn thương nhỏ ở não không tăng chuyển hóa FDG. Ngoài ra có một nốt sắp xếp đặc xuất ở trung thất phải, kích thước 10 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh bắt x",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_280",
+    "question": "Có hạch nách bất thường không?",
+    "generated": "Đây là hình ảnh một nốt mờ nách phải kích thước vài mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ ở hai bên trong cơ ức đòn chũm, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Các hạch này được lưu",
+    "ground_truth": "Có vài hạch nách nhỏ khoảng 10 mm ở hố nách hai bên, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_304",
+    "question": "Hình ảnh này cho thấy có tăng chuyển hóa FDG bất thường ở não không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở não, và cần đối chiếu với CT liên kết. Ngoài ra còn có một nang bất thường ở thùy trái phổi phải, kích thước 18 x 20 mm, không tăng chuyển hóa FDG. Báo cáo cũng gợi ý cần theo dõi. Cần l",
+    "ground_truth": "Không. Hình ảnh bắt xạ theo đặc điểm sinh lý ở não.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_304",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nghĩa là được mô tả theo đặc điểm sinh lý. Ngoài ra còn có tràn dịch màng tim hai bên, cũng không tăng chuyển hóa FDG. Không ghi nhận trà",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_289",
+    "question": "Tổn thương ở thùy trên phổi trái được đánh giá theo hướng gì?",
+    "generated": "Đây là tổn thương dày niêm mạc, kích thước vài mm ở thùy trên phổi trái. Tổn thương này có tăng chuyển hóa FDG rõ, SUVmax khoảng 12,5. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở bờ sau thùy trên phổi trái, SUVmax khoảng 7,3. Cần lưu ý theo",
+    "ground_truth": "Tổn thương này tương ứng với tổn thương ác tính nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_289",
+    "question": "Ngoài các vị trí đã nêu, có phát hiện tăng chuyển hóa FDG bất thường nào khác không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng. Không",
+    "ground_truth": "Không phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_318",
+    "question": "Phổi và màng phổi có bất thường khu trú không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm bất thường. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở màng phổi trái, với SUVmax 4,5, nhưng đây là áp dụng theo đặc điểm sinh lý. Không ghi nhận ổ tăng chuyển hóa FDG khu trú",
+    "ground_truth": "Không. Không phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi hai bên, và cũng không có tràn dịch màng phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_272",
+    "question": "Nhân tuyến giáp này nằm ở bên nào và kích thước khoảng bao nhiêu?",
+    "generated": "Đây là nhân tuyến giáp, kích thước 10 x 8 mm. Ngoài ra còn có một hạch trung thất dọc phải khoang răng, đường kính 5 mm. Hai đốt sống D2A và D3A ở bên phải cũng được ghi nhận. Cần lưu ý theo dõi.",
+    "ground_truth": "Nhân nằm ở thùy phải tuyến giáp và có kích thước vài mm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_272",
+    "question": "Các vùng amidan và rìa lưỡi có gì đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên các vùng được mô tả chính là các vị trí ở cổ, ngực, bụng, rìa lưỡi và hệ cơ xương. Ngoài ra có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Bắt xạ ở gan, tim",
+    "ground_truth": "Có tăng nhẹ chuyển hóa FDG ở amidan và rìa lưỡi hai bên, nhưng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_272",
+    "question": "Kết luận chung trên PET/CT này là gì?",
+    "generated": "Đây là PET/CT toàn thân, không có bất thường tăng chuyển hóa FDG ở các vị trí khác nhau. Ngoài ra, chỉ ghi nhận một số hạch cũng đều ở cổ, nách và bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG. Cần lưu ý theo dõ",
+    "ground_truth": "Ngoài nhân nhỏ ở thùy phải tuyến giáp tăng nhẹ chuyển hóa FDG cần đối chiếu siêu âm và FNA, chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường nào khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1476",
+    "question": "Có tổn thương nào ở vùng đỉnh phổi phải không?",
+    "generated": "Đây là tổn thương dày niêm mạc, không đều và có trái chậu phải. Tăng chuyển hóa FDG rõ, SUVmax 12,5. Ngoài ra còn có nhiều hạch cửa số ở cùng phổi phải, hạch lớn nhất 30 x 28 mm, tăng chuyển hóa FDG với SUVmax 7,6. Cần theo dõi",
+    "ground_truth": "Có, có một vùng giảm tỉ trọng ở đỉnh phải kích thước 30 x 28 mm, giảm chuyển hóa FDG. Báo cáo khuyến nghị đối chiếu với lâm sàng và MRI.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1638",
+    "question": "Có hạch cổ bất thường không?",
+    "generated": "Đây là hạch cổ nhóm IIB bên phải, kích thước 10 x 8 mm. Hình ảnh tăng chuyển hóa FDG với SUVmax 3,5. Ngoài ra có một hạch dọc trung thất ở cơ ức đòn chũm phải, kích thước 26 x 14 mm, cũng tăng chuyển hóa FDG với SUVmax 7,9. Các h",
+    "ground_truth": "Có vài hạch cổ nhóm IIA và IIB hai bên. Hạch lớn nhất đường kính khoảng 8 mm, tăng nhẹ chuyển hóa FDG với SUVmax 2,4.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1638",
+    "question": "Có hạch cạnh động mạch chủ bụng hoặc hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều hạch tăng chuyển hóa FDG khu trú ở các vị trí như hố Rosenmuller, hố bẹn hai bên, hố trung thất, hố trong thùy thực quan và rốn phổi. Các hạch này có kích thước khoảng 10 mm và không tăng chuyển hóa FD",
+    "ground_truth": "Có vài hạch cạnh động mạch chủ bụng và vài hạch bẹn hai bên, đều khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1610",
+    "question": "Phổi có tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Chỉ có tăng chuyển hóa FDG lan tỏa ở phổi trái với SUVmax 3,5, nhưng được mô tả là khả năng do viêm. Ngoài ra còn có tăng chuyển hóa FDG ở amydal và rìa lưỡi hai bên, SUVmax 4,",
+    "ground_truth": "Không. Chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường ở nhu mô hai phổi. Chỉ thấy các dải mờ ở thùy dưới hai phổi, không tăng chuyển hóa FDG và có khả năng là xơ hóa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1544",
+    "question": "Ở não có thấy tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm gợi ý tăng chuyển hóa FDG bất thường. Ngoài ra còn có một số hạch nách và rốn phổi trái ở hệ thống cơ xương, cũng không tăng chuyển hóa FDG. Hình ảnh này được đánh giá theo đ",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1544",
+    "question": "Phổi có tổn thương dạng kính mờ không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không thể phẫu thuật. Ngoài ra chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở rốn phổi hai bên. Chỉ có một số nhỏ ở nhiều vị trí phổi phải, cũng không tăng chuyển hóa FDG, khả năng do vi",
+    "ground_truth": "Có. Có hình ảnh kính mờ rải rác ở nhu mô thùy trên hai phổi, thùy giữa và thùy dưới phổi phải, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1544",
+    "question": "Tóm lại, những tổn thương nào được đánh giá là ác tính?",
+    "generated": "Đây là tổn thương ác tính nguyên phát, và các hạch trung thất ở cả hai bên có kích thước lớn. Cần theo dõi chậu và cần lưu ý theo dõi. Ngoài ra còn có một số tổn thương nhỏ đã đánh giá rõ như dịch tĩnh mô tả, không gợi ý sinh lý hoặc viêm",
+    "ground_truth": "Hai tổn thương được nêu là ác tính gồm: dày thành gây hẹp lòng đại tràng sigma tăng chuyển hóa FDG, và đám đông đặc ở vùng rốn phổi hai bên thâm nhiễm phế quản thùy/phế quản phân thùy tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1412",
+    "question": "Phổi có thấy tổn thương tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở nhiều vị trí khác trên PET/CT toàn thân. Chỉ ghi nhận một số nốt mờ đặc xảo ở cùng đai trong phổi phải, nhưng được mô tả theo dõi. Ngoà",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1646",
+    "question": "Có vùng nào ở đầu cổ tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không chỉ định về tổn thương bất thường. Chủ yếu nằm ở các vùng đầu cổ, phía trong cơ ức đòn chũm hai bên, ngực, bụng, chậu và hệ cơ xương. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở tim, với SUVmax",
+    "ground_truth": "Có. Có tăng chuyển hóa FDG lan tỏa ở hố Rosenmuller phải với SUVmax 5,8 và tăng chuyển hóa FDG khu trú ở thành sau thanh môn với SUVmax 9,7. Hai vị trí này được gợi ý có thể do viêm và được khuyến nghị đối chiếu nội soi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1646",
+    "question": "Hạch nách có bất thường không?",
+    "generated": "Đây là hạch nách kích thước 10 mm, nhưng không tăng chuyển hóa FDG. Báo cáo ghi rõ về khả năng do viêm hoặc quá sắp xếp. Ngoài ra còn có một hạch trung thất ở hố nách phải kích thước 12 x 8 mm, cũng không tăng chuyển hóa FDG. Cần lưu ý the",
+    "ground_truth": "Có vài hạch nách hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1646",
+    "question": "Kết luận chung từ hình ảnh này là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, không chỉ một nốt tăng chuyển hóa FDG bất thường. Ngoài ra còn có vài hạch trung thất ở cửa sổ phế chủ rồi cũng không tăng chuyển hóa FDG, nghĩ theo dõi diện viêm. Cần lưu ý theo dõi. Báo cáo cũng ghi cần",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Các điểm đáng chú ý gồm vùng hố Rosenmuller phải và thành sau thanh môn có tăng chuyển hóa, khả năng viêm; hạch trung thất/rốn phổi phải tăng chuyển hóa nhẹ, nghĩ nhiều đến viêm; và một số tổn thương không tăng FDG như nhân tuyến giáp phải, nốt gan phải và khối ở thành trước tử cung cần đối chiếu thêm theo khuyến nghị.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1524",
+    "question": "Những nốt mờ nhỏ đó có tăng chuyển hóa FDG không?",
+    "generated": "Đây là nốt mờ kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một nốt mờ ở thùy trên phổi phải, kích thước 7 x 5 mm, cũng tăng chuyển hóa FDG với SUVmax 3,9. Hình ảnh này được ghi nhận theo đặc điể",
+    "ground_truth": "Không, các nốt này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1411",
+    "question": "Hình ảnh PET/CT này cho thấy bắt xạ sinh lý ở những cơ quan nào?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, bao gồm não, cổ, ngực, bụng và chậu. Các tổn thương này đều không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản sinh lý. Ngoài ra có một dạng tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên",
+    "ground_truth": "Hình ảnh ghi nhận bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng. Ngoài ra, cũng có tăng nhẹ chuyển hóa FDG ở amygdala và rìa lưỡi hai bên theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1411",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nên được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim hạch rốn phổi hai bên. Ngoài ra còn có tràn dịch màng tim mức cao, kè",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1406",
+    "question": "Hạch nào ở vùng cổ-ngực có tăng chuyển hóa FDG?",
+    "generated": "Đây là hạch nhỏ kích thước chỉ vài mm, tăng chuyển hóa FDG rõ. Ngoài ra còn có một hạch ở góc phải khí quản đoạn cao, kích thước khoảng 10 mm, cũng tăng chuyển hóa FDG. Hình ảnh này được lưu ý theo dõi. Các hạch này không tă",
+    "ground_truth": "Có nhiều hạch tăng chuyển hóa FDG ở vùng thượng đòn trái, cạnh trái khí quản đoạn cao, và cạnh thực quản. Cụ thể, hạch lớn nhất ở thượng đòn trái kích thước 12 x 10 mm, SUVmax 7,2; hạch cạnh trái khí quản đoạn cao 7 mm, SUVmax 3,9; và hạch cạnh thực quản 14 x 12 mm, SUVmax 11,2.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1487",
+    "question": "Hình ảnh này tập trung vào vùng nào là tổn thương chính?",
+    "generated": "Đây là hình ảnh tổn thương chính, với kích thước lên mài. Ngoài ra còn có nhiều hạch trung thất và rốn phổi phải, cũng như dày niêm mạc xung quanh các cầu xử lý khác. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. B",
+    "ground_truth": "Tổn thương chính nằm ở trực tràng, cụ thể là đoạn 1/3 dưới, với hình ảnh dày thành gây hẹp lòng trực tràng.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1487",
+    "question": "Hai phổi có thấy tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú, với SUVmax 12.5. Báo cáo gợi ý có thể do viêm. Ngoài ra còn có một nốt mờ bẹn phổi trái đường kính 8 mm, không tăng chuyển hóa FDG, khả năng lành tính. Cần lấn nhiều kết quả và theo dõi",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1680",
+    "question": "Có phát hiện tổn thương bất thường ở phổi không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương bất thường ở các vị trí khác trên PET/CT toàn thân. Ngoài ra có một số hạch nhỏ ở phổi phải và rốn phổi phải, nhưng đều không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ả",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1592",
+    "question": "Có vùng nào trong vòm họng hoặc lưỡi tăng chuyển hóa FDG sinh lý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trong hệ thống cơ xương. Báo cáo cũng ghi chưa có tổn thương tăng chuyển hóa FDG khu trú bất thường ở lưỡi họng hoặc hệ cơ xương. N",
+    "ground_truth": "Có. Tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên, phù hợp với đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1592",
+    "question": "Có hạch nách hoặc hạch bẹn bất thường về chuyển hóa FDG không?",
+    "generated": "Đây là hạch nách nhỏ, kích thước chỉ vài mm, không tăng chuyển hóa FDG. Ngoài ra còn có một hạch bẹn phải kích thước 10 x 8 mm, cũng không tăng chuyển hóa FDG. Các hạch này không gợi ý viêm hoặc quá sản. Báo cáo cũng lưu ý theo d",
+    "ground_truth": "Có hạch nách hai bên và hạch bẹn hai bên kích thước khoảng 10 mm, nhưng đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1679",
+    "question": "Có hạch bất thường ở vùng cổ không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 3,5. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có một hạch trung thất dưới carina, đường kính 8 mm, cũng tăng chuyển hóa FDG với SUVmax 4,6. Cần lưu ý theo dõi.",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1679",
+    "question": "Tinh hoàn trái có tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là tổn thương dày niêm mạc, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vùng đã bắt xạ theo đặc điểm sinh lý ở trung thất, phúc amoang, rốn phổi trái, hệ thống cơ xương, ngực, gan, lách, bụng, chậu và hệ thống cơ xương. Cần lưu",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở tinh hoàn trái.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1534",
+    "question": "Có hạch nào vùng cổ được ghi nhận không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Ngoài ra còn có một hạch trung thất dưới carina, đường kính 8 mm, cũng tăng chuyển hóa FDG với SUVmax 3,5. Các hạch này đã được phẫu thuật. Hình ảnh này được",
+    "ground_truth": "Có, có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG và được nghĩ nhiều là do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1534",
+    "question": "Kết luận chung từ hình ảnh là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các tổn thương nhỏ không tăng chuyển hóa FDG ở trung thất, phần mềm amydal và rìa lưỡi hai bên, cùng một nốt sắp xếp đặc ở thực quản đoạn 1/3 giữa. Ngoài ra có một dải mờ ở thực quản đ",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Tuy nhiên, cần đối chiếu với khám lâm sàng và theo dõi thêm, đặc biệt là siêu âm tuyến giáp.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1571",
+    "question": "Lách, thượng thận và hệ tiết niệu có gì bất thường không?",
+    "generated": "Đã phẫu thuật hai bên. Thượng thận trái có một nốt giảm tỉ trọng ở vùng ngang, kích thước 10 x 8 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một số hạch lách, thượng thận và dày niêm mạc tăng chuyển hóa FDG gồm: nhiều hạch lách l",
+    "ground_truth": "Hình ảnh bắt xạ theo đặc điểm sinh lý ở lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1459",
+    "question": "Tổn thương trực tràng có đặc điểm chuyển hóa như thế nào?",
+    "generated": "Đây là tổn thương dày niêm mạc, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vùng đặc điểm sinh lý ở trực tràng, cũng không tăng chuyển hóa FDG. Báo cáo gợi ý cần theo dõi. Các tổn thương này cũng có thể do viêm hoặc quá sản. Hì",
+    "ground_truth": "Tổn thương trực tràng tăng chuyển hóa FDG không đều, với SUVmax khoảng 8,9, phù hợp với tổn thương ác tính nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1459",
+    "question": "Các hạch trung thất và rốn phổi có tăng chuyển hóa không?",
+    "generated": "Đây là hạch trung thất ở cổ, nhóm IIB bên phải kích thước 10 x 8 mm và tăng chuyển hóa FDG. Ngoài ra có một hạch rốn phổi phải kích thước 9 x 7 mm cũng tăng chuyển hóa FDG. Hai hạch này không thay đổi theo PET/CT liều 5/2016. Các hạch n",
+    "ground_truth": "Có, có vài hạch trung thất ở dưới carina và rốn phổi hai bên, hạch lớn nhất khoảng 10 mm, tăng chuyển hóa FDG với SUVmax khoảng 5,3, có thể do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1625",
+    "question": "Có hạch nào ở rốn phổi phải bất thường không?",
+    "generated": "Đây là hạch nhỏ kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có một hạch trung thất ở rốn phổi phải, kích thước 23 x 14 mm, cũng tăng chuyển hóa FDG với SUVmax 7,9. Cần lưu ý theo dõi. Hình ảnh này khô",
+    "ground_truth": "Có, hạch rốn phổi phải kích thước 17 x 19 mm và tăng chuyển hóa FDG với SUVmax 11,8, khả năng là hạch di căn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_195",
+    "question": "Có nốt vôi hóa ở phổi trái không?",
+    "generated": "Đây là nốt vôi hóa ở thùy trên phổi trái, kích thước 12 x 9 mm. Nốt này tăng chuyển hóa FDG với SUVmax 4,6. Báo cáo gợi ý có thể do viêm hoặc quá sản. Cần lưu ý theo dõi. Hình ảnh này đã được đánh giá bằng CT liều dưới và sau ",
+    "ground_truth": "Có, có một nốt vôi hóa đường kính 4 mm ở thùy dưới phổi trái. Nốt này không tăng chuyển hóa FDG và không thay đổi so với PET/CT tháng 6/2023.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_195",
+    "question": "Đoạn dạ dày có gì đáng chú ý không?",
+    "generated": "Đoạn dạ dày có tăng chuyển hóa FDG, với SUVmax khoảng 4,6. Báo cáo gợi ý khả năng do viêm. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở thân mật dưới phổi trái, SUVmax khoảng 5,3, đường kính 10 mm, và đây cũng được lưu ý theo",
+    "ground_truth": "Có, có hình ảnh tăng chuyển hóa FDG lan tỏa ở niêm mạc dạ dày với SUVmax 7,5, có thể do viêm; cần đối chiếu với nội soi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1403",
+    "question": "Có hạch nách phải bất thường không?",
+    "generated": "Đây là hạch nách phải kích thước 10 x 8 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ trong nhu mô hai thùy của nách phải, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Các hạch này đã được kiểm soát theo dõ",
+    "ground_truth": "Có vài hạch nách phải kích thước khoảng 10 mm, nhưng còn cấu trúc rốn hạch và không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1401",
+    "question": "Có phát hiện tổn thương bất thường ở giường tuyến giáp không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có ghi nhận tổn thương bất thường. Chỉ còn có một số vùng giữa các cơ quan trực trại, chủ yếu ở phần dịch mạch chủ, lớp thành sau, ngực, bụng, chậu và xương. Các tổn thương này đều không tăng chuy",
+    "ground_truth": "Không. Hình ảnh tuyến giáp đã phẫu thuật, nhưng chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú hay bất thường ở giường tuyến giáp hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1401",
+    "question": "Các cơ quan như gan, lách, thượng thận và thận có hình ảnh bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện trái đầu cổ bất thường. Gan, lách, thượng thận và đài bể thận hai bên đều có bắt xạ theo đặc điểm sinh lý. Ngoài ra không có bất thường tăng chuyển hóa FDG khu trú bất thường ở cả cơ quan n",
+    "ground_truth": "Không. Các cơ quan này có hình ảnh bắt xạ theo đặc điểm sinh lý ở gan, lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1645",
+    "question": "Tổn thương chính ở thực quản có đặc điểm gì?",
+    "generated": "Đặc điểm gì là tổn thương chính là một nốt mờ bất thường kích thước 10 x 8 mm, có hạch trung thành và tăng chuyển hóa FDG rõ. Ngoài ra còn có dày thành thực quản đoạn 3/4 phải tăng chuyển hóa FDG lan tỏa, và tổn thương này được mô t",
+    "ground_truth": "Có hình ảnh dày thành gây hẹp lòng thực quản đoạn 1/3 dưới, dài khoảng 50 mm, có xâm lấn xung quanh và tăng chuyển hóa FDG rõ, với SUVmax 12,0.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1645",
+    "question": "Gan có tổn thương gì đáng chú ý không?",
+    "generated": "Đây là một tổn thương giảm tỷ trọng kích thước 10 x 8 mm, có hình ảnh dày gan và tăng chuyển hóa FDG rõ. Ngoài ra còn có nhiều nốt mờ bất thường ở gan phải, không tăng chuyển hóa FDG. Cần lưu ý theo dõi.",
+    "ground_truth": "Có nốt giảm tỉ trọng kích thước 13 x 10 mm ở hạ phân thùy VIII gan phải, bên trong có nốt cản quang, nhưng không tăng chuyển hóa FDG, khả năng là tổn thương sau điều trị.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1519",
+    "question": "Có hạch quanh đại tràng sigma không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện hạch quanh đại tràng sigma. Báo cáo khuyến nghị đối chiếu với siêu âm và FNA nếu cần. Ngoài ra còn có một hạch dọc góc hàm phải kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 3,",
+    "ground_truth": "Có vài hạch nhỏ quanh đại tràng sigma, kích thước chỉ vài mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1519",
+    "question": "Tim, não và các tạng đặc khác có bắt xạ bất thường không?",
+    "generated": "Đây là PET/CT toàn thân, nên chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở tim, não và các tổ chức trong cơ xương. Cũng không có bắt xạ theo đặc điểm sinh lý ở các vị trí khác trên PET/CT toàn thân. Ngoài ra, chỉ ghi nhận một số tổn th",
+    "ground_truth": "Không thấy bất thường khu trú. Hình ảnh bắt xạ ở não và tim theo đặc điểm sinh lý; lách, thượng thận và đài bể thận hai bên cũng có hình ảnh bắt xạ sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1501",
+    "question": "Có hạch trung thất nào được ghi nhận không?",
+    "generated": "Đây là hạch trung thất, kích thước vài mm. Không tăng chuyển hóa FDG. Ngoài ra còn có nhiều hạch ở trước carina và rốn phổi phải, cũng không tăng chuyển hóa FDG, nên được ghi nhận theo dõi. Cần lưu ý theo dõi. Báo cáo cũng ghi cần theo dõ",
+    "ground_truth": "Có. Có vài hạch trung thất ở cửa sổ chủ phổi và trước carina, kích thước khoảng 10 mm, còn cấu trúc rốn hạch và không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1551",
+    "question": "Có phát hiện tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Báo cáo còn ghi nghĩa cần theo",
+    "ground_truth": "Không. Hình ảnh không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1551",
+    "question": "Có bất thường ở hệ thống cơ xương không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở hệ thống cơ xương. Ngoài ra còn có một số hạch trung thất và hạch rải rác đều không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Cần theo dõi. Hai lớp",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1663",
+    "question": "Các hạch ở cổ có bất thường chuyển hóa không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,6. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có một hạch trung thất dưới carina, kích thước 8 x 7 mm, cũng tăng chuyển hóa FDG với SUVmax 5,3. Cần lưu ý theo dõi",
+    "ground_truth": "Không. Vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, nhóm IIB, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1575",
+    "question": "Tổn thương nguyên phát có đặc điểm chuyển hóa FDG như thế nào?",
+    "generated": "Đặc điểm chuyển hóa FDG khác như tăng chuyển hóa lan tỏa ở thành bụng trung thất, SUVmax 12,5. Ngoài ra còn có một vùng đầu cổ tăng chuyển hóa FDG rõ, SUVmax 13,6, đối chiếu với nhiều hạch nhóm IIB hai bên, tăng chuyển hóa FDG vớ",
+    "ground_truth": "Tổn thương này tăng chuyển hóa FDG rõ, với SUVmax khoảng 8,2.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1575",
+    "question": "Ngoài vùng đầu cổ và hạch trung thất, còn thấy tổn thương tăng chuyển hóa FDG bất thường ở nơi khác không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú ở thùy dưới phổi phải, và cần lấn nhận định thêm về nội soi hoặc xơ hóa. Báo cáo cũng gợi ý cần theo dõi. Ngoài ra, có một số hạch trung thất ở cửa sổ phế chủ bên phải và cửa sổ giữa đông",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1640",
+    "question": "Có hạch trung thất không, và đặc điểm của chúng ra sao?",
+    "generated": "Đây là hạch trung thất được mô tả theo đặc điểm sinh lý. Chúng không tăng chuyển hóa FDG, nên không ghi nhận ổ tăng chuyển hóa FDG bất thường ở các vị trí khác trên PET/CT toàn thân. Ngoài ra, có một số hạch rõ rệp phải, hạch dọc trực",
+    "ground_truth": "Có vài hạch trung thất ở cạnh phải khí quản đoạn thấp, kích thước khoảng 10 mm, trong có vôi hóa. Các hạch này tăng nhẹ chuyển hóa FDG với SUVmax 2,5 và có thể do viêm, nhưng cần theo dõi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1659",
+    "question": "Có ghi nhận vùng tăng chuyển hóa sinh lý nào ở vùng đầu mặt không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả theo dõi sinh lý. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên, được gợi ý khả năng do viêm. Báo cáo cũng ghi cần theo dõi sinh lý bằng CT sau 3 thá",
+    "ground_truth": "Có. Tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên, phù hợp với đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1659",
+    "question": "Có hạch trung thất hoặc rốn phổi nào tăng FDG không?",
+    "generated": "Đây là hạch trung thất ở rốn phổi phải, kích thước vài mm. Nó tăng chuyển hóa FDG với SUVmax 4,6. Báo cáo gợi ý có thể do viêm hoặc quá sản. Cần lưu ý theo dõi. Hình ảnh bắt xạ ở rốn phổi phải này đã được ghi nhận từ PET/CT tháng",
+    "ground_truth": "Có. Có vài hạch trung thất ở cạnh phải khí quản đoạn cao và hạch rốn phổi phải, kích thước khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 6,8, khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1659",
+    "question": "Có ghi nhận tổn thương tăng chuyển hóa ở xương không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở xương, nên cần lưu ý theo dõi. Ngoài ra không ghi nhận ổ tăng chuyển hóa bất thường ở các vị trí khác trên PET/CT toàn thân. Báo cáo cũng gợi ý cần theo dõi. Hình ảnh cho biết có một số tổ",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1633",
+    "question": "Phổi có tổn thương nào đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổn thương đáng chú ý. Ngoài phổi trái có một dải mờ bất thường ở thùy giữa phổi trái kèm tăng chuyển hóa FDG, cần lưu ý theo dõi. Còn cũng có một số tổn thương tăng chuyển hóa FDG ở nhu m",
+    "ground_truth": "Có một nốt mờ dưới màng phổi đường kính khoảng 7 mm ở hạ phân thùy I của thùy trên phổi phải. Nốt này không tăng chuyển hóa FDG, nên hiện chưa gợi ý ác tính rõ ràng, nhưng được khuyên theo dõi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1246",
+    "question": "Hình ảnh PET/CT này ghi nhận tăng chuyển hóa FDG sinh lý ở những cấu trúc nào của não và vùng đầu cổ?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổn thương đặc biệt sinh lý ở não, vùng cổ, ngực, bụng, chậu và hạch. Ngoài ra còn có một số tăng nhẹ FDG khu trú ở tim, vài hạch nhỏ ở phía trong cơ ức đòn chũm và các rốn ngợn bên phải. T",
+    "ground_truth": "Có bắt xạ theo đặc điểm sinh lý ở não. Ngoài ra, tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên cũng được ghi nhận theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1246",
+    "question": "Có tổn thương nào ở màng phổi bên phải không?",
+    "generated": "Đây là một tổn thương dày khu trú ở ngoại vi thùy giữa phổi bên phải, với kích thước khoảng 25 x 18 mm. Tổn thương này không tăng chuyển hóa FDG, nhiều khả năng do di căn. Ngoài ra còn có một nốt mờ đặc ở thùy dưới phổi bên phải, kí",
+    "ground_truth": "Có. Hình ảnh dày màng phổi thành sau bên phải được ghi nhận và có tăng chuyển hóa FDG với SUVmax 4,4.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1520",
+    "question": "Hình ảnh này là khảo sát trên vùng nào của cơ thể?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các vùng bắt xạ được ghi nhận từ não, vị trí tuyến giáp, tim, lách, thực quản, chậu và khung đại tràng. Ngoài ra có một số tổn thương nhỏ ở thùy dưới phổi phải và thùy trên phổi phải, cũng được ghi nh",
+    "ground_truth": "Đây là hình ảnh PET/CT toàn thân, đánh giá nhiều vùng từ não, cổ, ngực, bụng, chậu đến hệ cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1520",
+    "question": "Có tràn dịch màng phổi hai bên không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên, không tăng chuyển hóa FDG. Báo cáo ghi được nghĩ nhiều về viêm. Hình ảnh này có thể do viêm hoặc quá sản. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý",
+    "ground_truth": "Không phát hiện tràn dịch màng phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1520",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện hạch bẹn tăng chuyển hóa FDG khu trú. Báo cáo cũng ghi rõ điều kiện cho phép khả năng do viêm hoặc quá sản. Ngoài ra còn có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng cũng không t",
+    "ground_truth": "Có vài hạch bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1632",
+    "question": "Có thấy hạch cổ bất thường tăng chuyển hóa không?",
+    "generated": "Đây là hạch cổ kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 4,3. Báo cáo gợi ý có thể do viêm. Hình ảnh này nên theo dõi.",
+    "ground_truth": "Không, có vài hạch cổ nhỏ kích thước vài mm ở góc hàm hai bên, nhóm IIB, VB, VI hai bên nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1678",
+    "question": "Trong hình ảnh này, có thấy vùng nào tăng bắt xạ sinh lý ở não không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các tổn thương nhỏ kích thước lên mạnh ở não. Các tổn thương này tăng chuyển hóa FDG rõ, với SUVmax khoảng 12,5. Ngoài ra có một số hạch trung thất ở cửa sỷ phải và dịch mô mềm đầu trčen, cũng tă",
+    "ground_truth": "Có. Hình ảnh bắt xạ theo đặc điểm sinh lý ở não.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1678",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nhiều khả năng do viêm hoặc quá sản. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Kh",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1678",
+    "question": "Ở thận trái có phát hiện gì đặc biệt không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở thận trái. Ngoài ra còn có một số hạch thuộc nhóm IIB và III cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh này đã được kiểm soát theo dự kiế",
+    "ground_truth": "Có một nốt giảm tỉ trọng khoảng -82 HU, đường kính 10 mm ở thận trái, không tăng chuyển hóa FDG, khả năng là u mỡ.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1628",
+    "question": "Các hạch ở góc hàm và phía trong cơ ức đòn chũm có đặc điểm gì?",
+    "generated": "Đây là một hạch ở góc hàm phải kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 4,3. Báo cáo nhận định có thể do viêm hoặc quá sản. Ngoài ra còn có vài hạch trung thất ở cửa sổ phế chủ, trước carina và dọc theo cơ ức đòn chũm, kích",
+    "ground_truth": "Có vài hạch hai bên ở góc hàm và phía trong cơ ức đòn chũm, nhóm IIB, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1628",
+    "question": "Có phát hiện hạch bẹn bất thường không?",
+    "generated": "Đây là hạch bẹn kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 3,5. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có một nốt giảm tỉ trọng ở hai bên bất thường đường kính 7 mm, không tăng chuyển hóa FDG. Cần theo dõ",
+    "ground_truth": "Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1542",
+    "question": "Các hạch cạnh khí quản bên phải có đặc điểm gì?",
+    "generated": "Đoạn cao nhất tăng chuyển hóa FDG ở hạch khí quản bên phải là SUVmax 12,5. Các hạch này có thương xạ học sinh hoặc chủ lực trung tâm và cần theo dõi. Ngoài ra còn có một hạch rốn phổi phải đường kính 8 mm, không tăng chuyển hóa FDG. Hì",
+    "ground_truth": "Có nhiều hạch dọc bên phải khí quản, kích thước khoảng 10 mm, và các hạch này tăng chuyển hóa FDG với SUVmax khoảng 5,4.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1682",
+    "question": "Vùng amydal và rìa lưỡi hai bên có bất thường không?",
+    "generated": "Đã phẫu thuật hai bên. Không thấy tràn dịch màng phổi, tăng chuyển hóa FDG khu trú ở amydal và rìa lưỡi hai bên. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở hang thực quản đoạn 1/3 giữa, nhưng đây là áp xùng và không gợi ý viêm.",
+    "ground_truth": "Không, chỉ thấy tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1682",
+    "question": "Trực tràng có gì đáng chú ý trên hình ảnh?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổ chức được mô tả. Báo cáo ghi rõ có tăng chuyển hóa FDG lan tỏa ở trực tràng, khả năng do viêm. Ngoài ra còn có số lượng tổn thương đặc biệt ở trực tràng, trong đó có một dải mờ bẹn trực trà",
+    "ground_truth": "Có tăng chuyển hóa FDG lan tỏa ở trực tràng, với SUVmax khoảng 4,3. Bên cạnh đó có vài hạch nhỏ quanh trực tràng kích thước khoảng 10 mm nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1466",
+    "question": "Hình ảnh này là chụp vùng nào và là loại khảo sát gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các nốt mờ kích thước lên từ 10 mm ở trung thất, ngực, bụng, chậu và rốn. Các nốt này có tăng chuyển hóa FDG không đều, và được gợi ý viêm hoặc quá sản. Ngoài ra còn có dày niêm mạc vùng phổi h",
+    "ground_truth": "Đây là hình ảnh PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1466",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim hạ phân thùy IIB. Ngoài ra còn có tràn dịch màng tim mới xuống dọc phải,",
+    "ground_truth": "Không, không thấy tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1700",
+    "question": "Có vùng tăng chuyển hóa FDG sinh lý nào ở vùng đầu cổ không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không ghi nhận tăng chuyển hóa FDG bất thường ở vùng cổ. Ngoài ra còn có một số hạch trung thất ở cửa sổ phế quản, dọc hai bên và rõ hơn trong nhu mô hệ thống, tăng chuyển hóa FDG với SUVmax 10,5. Các h",
+    "ground_truth": "Có. Tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên được ghi nhận theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1700",
+    "question": "Ở nách có hạch bất thường không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú ở nách phải, với SUVmax khoảng 4,6. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có nhiều hạch nách hai bên không tăng chuyển hóa FDG, kích thước khoảng 10 mm. Cần lấn nhận đối chiếu v",
+    "ground_truth": "Có vài hạch nách hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1690",
+    "question": "Có hạch vùng cổ nào được ghi nhận không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 4,3. Báo cáo ghi rõ cần theo dõi. Ngoài ra có một hạch trung thất ở phía trong cơ ức đòn chũm phải, kích thước 25 x 18 mm, cũng tăng chuyển hóa FDG với SUVmax 6,7. Cần lưu",
+    "ground_truth": "Có, có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, nghi nhiều là hạch viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1452",
+    "question": "Trên hình ảnh này, có thấy bất thường tăng chuyển hóa FDG khu trú ở não không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không thể phẫu thuật. Chưa phát hiện ổ tăng chuyển hóa FDG bất thường khu trú ở não. Ngoài ra còn có một số hạch nhỏ dọc cơ quan vùng giữa thực quản, các hạch này tăng chuyển hóa FDG với SUVmax 3,6. Cầ",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não mang đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1452",
+    "question": "Nhu mô hai phổi có tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Chỉ ghi nhận một số nốt mờ đặc xướng ở thùy giữa hai phổi, nốt lớn nhất khoảng 10 mm, không tă",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1452",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện hạch bẹn hai bên không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ trong nhu mô hai bên, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Cần theo dõi. Báo cáo cũng ghi rằng c",
+    "ground_truth": "Có vài hạch bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1462",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với tràn dịch màng phổi hai bên kèm tăng chuyển hóa FDG lan tỏa ở các vùng nhưng không gợi ý di căn. Còn có tràn dịch màng tim hai bên, khả năng do viêm. Ngoài ra cũng có tràn dịch màng tim trái kèm tăng chuyển hóa FDG",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1587",
+    "question": "Tổn thương ở vùng vòm họng phải có đặc điểm chuyển hóa FDG như thế nào?",
+    "generated": "Đáng chú ý là tổn thương dày niêm mạc vòm họng phải có tăng chuyển hóa FDG, với SUVmax khoảng 4,3. Báo cáo gợi ý khả năng do viêm. Ngoài ra cũng có số lượng rất lớn hai đám ở vùng vòm họng trái và phẫu thuật, cần theo dõi. Các đám",
+    "ground_truth": "Tổn thương này tăng chuyển hóa FDG khu trú với SUVmax 10,7, phù hợp với tổn thương ác tính nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1587",
+    "question": "Các cơ quan như gan, lách, thượng thận có ghi nhận tổn thương tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường ở các vị trí gan, lách, thượng thận. Ngoài ra có một số hạch gan, lách, thượng thận và dày niêm mạc không tăng chuyển hóa bất thường. Cần theo dõi. Báo cáo",
+    "ground_truth": "Không. Gan, lách, thượng thận và đài bể thận hai bên đều bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1503",
+    "question": "Phổi và màng phổi có tổn thương tăng chuyển hóa FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều tổ chức được mô tả. Ngoài ra còn có tăng chuyển hóa FDG khu trú ở phổi trái, với SUVmax 12,5. Báo cáo gợi ý khả năng do viêm. Chỉ cần lưu ý theo dõi. Hình ảnh bắt xạ ở màng phổi số lượng",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi, và cũng không có tràn dịch màng phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1503",
+    "question": "Tổng quát, ngoài vùng tử cung - vòi trứng - buồng trứng, có vị trí nào khác tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú, với SUVmax 12. Ngoài ra còn có tổn thương ác tính nguyên phát ở xoang bờ trái - dạng mô mềm, tăng chuyển hóa FDG với SUVmax 5. Báo cáo ghi rõ cần theo dõi. Cũng cần lưu ý theo dõi đối chiếu v",
+    "ground_truth": "Không. Ngoài hình ảnh tăng chuyển hóa FDG lan tỏa ở niêm mạc tử cung, vòi trứng trái và buồng trứng phải, chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1455",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim. Ngoài ra còn có tràn dịch màng tim hai bên, cũng không tăng chuyển hóa F",
+    "ground_truth": "Không. Hình ảnh cho thấy không có tràn dịch màng phổi hai bên và không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1568",
+    "question": "Hạch nách và hạch bẹn có gì đáng chú ý không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên cần đối chiếu với báo cáo trước khám. Ngoài ra có một số hạch nách hai bên và hạch bẹn hai bên, tăng chuyển hóa FDG, nhưng đều nhỏ và không tăng giảm theo dõi. Còn ghi nhận các hạch nhóm IIB bên phả",
+    "ground_truth": "Có vài hạch nách hai bên và vài hạch bẹn hai bên, đều kích thước khoảng 10 mm nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1619",
+    "question": "Có dấu hiệu nghi ngờ xâm lấn cấu trúc xung quanh không?",
+    "generated": "Đây là xâm lấn vào mạch chủ, thượng đòn phải, miệng bụng và hố Rosenmuller. Các tổn thương này không tăng chuyển hóa FDG, nên khả năng do viêm hoặc quá sản. Ngoài ra cũng có dày niêm mạc xung quanh các cầu xương trong cửa rã ai, cùng xâm lấn vào",
+    "ground_truth": "Có, hình ảnh cho thấy tổn thương nghi ngờ xâm lấn sụn giáp.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1619",
+    "question": "Có bất thường xương hoặc hệ cơ xương không?",
+    "generated": "Đây là xương đốt sống, không tăng chuyển hóa FDG. Báo cáo ghi nghĩa rằng có thể do viêm. Ngoài ra chưa phát hiện tràn dịch màng phổi hoặc bất thường khu trú xương. Hình ảnh cũng không gợi ý tăng chuyển hóa FDG bất thường ở hệ thống cơ xươ",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1494",
+    "question": "Hạch nách phải lớn nhất có kích thước bao nhiêu và mức độ bắt FDG thế nào?",
+    "generated": "Đó là hạch nách phải lớn nhất, kích thước 12 x 8 mm và tăng chuyển hóa FDG với SUVmax 5,3. Ngoài ra còn có một hạch nách trái đường kính 9 mm cũng tăng chuyển hóa FDG với SUVmax 4,6. Cần theo dõi.",
+    "ground_truth": "Hạch lớn nhất có kích thước 9 x 10 mm và chỉ tăng nhẹ chuyển hóa FDG, SUVmax khoảng 2,5.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1580",
+    "question": "Hình ảnh PET/CT này cho thấy tổn thương chính nằm ở đâu?",
+    "generated": "Đây là hình ảnh tổn thương chính nằm ở trực tràng. Ngoài ra còn có một vùng giãn dịch mạc treo phải kích thước 12 x 8 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Báo cáo cũng gợi ý cần theo dõi. Hình ảnh này cho thấy tă",
+    "ground_truth": "Tổn thương chính nằm ở thực quản đoạn 1/3 giữa, với hình ảnh dày thành gây hẹp lòng thực quản trên đoạn dài khoảng 59 mm và tăng chuyển hóa FDG rõ.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1580",
+    "question": "Có phát hiện gì ở thận phải không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả. Báo cáo ghi cần lưu ý theo dõi. Ngoài ra có tăng chuyển hóa FDG lan tỏa ở thận phải, khả năng do viêm. Hình ảnh này cũng cần theo dõi. Không phát hiện trung tâm bụng rốn, s��",
+    "ground_truth": "Có hình ảnh nang thận phải đường kính khoảng 18 mm, và nang này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1588",
+    "question": "Rốn phổi phải có phát hiện gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở rốn phổi phải. Ngoài ra còn có một nang mới xuất hiện ở rốn phổi phải, với SUVmax 4,5. Báo cáo gợi ý cần theo dõi lại. Cũng cần theo",
+    "ground_truth": "Có tăng chuyển hóa FDG không đặc hiệu ở rốn phổi phải, SUVmax 3,6, khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1588",
+    "question": "Trên PET/CT có phát hiện thêm vị trí tăng chuyển hóa khu trú bất thường nào khác không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Chỉ có một số hạch nhỏ ở cổ, ngực, bẹn và rốn lớn hai bên, nhóm IIB, IIIB, IVB và V, tức là các hạch này tăng",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại các vị trí khác trên xạ hình PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1629",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được ghi nhận theo đặc điểm sinh lý. Khả năng do viêm hoặc quá sản. Ngoài ra còn có tràn dịch màng tim hai bên, cũng không tăng chuyển hóa F",
+    "ground_truth": "Không. Không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1652",
+    "question": "Có tràn dịch màng phổi bên trái không, và dịch có tăng chuyển hóa không?",
+    "generated": "Đây là tràn dịch màng phổi bên trái, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vùng đường kính 10 mm ở thân giảm tỉ trọng ở rốn phổi bên trái, cũng không tăng chuyển hóa FDG. Khả năng do viêm hoặc quá sản. Hình ảnh này không gợi ý",
+    "ground_truth": "Có tràn dịch khoang màng phổi trái, với lớp dịch dày khoảng 7 mm. Phần dịch này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1642",
+    "question": "Hình ảnh này cho thấy tổn thương chính nằm ở cơ quan nào?",
+    "generated": "Đây là hình ảnh tổn thương chính nằm ở trực tràng. Báo cáo khuyến nghị đối chiếu với siêu âm và FNA. Ngoài ra, có một số hạch nhỏ ở trung thất và dọc trùng đoạn cao, nhưng không tăng chuyển hóa FDG. Cần theo dõi lại.",
+    "ground_truth": "Tổn thương chính nằm ở thực quản, cụ thể là đoạn 1/3 giữa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1642",
+    "question": "Phổi có thấy tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG khu trú, với SUVmax khoảng 4. Tổn thương này có thể do viêm. Báo cáo cũng ghi rõ cần theo dõi. Ngoài ra còn có một số tổn thương nhỏ ở phổi trái và phổi phải, đều không tăng chuyển hóa FDG, khả năng do",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1415",
+    "question": "Khối ở đùi trái có đặc điểm chuyển hóa FDG như thế nào?",
+    "generated": "Đây là khối mờ bờ đùi trái, có tăng chuyển hóa FDG với SUVmax 12. Ngoài ra còn có nhiều hạch cũng tăng chuyển hóa FDG ở phía trước và rồng, SUVmax 5. Cần lưu ý theo dõi.",
+    "ground_truth": "Khối tăng chuyển hóa FDG không đều, với SUVmax khoảng 10,25.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1415",
+    "question": "Các hạch nách và hạch bẹn có tăng chuyển hóa FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở nách và hạch bẹn. Các hạch lớn nhất khoảng 10 mm, không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ ở hai bên trong cơ ức đòn chũm, kích thước",
+    "ground_truth": "Không, vài hạch nách hai bên và vài hạch bẹn hai bên kích thước khoảng 10 mm đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1446",
+    "question": "Có hạch trung thất nào bất thường không?",
+    "generated": "Đây là hạch trung thất ở cơ quan không đặc hiệu, nên chỉnh đối chiếu với CT liều dưới. Ngoài ra có một hạch rõ nhất ở trong cơ quan bụng tăng chuyển hóa FDG, SUVmax 12,5, nhiều khả năng do viêm hoặc quá sản. Hình ảnh gợi ý di căn. Cần theo dõ",
+    "ground_truth": "Có, có vài hạch trung thất ở trước khí quản đoạn cao và trước mạch máu thuộc nhóm 2R, 3; hạch lớn nhất khoảng 20 x 14 mm và tăng chuyển hóa FDG, SUVmax khoảng 7,9. Ngoài ra còn có hạch trước khí quản và bên trái khí quản đoạn thấp, dưới carina thuộc nhóm 4R, 4L, 7; hạch lớn nhất khoảng 19 x 14 mm, tăng chuyển hóa FDG với SUVmax khoảng 5,2.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1493",
+    "question": "Có phát hiện hạch nào tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, tăng chuyển hóa FDG với SUVmax 3,6. Ngoài ra còn có vài hạch nhỏ trong nhu mô hai phía thùy dưới phổi phải và trung thất, đều kích thước khoảng 10 mm và không tăng chuyển hóa FDG. Các hạch này được ghi nhậ",
+    "ground_truth": "Có. Có một hạch dưới carina kích thước 11 x 7 mm, tăng chuyển hóa FDG với SUVmax 7,5.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1493",
+    "question": "Các cơ quan như gan, lách, thượng thận và thận có ghi nhận tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở gan, lách, thượng thận và đài bể thận hai bên. Ngoài ra còn có một số hạch",
+    "ground_truth": "Không. Gan, lách, thượng thận và đài bể thận hai bên đều có hình ảnh bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1434",
+    "question": "Các xoang cạnh mũi có gì bất thường không?",
+    "generated": "Đây là xoang cạnh mũi hai bên, không tăng chuyển hóa FDG. Báo cáo ghi nhận được cho là có thể do viêm. Ngoài ra còn có vài hạch nhỏ ở trung thất vùng phổi hai bên, cũng không tăng chuyển hóa FDG. Cần lưu ý theo dõi. Hình ảnh này được ghi n",
+    "ground_truth": "Có dày niêm mạc xoang hàm và xoang sàng hai bên, không tăng chuyển hóa FDG, hình ảnh này khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1434",
+    "question": "Gan, lách, thượng thận và hệ tiết niệu có bất thường chuyển hóa không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các tổn thương nhỏ ở gan, lách, thượng thận và đài bể thận hai bên. Các tổn thương này không tăng chuyển hóa FDG, gợi ý viêm hoặc quá sản. Ngoài ra có một nốt giảm tỷ trọng ở lách phải kích thước 1",
+    "ground_truth": "Không. Các cơ quan này bắt xạ theo đặc điểm sinh lý, không ghi nhận ổ tăng chuyển hóa FDG bất thường.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1486",
+    "question": "Các hạch ở vùng góc hàm và dọc cơ ức đòn chũm hai bên có gì đáng chú ý?",
+    "generated": "Đây là hạch góc hàm và dọc cơ ức đòn chũm hai bên, kích thước nhỏ khoảng 10 mm. Các hạch này tăng chuyển hóa FDG mô tả theo đặc điểm sinh lý. Ngoài ra có vài hạch dọc cơ ức đòn chũm hai bên kích thước khoảng 10 mm, cũng tăng ch",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm, thuộc nhóm IIB hai bên, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1636",
+    "question": "Xoang hàm hai bên có bất thường gì không?",
+    "generated": "Đây là xoang hàm phải kích thước 18 x 20 mm và có tăng chuyển hóa FDG, SUVmax 4,3. Báo cáo gợi ý nhiều khả năng do viêm. Ngoài ra còn có một nốt mờ ở thùy trên hạ phân thùy IIA bên phải, kích thước 5 x 6 mm, không tăng chuyển hóa FDG. C",
+    "ground_truth": "Có dày niêm mạc xoang hàm hai bên, nhưng không tăng chuyển hóa FDG, khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1636",
+    "question": "Tổn thương quan trọng nhất ở trực tràng là gì?",
+    "generated": "Đây là một tổn thương quan trọng nhất, đặc biệt là có kèm hạch rốn phổi trái. Tổn thương này gồm dòng bụng trực tràng và cần đối chiếu với nội soi. Ngoài ra cũng có một số tổn thương nhỏ ở trực tràng, đều kích thước vài mm, không tă",
+    "ground_truth": "Có hình ảnh dày thành gây hẹp lòng trực tràng kèm tăng chuyển hóa FDG với SUVmax 5,6, và được kết luận tương ứng với tổn thương ác tính nguyên phát.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1683",
+    "question": "Có thấy bắt xạ sinh lý ở não không?",
+    "generated": "Đây là PET/CT toàn thân, vì chưa phát hiện bắt xạ sinh lý ở não. Báo cáo cũng ghi nhận không có tăng chuyển hóa FDG khu trú bất thường ở não. Ngoài ra còn có một số hình ảnh tăng chuyển hóa FDG lan tỏa ở rốn phổi phải, nhưng đều theo quy định",
+    "ground_truth": "Có. Hình ảnh bắt xạ theo đặc điểm sinh lý ở não.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1683",
+    "question": "Gan, lách, thượng thận và hệ tiết niệu có gì bất thường trên hình không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các tổn thương nhỏ ở gan, lách, thượng thận và đài bể thận hai bên. Các tổn thương này không tăng chuyển hóa FDG, gợi ý viêm hoặc quá sản. Ngoài ra có một dải mờ giữa trung thất gan phải, kích thước khoảng",
+    "ground_truth": "Không thấy mô tả bất thường. Hình ảnh bắt xạ theo đặc điểm sinh lý ở gan, lách, thượng thận và đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1502",
+    "question": "Có tổn thương nào khác ở phổi phải ngoài khối chính không?",
+    "generated": "Đây là tổn thương dạng đám mờ, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vùng ở phổi trái bắt xạ theo đặc điểm sinh lý. Không ghi nhận tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi phải. Chỉ còn có tăng nhẹ chuyển hóa",
+    "ground_truth": "Có, có hình ảnh kính mờ ở ngoại vi thùy dưới phổi phải. Tổn thương này cũng tăng chuyển hóa FDG nhẹ, SUVmax 3,9, và được nhận định có khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1435",
+    "question": "Hình ảnh này cho thấy tổn thương chính ở vị trí nào trong phổi?",
+    "generated": "Đây là hình ảnh tổn thương chính, nằm ở trung tâm vị trí phổi trái. Tổn thương này kèm dạng mờ bên lều cũng có tăng chuyển hóa FDG rõ, với SUVmax khoảng 12. Ngoài ra còn có hai nốt mờ đặc xương ở nhu mô hai phổi, kích thước khoảng 8 mm,",
+    "ground_truth": "Tổn thương chính là một nốt mờ bán đặc nằm ở hạ phân thùy VI của thùy dưới phổi phải.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1435",
+    "question": "Có tổn thương gan nào được ghi nhận không?",
+    "generated": "Đây là tổn thương dày gan phải, kích thước vài mm. Tuy nhiên còn có một nốt giãn ở hạ phân thùy IIA gan trái, không tăng chuyển hóa FDG, nghĩ nhiều do viêm. Ngoài ra cũng có một nốt giãn đặc nằm trong xung quanh của lồng ngực bên phải, cũng không tă",
+    "ground_truth": "Có một nốt giảm tỉ trọng ở hạ phân thùy VI gan phải, đường kính khoảng 9 mm. Nốt này không tăng chuyển hóa FDG, khả năng lành tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1545",
+    "question": "Ngoài tổn thương phổi trái, có thấy hạch nào tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhóm IIB bên phải, kích thước 10 x 8 mm và tăng chuyển hóa FDG rõ. Ngoài ra còn có một hạch trung thất dọc màng phổi phải kích thước 25 x 34 mm, cũng tăng chuyển hóa FDG. Hình ảnh này được ghi nhận theo đặc điểm sinh lý",
+    "ground_truth": "Không. Các hạch được ghi nhận như hạch thượng đòn trái, hạch trung thất, hạch nách hai bên và hạch bẹn hai bên đều không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1545",
+    "question": "Có phát hiện tổn thương bất thường ở gan, thận hay các tạng đặc khác không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên cần lưu ý theo dõi. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở gan, thận hay đám mờ ở các vị trí khác trên PET/CT toàn thân. Báo cáo cũng ghi cần theo dõi. Hình ảnh bắt xạ ở gan, lách, thự",
+    "ground_truth": "Ngoài nang gan phải đường kính 28 mm và nang thận phải đường kính 30 mm, cả hai đều không tăng chuyển hóa FDG, không thấy tổn thương bất thường tăng chuyển hóa FDG ở gan, lách, thượng thận hay đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1533",
+    "question": "Khối ở tiểu khung có đặc điểm ra sao?",
+    "generated": "Đây là khối mờ ở tiểu khung, có tăng chuyển hóa FDG với SUVmax 5,3. Báo cáo gợi ý nhiều khả năng do viêm hoặc quá sản. Ngoài ra còn có dày thành sau xương đai bên phải, tăng chuyển hóa FDG với SUVmax 4,1, được gợi ý có thể do viêm hoặc quá",
+    "ground_truth": "Có khối ở tiểu khung kích thước 62 x 86 mm, thành dày 20 mm, tăng chuyển hóa FDG với SUVmax khoảng 11, và bên trong khối có dịch.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1432",
+    "question": "Trên hình ảnh PET/CT toàn thân, có phát hiện tổn thương tăng chuyển hóa FDG khu trú nào đáng chú ý không?",
+    "generated": "Đây là tổn thương dày niêm mạc, không tăng chuyển hóa FDG ở thùy trên phải. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có nhiều vị trí khác trong cơ ức đòn chủ phế quản 2/3, ngực, bụng, chậu và xương đã được kiểm tra bằng",
+    "ground_truth": "Có. Nổi bật nhất là nhiều tổn thương giảm tỉ trọng ở gan, tổn thương lớn nhất khoảng 58 x 53 mm, có hoại tử trung tâm và tăng chuyển hóa FDG ở ngoại vi với SUVmax khoảng 6,9.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1432",
+    "question": "Có tràn dịch màng phổi hoặc tràn dịch màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên, không tăng chuyển hóa FDG. Khả năng do viêm hoặc quá sản. Ngoài ra còn có tràn dịch màng tim, được ghi nhận là tràn dịch màng phổi hai bên và tràn dịch màng tim. Hình ảnh không thay đột xạ học ở trực tràng. Chưa",
+    "ground_truth": "Không, không phát hiện tràn dịch màng phổi hai bên và cũng không thấy tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1532",
+    "question": "Có hạch bất thường ở vùng cổ không?",
+    "generated": "Đây là hạch cổ nhóm IIB bên trái, kích thước 10 x 8 mm. Hình ảnh tăng chuyển hóa FDG với SUVmax 4,3. Ngoài ra có một hạch dọc phần mềm vùng giữa - phía trong cơ ức đòn chũm (HUNAN) ở hai bên, kích thước 9 x 7 mm, cũng tăng chuyển hóa FD",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước nhỏ khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1532",
+    "question": "Thận phải có hình ảnh gì đáng chú ý?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở thận phải, với SUVmax khoảng 4,3. Báo cáo gợi ý có thể do viêm. Ngoài ra, nhiều hạch trung thất ở thận phải cũng được mô tả theo dõi. Cần lưu ý theo dõi. Hình ảnh này đã được báo cáo",
+    "ground_truth": "Có một nang thận phải đường kính khoảng 29 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1450",
+    "question": "Có hạch cổ bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không còn được phẫu thuật. Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, nhóm IIB, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Ngoài ra có v",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1450",
+    "question": "Kết luận chung từ hình ảnh PET/CT toàn thân là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả. Báo cáo ghi rõ cần lưu ý theo dõi. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên, khả năng do viêm. Cần theo dõi sinh lý bằng CT sau. Hình ảnh cũng",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở thành ngực trái hoặc tại các vị trí khác trên xạ hình PET/CT toàn thân. Các hạch nhỏ ở cổ, nách và bẹn đều không tăng chuyển hóa FDG, nghiêng về lành tính như viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1656",
+    "question": "Có tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Các tràn này không tăng chuyển hóa FDG, được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim tăng chuyển hóa FDG. Ngoài ra còn có tràn dịch màng tim mới xuống dọc",
+    "ground_truth": "Không. Không thấy tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1656",
+    "question": "Hệ tiết niệu có bất thường gì không?",
+    "generated": "Đây là PET/CT toàn thân, nên chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thận, rốn và đài bể thận hai bên có đặc điểm sinh lý. Ngo",
+    "ground_truth": "Có hình ảnh giãn đài bể thận hai bên độ 2 và còn sonde JJ niệu quản hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1443",
+    "question": "Có tổn thương bất thường ở nhu mô phổi không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương bất thường ở nhu mô phổi. Chỉ có tăng chuyển hóa FDG lan tỏa ở rốn phổi trái với SUVmax khoảng 4,5, cần theo dõi. Ngoài ra, chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất th",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1483",
+    "question": "Có thấy bất thường tăng chuyển hóa FDG khu trú nào đáng nghi ngờ không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều bất thường tăng chuyển hóa FDG ở các vị trí khác nhau. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở phần mềm amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Ngoài ra còn có tổn thương dạ d",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại các vị trí khác trên xạ hình PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1483",
+    "question": "Hạch nách hai bên có bất thường không?",
+    "generated": "Đây là hạch nách hai bên, kích thước khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG và được ghi nhận là khả năng do viêm hoặc quá sản. Ngoài ra còn có một hạch trung thất dọc phía trong cơ ức đòn chũm hai bên, kích thước khoảng 8 x 9 mm,",
+    "ground_truth": "Có vài hạch nách hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1692",
+    "question": "Hình ảnh này đánh giá vùng nào của cơ thể?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả. Báo cáo ghi rõ cần lưu ý theo dõi đối chiếu với siêu âm và FNA. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên, khả năng do viêm hoặc quá sản.",
+    "ground_truth": "Đây là hình ảnh PET/CT toàn thân, đánh giá nhiều cơ quan và hệ thống trên toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1692",
+    "question": "Phổi có nốt hoặc tổn thương nào không?",
+    "generated": "Đây là hình ảnh tổn thương dày khu trú ở thùy trên phổi phải, nốt mờ kích thước vài mm. Ngoài ra chưa phát hiện đều có tăng chuyển hóa FDG bất thường ở rôeri hoặc sân chậu hai bên. Báo cáo cũng ghi chưa thấy tăng chuyển hóa FDG khu trú bất thư",
+    "ground_truth": "Có vài nốt mờ ở ngoại vi thùy trên và thùy dưới phổi trái, thùy giữa và thùy dưới phổi phải. Nốt lớn nhất có đường kính khoảng 6 mm, và các nốt này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1692",
+    "question": "Có vùng nào tăng chuyển hóa FDG khu trú đáng nghi ngờ không?",
+    "generated": "Đây là PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thận, rốn và đài bể thận hai bên. Ngoài ra có một số tổn thương",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1426",
+    "question": "Có tổn thương di căn gan không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở gan phải theo đặc điểm sinh lý. Báo cáo cũng ghi đến viêm di căn gan trái. Hình ảnh bắt xạ theo đặc điểm sinh lý ở gan. Cần lưu ý the",
+    "ground_truth": "Có hình ảnh nhiều khối và nốt giảm tỷ trọng ở nhu mô gan hai thùy, khối lớn nhất ở phân thùy gan II kích thước 42 x 39 mm. Các tổn thương này tăng chuyển hóa FDG, với SUVmax 10,9, phù hợp di căn gan.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1426",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có thể phẫu thuật. Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch dọc trong cơ ức đòn chũm phải kích thước 9 x 7 mm, cũng không",
+    "ground_truth": "Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1566",
+    "question": "Có phát hiện tổn thương tăng chuyển hóa FDG khu trú ở nhu mô hai phổi không?",
+    "generated": "Đây là tổn thương tăng chuyển hóa FDG khu trú ở nhu mô hai phổi, với SUVmax khoảng 5. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở rốn phế quản đoạn 1/3 giữa, SUVmax khoảng 4. Các tổn thương này được ghi nhận theo đặc điểm sinh l",
+    "ground_truth": "Không, chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1566",
+    "question": "Ngoài khối thành ngực trước, có phát hiện thêm vị trí tăng chuyển hóa FDG khu trú nào khác không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở thành ngực trước, với SUVmax khoảng 4.5. Báo cáo ghi nhận có mô tả xem theo dõi. Ngoài ra, chưa phát hiện ổ tăng chuyển hóa FDG bất thường khu trú ở các vị trí khác trên PET/CT toàn thân. Cần lư",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1622",
+    "question": "Có thấy tổn thương dạng xơ hóa ở phổi không?",
+    "generated": "Đây là xơ hóa, nhưng không tăng chuyển hóa FDG. Báo cáo ghi đến vùng phổi trái. Ngoài ra còn có một nốt mờ bất thường ở thùy dưới phổi phải, kích thước 10 mm, cũng không tăng chuyển hóa FDG. Cần theo dõi.",
+    "ground_truth": "Có. Có hình ảnh dải mờ ở thùy dưới hai phổi, không tăng chuyển hóa FDG, phù hợp khả năng xơ hóa.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1622",
+    "question": "Thận có tổn thương gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG bất thường ở thận. Ngoài ra còn có một nang thận trái kích thước 12 x 9 mm, vài mm, không tăng chuyển hóa FDG. Cần lưu ý theo dõi.",
+    "ground_truth": "Có nang thận hai bên, nang lớn nhất đường kính 42 mm, và các nang này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1687",
+    "question": "Có hạch nào tăng chuyển hóa FDG ở vùng cổ không?",
+    "generated": "Đây là hạch nhỏ kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 4,3. Ngoài ra còn có một hạch dọc phải khoang trung thất đoạn 2/3, kích thước 8 x 9 mm, tăng chuyển hóa FDG với SUVmax 5,6. Các hạch này đã được lựa chọc theo đ",
+    "ground_truth": "Có, hình ảnh cho thấy vài hạch ở góc hàm và nhóm IIB, III hai bên, nhóm VI bên phải, kích thước nhỏ vài mm và có tăng nhẹ chuyển hóa FDG. Báo cáo cũng khuyến nghị đối chiếu với siêu âm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1687",
+    "question": "Có tổn thương nào ở vùng mô mềm sau núm vú không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với tổn thương đã phẫu thuật. Ngoài ra còn có một nốt mờ bất thường kích thước 10 mm ở trung thất sau núm vú, nhưng không tăng chuyển hóa FDG. Báo cáo gợi ý cần theo dõi. Hình ảnh này được nghĩ n",
+    "ground_truth": "Có, hình ảnh có vài nốt mô mềm sau núm vú hai bên, nốt lớn nhất kích thước 7 x 8 mm, và không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1399",
+    "question": "Có tổn thương nào khác ở trực tràng không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện trực tràng đoạn cao. Báo cáo khuyến nghị đối chiếu với siêu âm và FNA nếu cần. Ngoài ra, có một tổn thương dính mô mềm ở trực tràng góc hai viêm, kích thước 12 mm, không tăng chuyển hóa",
+    "ground_truth": "Có. Trực tràng có hình ảnh tăng chuyển hóa FDG lan tỏa, với SUVmax 13,1.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1399",
+    "question": "Có phát hiện tổn thương ở hệ xương không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổn thương đặc xương. Ngoài ra còn có một số tổn thương ở trung thất, khung đại trác, phế quản góc hai bên và rốn phổi phải, đều không tăng chuyển hóa FDG. Cần lưu ý theo dõi.\n\nCó: Có m",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1505",
+    "question": "Có tổn thương bất thường nào ở phổi, màng phổi hoặc màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Chỉ còn có tăng chuyển hóa FDG lan tỏa ở màng phổi trái với SUVmax 3,5, nhưng được nghĩ nhiều do viêm. Ngoài ra cũng có tăng chuyển hóa FDG ở amydal và rìa lưỡi hai bên, SUVmax ",
+    "ground_truth": "Không. Chưa phát hiện tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi, và cũng không có tràn dịch màng phổi hai bên hoặc tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1647",
+    "question": "Não có vùng tăng hấp thu FDG bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm bất thường. Ngoài ra chỉ ghi nhận tăng chuyển hóa FDG lan tỏa ở phần mềm cơ xung quanh (SUVmax 4,6) ở hệ thống cơ xương. Báo cáo cũng khuyến nghị đối chiếu với siêu âm và FNA nếu",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1647",
+    "question": "Có hạch nách bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện hạch nách hai bên không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch nhỏ khoảng 10 mm ở hố nách trái, cũng không tăng chuyển hóa FDG. Báo cáo gợi ý cần theo dõi. Hình ảnh này đã đượ",
+    "ground_truth": "Có vài hạch ở hố nách phải, hạch lớn nhất khoảng 9 x 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1555",
+    "question": "Hạch cạnh tuyến mang tai phải có đặc điểm gì?",
+    "generated": "Đoạn hạch cạnh tuyến mang tai phải có tràn dịch mô mềm, khối hình đám hoặc nốt ngã. Các hạch này tăng chuyển hóa FDG với SUVmax 10,6. Ngoài ra còn có vài hạch nhỏ ở thùy trên họng phải, hạch lớn nhất 8 x 9 mm, tăng chuyển hóa FDG v",
+    "ground_truth": "Hạch này nằm cạnh tuyến mang tai phải, kích thước khoảng 19 x 20 mm, tăng chuyển hóa FDG với SUVmax 6,7 và mới xuất hiện so với PET/CT tháng 10/2022.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1555",
+    "question": "Có bất thường tăng chuyển hóa ở gan, lách, thượng thận, thận hay xương không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở gan, lách, thượng thận, thận, vùng khung đại trác, tim, cổ, ngực, gòp, chủ nhât, bụng, chậu, tuyến giảm tỉ trọng, xương hay hệ cơ xương. Cũng không có tràn dịch m",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở gan, lách, thượng thận, đài bể thận hai bên theo đặc điểm sinh lý, và chưa phát hiện tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1439",
+    "question": "Có tràn dịch màng phổi không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên, không tăng chuyển hóa FDG. Báo cáo ghi được nghĩ nhiều với viêm. Ngoài ra có thêm tràn dịch màng phổi hai bên cũng không tăng chuyển hóa FDG. Hình ảnh này được lưu ý theo dõi.",
+    "ground_truth": "Không phát hiện tràn dịch màng phổi hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1439",
+    "question": "Có phát hiện gì ở dưới bao gan không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Ngoài ra chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở dưới bao gan. Cần lưu ý theo dõi",
+    "ground_truth": "Có một ổ đọng dịch khu trú dưới bao gan, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1431",
+    "question": "Tuyến giáp có bất thường gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm bất thường. Tuyến giáp cần lưu ý theo dõi. Ngoài ra chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở tuyến giáp. Chỉ ghi nhận tổn thương ác tính nguyên phát ở vùng tuyến giáp,",
+    "ground_truth": "Có một ổ tăng chuyển hóa FDG khu trú ở thùy phải tuyến giáp, SUVmax khoảng 7,4. Báo cáo khuyến nghị đối chiếu thêm với siêu âm và FNA.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1431",
+    "question": "Tim và não có ghi nhận tăng chuyển hóa bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có ghi nhận tăng chuyển hóa FDG bất thường ở tim và não. Ngoài ra còn có một số hạch nách trái và hạch quai động mạch chủ bụng, cũng không tăng chuyển hóa FDG. Cần theo dõi lịch sử. Hình ảnh bắt xạ ở não",
+    "ground_truth": "Không. Não bắt xạ theo đặc điểm sinh lý, tim cũng bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1570",
+    "question": "Phổi có tổn thương tăng chuyển hóa FDG khu trú không?",
+    "generated": "Đây là PET/CT toàn thân, nên chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở nhiều vị trí. Chỉ có một số hạch cổ, dưới carina và rốn phổi hai bên, tăng chuyển hóa FDG nhẹ, với SUVmax khoảng 3,5. Ngoài ra còn có một hạch quanh",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1416",
+    "question": "Hình ảnh này cho thấy tổn thương chính nằm ở vị trí nào?",
+    "generated": "Đây là hình ảnh tổn thương chính nằm ở trung thất. Ngoài ra còn có một vùng giãn dịch mạc treo phải kích thước 12 x 9 mm, nhưng không tăng chuyển hóa FDG. Báo cáo gợi ý cần lưu ý theo dõi.",
+    "ground_truth": "Tổn thương chính nằm ở đoạn 1/3 dưới thực quản và vùng tâm vị dạ dày.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1416",
+    "question": "Có phát hiện tổn thương ở các cơ quan đặc khác như gan, lách, thượng thận hoặc thận không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Báo cáo ghi nhận gan, lách, thượng thận và đài bể thận hai bên có đặc điểm sinh lý hoặc viêm. Ngoài ra c",
+    "ground_truth": "Không phát hiện bất thường tăng chuyển hóa FDG khu trú ở gan, lách, thượng thận hoặc đài bể thận hai bên.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1639",
+    "question": "Có tổn thương di căn ở gan không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có thể phẫu thuật. Có tăng chuyển hóa FDG ở gan với SUVmax 5,3, nhiều khả năng do viêm di căn. Báo cáo cũng gợi ý cần theo dõi. Ngoài ra còn có một số tổn thương nhỏ đặc biệt ở gan trái, lách, thự",
+    "ground_truth": "Có. Ghi nhận nhiều khối tổn thương giảm tỷ trọng rải rác ở hai thùy gan, trong đó khối lớn nhất kích thước 40 x 32 mm, tăng chuyển hóa FDG với SUVmax 20,3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1631",
+    "question": "Ở não có phát hiện tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là PET/CT toàn thân, nên không có hình ảnh bất thường tại não. Chỉ ghi nhận một vùng giữa các cơ quan dịch mạch chủ bụng trung thất, nốt mờ kích thước 10 x 8 mm, tăng chuyển hóa FDG rõ, SUVmax 23. Ngoài ra, không phát hiện bất thường tại cá",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên cũng theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1631",
+    "question": "Gan, lách, thượng thận và thận có bất thường bắt FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều bắt FDG ở gan, lách, thượng thận và đài bể thận hai bên. Các tổn thương này không tăng chuyển hóa FDG, nghĩ theo dõi viêm hoặc quá sản. Ngoài ra còn có một nốt giảm tỷ trọng ở thùy phải thực quả",
+    "ground_truth": "Không. Các cơ quan này bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1631",
+    "question": "Kết luận chính của hình ảnh là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, không ghi nhận bất thường tăng chuyển hóa FDG khu trú bất thường. Báo cáo cho biết có một số vị trí đặc xạ sinh lý ở não, tim, gan, lách, thượng thận và đài bể thận hai bên, ngoài ra có tăng nhẹ chuyển hóa FDG",
+    "ground_truth": "Điểm đáng chú ý nhất là dày không đều thành hang vị dạ dày, tăng nhẹ chuyển hóa FDG, được xem là tương ứng với tổn thương ác tính nguyên phát và cần đối chiếu với kết quả nội soi và mô bệnh học.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1549",
+    "question": "Nhu mô phổi có ổ tăng chuyển hóa FDG khu trú nào không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có đặc điểm tăng chuyển hóa FDG khu trú bất thường. Chỉ ghi nhận một nốt mờ ở thùy dưới phổi phải, vài mm, không tăng chuyển hóa FDG. Ngoài ra còn có một số nốt mờ ở thùy giữa phổi phải, th",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1591",
+    "question": "Hình ảnh này ghi nhận tổn thương chính ở vị trí nào?",
+    "generated": "Đây là hình ảnh tổn thương chính, nằm ở trung thất vị trí. Ngoài ra còn có một số hạch nhỏ ở cửa sổ phế quản, dưới carina và rốn phổi hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG. Các hạch này đều không gợi ý sinh lý, n",
+    "ground_truth": "Tổn thương chính nằm ở amydal trái.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1591",
+    "question": "Nốt kính mờ ở phổi trái có đặc điểm gì?",
+    "generated": "Đó là nốt mờ kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 5,6. Nên lựa chọn cần theo dõi. Các nốt này có thể do viêm hoặc quản liệu. Ngoài ra còn có một nốt mờ ở thùy trên phổi trái kích thước 7 x 9 mm, không tăng chuyển hóa FDG",
+    "ground_truth": "Có nốt kính mờ kích thước vài mm ở hạ phân thùy I thùy trên phổi trái, và nốt này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1557",
+    "question": "Có tăng chuyển hóa FDG nào ở amygdala hoặc rìa lưỡi không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được phẫu thuật. Chưa phát hiện tăng chuyển hóa FDG bất thường ở amygdala và rìa lưỡi hai bên. Ngoài ra còn có một số hạch nhỏ trung thất ở cửa sổ phế chủ, dọc thùy trên và dọc thùy giữa cơ ",
+    "ground_truth": "Có tăng nhẹ chuyển hóa FDG ở amygdala và rìa lưỡi hai bên, nhưng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1557",
+    "question": "Gan, lách, thượng thận và hệ tiết niệu có gì bất thường không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở gan, lách, thượng thận và đài bể thận hai bên. Các cơ quan này có ghi nhận là khả năng do viêm hoặc di căn. Ngoài ra còn có một số hạch gan, lách, thượng thận và dà",
+    "ground_truth": "Không thấy bất thường về chuyển hóa FDG. Các cơ quan này bắt xạ theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1617",
+    "question": "Hình ảnh này cho thấy vùng nào trên PET/CT toàn thân có bắt xạ theo đặc điểm sinh lý?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với các vùng bắt xạ theo đặc điểm sinh lý. Bao gồm: tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên, SUVmax khoảng 4,5; tăng nhẹ chuyển hóa FDG ở tim, SUVmax khoảng 3,6; tăng chuyển hóa",
+    "ground_truth": "Có bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận, đài bể thận hai bên và khung đại tràng.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1617",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện bất thường tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Còn có một số hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "ground_truth": "Có vài hạch ở hố bẹn hai bên, kích thước khoảng 10 mm, và các hạch này không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1694",
+    "question": "Có hạch bất thường ở vùng cổ không?",
+    "generated": "Đây là hạch cổ ở nhóm IIB bên phải, kích thước vài mm. Hình ảnh này tăng chuyển hóa FDG với SUVmax 3,5. Ngoài ra có một hạch dọc trung thất đoạn 1/3 giữa, kích thước 9 x 7 mm, cũng tăng chuyển hóa FDG với SUVmax 4,6. Cần lưu ý the",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm, thuộc nhóm IIB hai bên, kích thước khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1694",
+    "question": "Có lưu ý gì về phương tiện cố định cột sống không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Ngoài ra, có một số hạch cổ, dọc và cửa sổ phế chủ rồi cũng không tăng chuyển hóa FDG. Cần lưu ý theo d",
+    "ground_truth": "Có hình ảnh phương tiện cố định ở mức đốt sống L5-S1.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1424",
+    "question": "Hạch dưới quai động mạch chủ có tăng chuyển hóa không?",
+    "generated": "Đây là hạch dưới quai động mạch chủ, kích thước vào khoảng 10 mm. Hạch này tăng chuyển hóa FDG rõ, SUVmax khoảng 23, và được ghi nhận có thể do viêm hoặc xơ hóa. Báo cáo cũng lưu ý theo dõi. Ngoài ra còn có vài hạch trung thất dưới quai ",
+    "ground_truth": "Không, hạch dưới quai động mạch chủ kích thước 8 x 4 mm không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1594",
+    "question": "Có tổn thương ở màng phổi phải không?",
+    "generated": "Đây là một tổn thương dài khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Báo cáo ghi rõ đối chiếu với CT 2/2018. Ngoài ra còn có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Hình ảnh này ",
+    "ground_truth": "Có. Hình ảnh cho thấy tràn dịch khoang màng phổi phải, lớp dịch dày khoảng 19 mm, không tăng chuyển hóa FDG. Ngoài ra còn có dày khu trú màng phổi thành trước bên phải, và vùng này tăng chuyển hóa FDG không đều với SUVmax khoảng 4,0.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1681",
+    "question": "Ở não có thấy bất thường tăng chuyển hóa FDG không?",
+    "generated": "Đây là PET/CT toàn thân, nên không có hình ảnh bất thường tăng chuyển hóa FDG ở não. Ngoài ra còn có một số hạch nách hai bên và hạch bẹn hai bên, đều kích thước khoảng 10 mm và không tăng chuyển hóa FDG. Các hạch này được ghi nhận theo",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1681",
+    "question": "Có hạch trung thất nào tăng chuyển hóa không?",
+    "generated": "Đây là hạch trung thất, kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có nhiều hạch rốn phổi phải, hạch lớn nhất 23 x 18 mm, cũng tăng chuyển hóa FDG với SUVmax 4,7. Các hạch này đã được kiểm soát theo dõi. H",
+    "ground_truth": "Có vài hạch trung thất ở cửa sổ chủ phổi và dưới carina. Hạch lớn nhất kích thước 7 x 12 mm, tăng nhẹ chuyển hóa FDG với SUVmax 2,8, khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1681",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có hình ảnh bắt xạ theo đặc điểm sinh lý ở các vị trí khác. Có một số hạch bẹn hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch bẹn phổi hai",
+    "ground_truth": "Có vài hạch ở hố bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1442",
+    "question": "Các hạch cổ nhóm IIB hai bên có tăng chuyển hóa FDG không?",
+    "generated": "Đây là hạch nhóm IIB trái, kích thước 10 x 8 mm và có tăng chuyển hóa FDG rõ. Ngoài ra còn có một hạch dọc phải kích thước 25 x 9 mm, cũng tăng chuyển hóa FDG, với SUVmax 4,6. Hai hạch này đều có thêm bẹn và không thấy tổn thương b",
+    "ground_truth": "Không. Vài hạch ở góc hàm và phía trong cơ ức đòn chũm, thuộc nhóm IIB hai bên, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG và được gợi ý có thể do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1442",
+    "question": "Có phát hiện tổn thương bất thường ở hệ thống cơ xương không?",
+    "generated": "Đây là tổn thương dạng đặc xả, không tăng chuyển hóa FDG. Ngoài ra còn có nhiều vị trí bắt xạ theo đặc điểm sinh lý ở gan, lách, thượng thận và đài bể thận hai bên. Không phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở các",
+    "ground_truth": "Không. Chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1465",
+    "question": "Có thấy tổn thương ở phổi, màng phổi hay màng tim không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân. Ngoài ra còn có một số hạch nhỏ dọc phía trong cũng không tăng chuyển hóa FDG ở cả hai phổi. Cần lưu ý",
+    "ground_truth": "Không thấy. Chưa phát hiện tổn thương tăng chuyển hóa FDG khu trú bất thường ở nhu mô phổi, và cũng không có tràn dịch màng phổi hay tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1688",
+    "question": "Có hạch nào ở trung thất hoặc rốn phổi đáng chú ý không?",
+    "generated": "Đây là hạch trung thất ở cổ, nhóm IIA và rốn phổi phải. Hạch lớn nhất kích thước 18 x 20 mm và tăng chuyển hóa FDG mạnh, SUVmax 34,5. Ngoài ra có vài hạch rốn phổi phải kích thước 10 mm, cũng tăng chuyển hóa FDG, SUVmax 7,6. Các hạ",
+    "ground_truth": "Có vài hạch cạnh phải khí quản đoạn thấp và hạch rốn phổi phải, hạch lớn nhất kích thước khoảng 5 x 6 mm. Các hạch này tăng nhẹ chuyển hóa FDG với SUVmax 3,6.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1475",
+    "question": "Ngoài nốt ở phổi trái, có thấy tăng chuyển hóa FDG khu trú bất thường ở nhu mô hai phổi không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Bắt xạ theo đặc điểm sinh lý ở não, tim, gan, lách, thượng thận và đài bể thận hai bên. Ngoài ra còn có một",
+    "ground_truth": "Không. Báo cáo ghi chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường tại nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1475",
+    "question": "Có phát hiện tổn thương tăng chuyển hóa bất thường ở hệ thống cơ xương không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở thành bên phổi trái, với SUVmax khoảng 12. Báo cáo gợi ý có thể do viêm. Hãy đối chiếu với nội soi để xác định hơn. Ngoài ra còn có tăng chuyển hóa FDG bất thường ở amydal và rìa lưỡi",
+    "ground_truth": "Không. Báo cáo ghi chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1599",
+    "question": "Có tổn thương nào ở gan không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có được ghi nhận. Chỉ có tăng chuyển hóa FDG lan tỏa ở gan phải theo đặc điểm sinh lý. Ngoài ra còn có một số hạch trung thất và hạch rốn gan phải, hạch cổ bên phải và hạch bẹn hai bên, tức giáp, tổn",
+    "ground_truth": "Có một nốt giảm tỉ trọng đường kính 10 mm ở hạ phân thùy VI gan phải, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1612",
+    "question": "Hình ảnh này là khảo sát vùng nào và có những cơ quan nào được mô tả rõ?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, khảo sát từ não, cổ, ngực, bụng đến chậu và xương. Ngoài ra còn có nhiều hạch trung thất ở cửa sổ phế chủ, cửa sổ chứa mỡ, vùng giữa các cầu vén và dịch mỏ bên phải. Các hạch này tăng chuyển hóa FDG r",
+    "ground_truth": "Đây là hình ảnh khảo sát toàn thân, với mô tả chi tiết ở não, vùng đầu cổ, ngực, bụng và xương. Trong đó có các cơ quan như não, amydal, hốc mũi-họng, tuyến giáp, phổi, thực quản, gan, lách, thượng thận, hệ xương và các hạch lympho.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1612",
+    "question": "Thành ngực trái sau phẫu thuật vú có dấu hiệu tăng chuyển hóa khu trú không?",
+    "generated": "Đây là hình ảnh tăng chuyển hóa FDG lan tỏa ở thành ngực trái sau phẫu thuật vú, không gợi ý viêm. Ngoài ra còn có nhiều hạch rốn vùng giữa bên trái và dưới quai động mạch chủ, cũng không tăng chuyển hóa FDG. Cần theo dõi. Báo cáo cũng",
+    "ground_truth": "Không. Vú trái đã phẫu thuật, nhưng chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú bất thường ở thành ngực trái.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1612",
+    "question": "Có tổn thương xương nào được ghi nhận không?",
+    "generated": "Đây là tổn thương xương đốt sống D8, không tăng chuyển hóa FDG. Báo cáo ghi nhận rằng có thể do viêm và cần theo dõi. Ngoài ra, chưa phát hiện hình ảnh tăng chuyển hóa FDG bất thường ở hệ thống cơ xương. Chỉ ghi nhận tăng chuyển hóa FDG",
+    "ground_truth": "Có. Có tổn thương hủy xương ở đốt sống C1, chỏm xương cánh tay trái, đốt sống L2 và L3, và được kết luận là do di căn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1582",
+    "question": "Tuyến ức có bất thường gì không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không ghi nhận tổn thương bất thường ở tuyến ức. Ngoài ra còn có một vùng giảm tỷ trọng được mô tả theo đặc điểm sinh lý ở tuyến ức. Không phát hiện trao nhóm tăng chuyển hóa FDG khu trú bất thườ",
+    "ground_truth": "Có tăng nhẹ chuyển hóa FDG ở tuyến ức, nhưng được mô tả theo đặc điểm sinh lý, không gợi ý bất thường khu trú.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1449",
+    "question": "Tổn thương thực quản có tăng chuyển hóa FDG không?",
+    "generated": "Đây là tổn thương dày niêm mạc, không đều và có tăng chuyển hóa FDG rõ. Báo cáo gợi ý nhiều khả năng do viêm. Hình ảnh bắt xạ theo đặc điểm sinh lý hoặc do viêm. Ngoài ra còn có tăng chuyển hóa FDG lan tỏa ở trực tràng, SUVmax 12,5. C",
+    "ground_truth": "Có, tổn thương thực quản tăng chuyển hóa FDG rõ, với SUVmax khoảng 19,3.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1449",
+    "question": "Có ghi nhận tăng chuyển hóa FDG sinh lý ở những cơ quan nào?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với nhiều bất thường đặc ảnh sinh lý. Báo cáo gợi ý khả năng do viêm hoặc quá sản. Ngoài ra có tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên theo đặc điểm sinh lý. Cần lưu ý theo dõi. Hình",
+    "ground_truth": "Có hình ảnh bắt xạ theo đặc điểm sinh lý ở não, tim, lách, thượng thận, đài bể thận hai bên và khung đại tràng. Ngoài ra tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên cũng được mô tả theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1564",
+    "question": "Có dấu hiệu tràn dịch màng phổi hoặc màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Báo cáo khuyến nghĩa cần đối chiếu với nội soi. Ngoài ra chưa phát hiện tăng chuyển hóa FDG bất thường ở các vùng khác trên PET/CT toàn thân. Còn gợi ý cần theo dõi lại. Khả",
+    "ground_truth": "Không. Hình ảnh không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1509",
+    "question": "Có hạch bất thường đi kèm ở vùng nách phải không?",
+    "generated": "Đây là hạch nách phải kích thước 10 x 8 mm, tăng chuyển hóa FDG với SUVmax 4,3. Báo cáo gợi ý có thể do viêm hoặc quá sản. Ngoài ra còn có một hạch nhỏ ở trung thất dọc phổi phải, kích thước 7 x 5 mm, cũng tăng chuyển hóa FDG với SUVmax 2",
+    "ground_truth": "Có. Có vài hạch nách phải và hạch dưới cơ ngực bé phải, thuộc chặng 1 và 2, trong đó hạch lớn nhất kích thước 11 x 13 mm. Các hạch này tăng chuyển hóa FDG, SUVmax 8,9.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1509",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không có thể phẫu thuật. Báo cáo ghi chưa phát hiện hạch bẹn trái và hạch bẹn phải tăng chuyển hóa FDG, khu trú đã được mô tả. Ngoài ra còn có vài hạch bẹn phổi phải kích thước khoảng 10",
+    "ground_truth": "Có vài hạch ở hố bẹn hai bên, kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG nên không gợi ý tổn thương ác tính.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1689",
+    "question": "Tình trạng phổi và màng phổi ra sao?",
+    "generated": "Đây là PET/CT toàn thân, với một số bắt xạ nhỏ ở các vị trí khác như nhu mô hai phổi, tuyến giảm tỷ trọng, dày thành sau ugol và rốn phổi phải. Có tăng chuyển hóa FDG lan tỏa ở một số vùng nhỏ trên phổi trái và phổi phải, nhưng đều",
+    "ground_truth": "Có tràn dịch khoang màng phổi hai bên gây xẹp phổi thụ động ở nền phổi hai bên. Bên phải dày khoảng 26 mm, bên trái dày khoảng 18 mm. Các dịch này không tăng chuyển hóa FDG. Ngoài ra chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường trong nhu mô hai phổi.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1689",
+    "question": "Tóm tắt những điểm cần theo dõi là gì?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, với các điểm nhất gồm tăng chuyển hóa FDG lan tỏa ở trường đầu cổ, khung ức sắc, phế quản 1/3 dương trên, bụng, chậu và rốn phổi. Cần theo dõi và lựa chọc một khiểu liệu đặc tính sinh lý ở các",
+    "ground_truth": "Những điểm cần theo dõi gồm: nhiều hạch thượng đòn hai bên, hạch lớn nhất 11 x 18 mm tăng nhẹ FDG; hạch trung thất và rốn phổi tăng FDG; tăng chuyển hóa FDG ở tuyến thượng thận hai bên; và tăng chuyển hóa FDG lan tỏa ở tủy xương. Ngoài ra cần lưu ý tràn dịch màng phổi hai bên và tràn dịch ổ bụng số lượng lớn.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1496",
+    "question": "Có hạch trung thất hoặc rốn phổi bất thường không?",
+    "generated": "Đây là hạch trung thất ở rốn phổi phải, kích thước vài mm. Hạch này tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có một hạch rốn phổi phải kích thước 10 x 8 mm, cũng tăng chuyển hóa FDG với SUVmax 4,7. Các hạch này không tăng chuy",
+    "ground_truth": "Có. Có vài hạch trung thất ở cạnh quai động mạch chủ và trước mạch máu, cùng với hạch rốn phổi trái; hạch lớn nhất kích thước 12 x 13 mm và tăng chuyển hóa FDG, SUVmax 7,6.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1664",
+    "question": "Hình ảnh PET/CT này ghi nhận tổn thương đáng chú ý nhất ở đâu?",
+    "generated": "Đáng chú ý nhất là tổn thương dày niêm mạc xoang phải kích thước 12 x 9 mm, có tăng chuyển hóa FDG với SUVmax 5,6. Ngoài ra còn có số lượng tổn thương nhỏ trên các cơ quan khác như não, tim, gan, lách, thực quản và xương đều không ghi nhận b",
+    "ground_truth": "Tổn thương đáng chú ý nhất là một nốt mờ bờ tua gai kích thước 13 x 9 mm ở hạ phân thùy III của thùy trên phổi phải, và nốt này tăng chuyển hóa FDG rõ, với SUVmax 8,4.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1664",
+    "question": "Có thấy tràn dịch màng phổi hay màng tim không?",
+    "generated": "Đây là tràn dịch màng phổi hai bên và cũng có tràn dịch màng tim. Hình ảnh này không tăng chuyển hóa FDG, nên được ghi nhận theo đặc điểm sinh lý. Không thấy tràn dịch màng tim hạch rốn phổi hai bên. Ngoài ra còn có hình ảnh tăng chuyển hóa FD",
+    "ground_truth": "Không. Hình ảnh không phát hiện tràn dịch màng phổi hai bên và cũng không có tràn dịch màng tim.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1611",
+    "question": "Tổn thương ở thực quản có hoạt tính FDG như thế nào?",
+    "generated": "Đây là tổn thương dày thành thực quản 1/3 trên, có hình ảnh không đều và tăng chuyển hóa FDG rõ. Ngoài ra còn có một nốt giảm tỷ trọng ở thực quản 2/3 dưới, kích thước 9 x 8 mm, cũng tăng chuyển hóa FDG. Cần theo dõi lại.",
+    "ground_truth": "Tổn thương này tăng chuyển hóa FDG rõ, với SUVmax khoảng 10,1.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1611",
+    "question": "Có hạch nách hoặc hạch bẹn bất thường không?",
+    "generated": "Đây là hạch nách nhỏ khoảng 10 mm và cũng có tăng chuyển hóa FDG, nên được ghi lầm. Còn các hạch bẹn trung thất kích thước khoảng 10 mm cũng tăng chuyển hóa FDG, nhưng đều được mô tả theo đặc điểm sinh lý. Ngoài ra còn có vài h",
+    "ground_truth": "Không. Vài hạch nách hai bên và vài hạch bẹn hai bên, đều khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1511",
+    "question": "Các xoang cạnh mũi có gì bất thường không?",
+    "generated": "Đây là xoang cạnh mũi hai bên, không tăng chuyển hóa FDG. Báo cáo cho biết được nghĩ nhiều vào viêm hoặc quá sản. Cần theo dõi lịch sử và đối chiếu với CT sau phẫu thuật nếu cần. Ngoài ra có còn xoang cạnh trung thất, xoang cạnh miệng và xoang",
+    "ground_truth": "Có dày niêm mạc ở xoang hàm, xoang sàng hai bên và xoang bướm phải, kèm tăng chuyển hóa FDG với SUVmax khoảng 3,6, khả năng do viêm.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1666",
+    "question": "Vùng amydal và rìa lưỡi hai bên có gì đáng chú ý không?",
+    "generated": "Đáng chú ý nhất là tăng chuyển hóa FDG lan tỏa ở amydal và rìa lưỡi hai bên, theo đặc điểm sinh lý. Ngoài ra còn có tổn thương dạ dày khu trú ở rìa lưỡi phải, tăng chuyển hóa FDG mức nang, khả năng do viêm. Báo cáo cũng ghi cần the",
+    "ground_truth": "Có tăng nhẹ chuyển hóa FDG ở amydal và rìa lưỡi hai bên, nhưng đây là kiểu bắt xạ sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1666",
+    "question": "Ngoài nốt mờ đó, còn thấy gì ở phổi trái?",
+    "generated": "Đây là một nốt mờ ở thùy trên phổi trái, kích thước vài mm. Ngoài ra còn có hình ảnh dày thành bụng tăng chuyển hóa FDG lan tỏa ở thùy giữa phổi trái, và cần theo dõi. Báo cáo cũng ghi cần lấn nhẹ sau xạ ray. Còn cần theo dõi. Hình ảnh",
+    "ground_truth": "Có thêm hình ảnh kính mờ ở hạ phân thùy II thùy trên phổi trái, và tổn thương này cũng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1666",
+    "question": "Tóm lại, trên PET/CT có tổn thương tăng FDG khu trú nào đáng lo ngại ở vị trí khác không?",
+    "generated": "Đây là tổn thương tăng chuyển hóa FDG khu trú ở thùy dưới phải, và cần lưu ý theo dõi. Ngoài ra, có một nốt sáng đặc xạ ở thùy giữa phổi phải, kích thước 10 mm, không tăng FDG. Các tổn thương này không gợi ý sinh lý hoặc viêm. Ch",
+    "ground_truth": "Chưa phát hiện hình ảnh tăng chuyển hóa FDG khu trú, bất thường ở các vị trí khác ngoài các vùng đã mô tả như hạ họng, hạch trung thất/rốn phổi và hậu môn nhân tạo.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1565",
+    "question": "Tổn thương nhu mô phổi nào được ghi nhận rõ nhất?",
+    "generated": "Đây là tổn thương nguyên phát, được ghi nhận rõ. Tổn thương này có kích thước lớn và cũng tăng chuyển hóa FDG mạnh, với SUVmax khoảng 12,5. Ngoài ra còn có một số tổn thương nhu mô phổi trái nhỏ, đều kích thước dưới 10 mm và SUVmax",
+    "ground_truth": "Có một nốt kính mờ kích thước 10 x 11 mm ở hạ phân thùy IX của thùy dưới phổi phải.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1565",
+    "question": "Kết luận nổi bật nhất của hình ảnh là gì?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, với nhiều tổ chức được mô tả. Những góc cơ xương ở trên và dưới cạnh phế quản gốc trái có tăng chuyển hóa FDG khu trú, và cần lưu ý theo dõi. Còn bắt xạ sinh lý ở não, tim, gan, lách, thượng thận, đài b",
+    "ground_truth": "Nổi bật nhất là nốt kính mờ 10 x 11 mm ở thùy dưới phổi phải có tăng nhẹ chuyển hóa FDG, cần đối chiếu với mô bệnh học. Ngoài ra chưa phát hiện ổ tăng chuyển hóa FDG khu trú bất thường ở các vị trí khác trên PET/CT toàn thân.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1669",
+    "question": "Phổi có nốt tổn thương nào đáng chú ý không?",
+    "generated": "Đây là một nốt tổn thương dạng không đều, vài mm, nhiều nốt nằm trên phổi trái. Nốt lớn nhất có kích thước 12 x 9 mm và còn tăng chuyển hóa FDG rõ, SUVmax 8,3. Báo cáo gợi ý khả năng do viêm. Cần theo dõi. Hình ảnh này đã ",
+    "ground_truth": "Có, có vài nốt mờ rải rác ở nhu mô phổi trái và thùy giữa phổi phải. Nốt lớn nhất đường kính khoảng 9 mm và tăng chuyển hóa FDG, SUVmax khoảng 7,9.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1583",
+    "question": "Đặc điểm tổn thương ở thực quản là gì?",
+    "generated": "Đây là một tổn thương dày không đều, nang vào thực quản. Tăng chuyển hóa FDG rõ, với SUVmax khoảng 12,5. Ngoài ra còn có một số hạch trung thất ở thực quản đoạn 1/3 giữa và 1/3 dưới, cũng tăng chuyển hóa FDG, SUVmax khoảng 8,",
+    "ground_truth": "Có hình ảnh dày thành gây hẹp lòng thực quản đoạn 1/3 giữa, dài khoảng 32 mm, kèm xâm lấn xung quanh. Tổn thương này tăng chuyển hóa FDG rõ, SUVmax khoảng 12,5.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1583",
+    "question": "Có hạch ở cổ hoặc nách không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên chưa phát hiện hạch tăng chuyển hóa FDG khu trú bất thường ở cổ và nách. Ngoài ra có một số hạch nách hai bên kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Báo cáo cũng ghi cần theo dõi.",
+    "ground_truth": "Có các hạch ở góc hàm và nhóm IIB hai bên, kích thước nhỏ khoảng 10 mm, nhưng không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản. Ngoài ra còn có vài hạch nách hai bên khoảng 10 mm cũng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_1512",
+    "question": "Có hạch nào ở hai bên góc hàm hoặc nhóm IIB không tăng chuyển hóa không?",
+    "generated": "Đây là hạch nhỏ khoảng 10 mm, và chưa thấy tăng chuyển hóa FDG. Ngoài ra còn có vài hạch trung tâm bên phải góc hàm và một hạch nhóm IIB bên trái, kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Cần theo dõi. Báo cáo cũng lưu ",
+    "ground_truth": "Có, vài hạch nhóm IIB hai bên, kích thước nhỏ khoảng 10 mm, không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_400",
+    "question": "Ở não có ghi nhận bất thường tăng chuyển hóa FDG không?",
+    "generated": "Đây là xạ hình PET/CT toàn thân, nên không có ghi nhận tăng chuyển hóa FDG bất thường ở não. Báo cáo cũng ghi rõ điều trị theo dõi. Ngoài ra còn có một số hình ảnh tăng chuyển hóa FDG khu trú ở phần mềm của lớp rã và nhu mô hai phán thùy thự",
+    "ground_truth": "Không. Hình ảnh bắt xạ ở não theo đặc điểm sinh lý.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_400",
+    "question": "Trong ổ bụng có hạch to hoặc tổn thương tăng chuyển hóa FDG bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên chưa phát hiện tăng chuyển hóa FDG bất thường ở các vị trí khác trên xạ hình PET/CT toàn thân. Ngoài ra còn có một số hạch nhỏ ở trung thất dưới carina (DCB) hai bên, kích thước khoảng 10 mm, nhưng không tăng ch",
+    "ground_truth": "Không phát hiện hạch to hoặc tổn thương tăng chuyển hóa FDG khu trú bất thường trong ổ bụng.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_400",
+    "question": "Có hạch bẹn bất thường không?",
+    "generated": "Đây là hình ảnh PET/CT toàn thân, nên không cần phẫu thuật. Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có một hạch dọc trong cơ quan bẹn hai bên, kích thước khoảng 8 x 9 mm, cũng k",
+    "ground_truth": "Có vài hạch bẹn hai bên kích thước khoảng 10 mm, nhưng không tăng chuyển hóa FDG.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_693",
+    "question": "Có hạch vùng cổ không, và đặc điểm như thế nào?",
+    "generated": "Đây là hạch cổ kích thước 10 mm, tăng chuyển hóa FDG với SUVmax 5,3. Ngoài ra có một nốt sản xuất ở thùy trên phổi phải, không tăng chuyển hóa FDG, khả năng do viêm. Các hạch này được ghi nhận theo đặc điểm sinh lý. Không phát hiện",
+    "ground_truth": "Có vài hạch ở góc hàm và phía trong cơ ức đòn chũm hai bên, thuộc nhóm IIB, kích thước khoảng 10 mm. Các hạch này không tăng chuyển hóa FDG, khả năng do viêm hoặc quá sản.",
+    "use_ct": true
+  },
+  {
+    "patient_id": "patient_693",
+    "question": "Có hạch bẹn hai bên không, và đặc điểm ra sao?",
+    "generated": "Đây là hạch bẹn kích thước 12 x 9 mm, nhưng không tăng chuyển hóa FDG. Ngoài ra còn có vài hạch bẹn hai bên kích thước khoảng 10 mm, cũng không tăng chuyển hóa FDG. Các hạch này không gợi ý viêm hoặc quá trình di căn. Báo cáo cũ",
+    "ground_truth": "Có vài hạch bẹn hai bên, kích thước khoảng 10 mm, không tăng chuyển hóa FDG.",
+    "use_ct": true
+  }
+]

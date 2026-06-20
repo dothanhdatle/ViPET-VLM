@@ -70,7 +70,7 @@ class CTViTEncoder(nn.Module):
         dim_head=32, heads=8, use_vgg_and_gan=False,
     )
     RAW_DIM    = 131072  # h * w * dim = 16 * 16 * 512 — flattened spatial+feature per timestep
-    OUTPUT_DIM = 512
+    #OUTPUT_DIM = 512
 
     def __init__(self, weights_path: str, freeze: bool = False, token_dim: int = 512):
         super().__init__()
@@ -121,7 +121,7 @@ class CTViTEncoder(nn.Module):
         tokens = tokens.float()
         b, t, h, w, d = tokens.shape
         tokens = tokens.reshape(b, t, h * w * d)  # (B, T=t, 131072)
-        return self.token_proj(tokens)  # (B, T, OUTPUT_DIM)
+        return tokens  # (B, T, 131072)
 
     @property
     def output_dim(self) -> int:

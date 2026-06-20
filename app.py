@@ -90,8 +90,7 @@ def run_vqa(pet_path, ct_path, question):
 with gr.Blocks(title="ViPET-VLM Demo") as demo:
     gr.Markdown("# ViPET-VLM — Demo sinh báo cáo & hỏi-đáp PET/CT")
     gr.Markdown(
-        "Tải lên file PET và CT (.npz, key='data') của một bệnh nhân. "
-        "Lần đầu chạy mỗi tab sẽ chậm hơn (đang load model)."
+        "Tải lên file PET và CT (.npz) của một bệnh nhân. "
     )
 
     with gr.Tab("Sinh báo cáo"):
