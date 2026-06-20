@@ -125,7 +125,7 @@ class CTViTEncoder(nn.Module):
 
     @property
     def output_dim(self) -> int:
-        return self.OUTPUT_DIM
+        return self.RAW_DIM
 
 
 class PhoBERTEncoder(nn.Module):
@@ -201,7 +201,8 @@ class DualCTViTCLIP(nn.Module):
         self.ct_encoder  = CTViTEncoder(ct_path,  freeze=freeze_vision)
         self.text_encoder = PhoBERTEncoder(freeze=freeze_text)
 
-        vision_dim = self.pet_encoder.output_dim + self.ct_encoder.output_dim
+        # DualCTViTCLIP.__init__() — vision_proj dùng đúng dim
+        vision_dim = self.pet_encoder.RAW_DIM + self.ct_encoder.RAW_DIM  # 131072*2 = 262144
         self.vision_proj = nn.Linear(vision_dim, embed_dim)
         self.text_proj   = nn.Linear(self.text_encoder.output_dim, embed_dim)
 
@@ -210,15 +211,15 @@ class DualCTViTCLIP(nn.Module):
         )
 
     def encode_image(self, pet: torch.Tensor, ct: torch.Tensor) -> torch.Tensor:
-        v_pet = self.pet_encoder(pet).mean(dim=1)
-        v_ct  = self.ct_encoder(ct).mean(dim=1)
-        fused = torch.cat([v_pet, v_ct], dim=-1)
+        v_pet = self.pet_encoder(pet).mean(dim=1)   # (B, T, 131072) → (B, 131072)
+        v_ct  = self.ct_encoder(ct).mean(dim=1)    # (B, T, 131072) → (B, 131072)
+        fused = torch.cat([v_pet, v_ct], dim=-1)    # (B, 262144)
         return F.normalize(self.vision_proj(fused), dim=-1)
 
-    def encode_image_tokens(self, pet: torch.Tensor, ct: torch.Tensor) -> torch.Tensor:
-        v_pet = self.pet_encoder(pet)
-        v_ct  = self.ct_encoder(ct)
-        return torch.cat([v_pet, v_ct], dim=1)
+    def encode_image_tokens(self, pet, ct):
+        v_pet = self.pet_encoder(pet)               # (B, T, 131072)
+        v_ct  = self.ct_encoder(ct)                 # (B, T, 131072)
+        return torch.cat([v_pet, v_ct], dim=1)      # (B, 2T, 131072)
 
     def encode_text(self, texts: list, device: torch.device) -> torch.Tensor:
         return F.normalize(self.text_proj(self.text_encoder(texts, device)), dim=-1)
