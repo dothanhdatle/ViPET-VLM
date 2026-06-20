@@ -23,23 +23,23 @@ Usage:
         --output_path predictions_pet_only.json
 
     # VQA — full test set
-    python inference/generate.py \\
-        --config configs/experiments/stage3_vqa.yaml \\
-        --checkpoint /path/to/stage3_vqa_best.pt \\
-        --task vqa \\
-        --vqa_path /workspace/data/vqa_test.json \\
-        --max_new_tokens 150 \\
-        --output_path vqa_predictions.json
+    python inference/generate.py \
+        --config configs/experiments/stage3_vqa_lora.yaml \
+        --checkpoint /workspace/checkpoints/stage3_vqa/stage3_best.pt \
+        --task vqa \
+        --vqa_path /workspace/data/vqa_test.json \
+        --max_new_tokens 150 \
+        --output_path /workspace/vqa_predictions.json
 
     # VQA — subsampled (~350 QA pairs, spread across all patients)
-    python inference/generate.py \\
-        --config configs/experiments/stage3_vqa.yaml \\
-        --checkpoint /path/to/stage3_vqa_best.pt \\
-        --task vqa \\
-        --vqa_path /workspace/data/vqa_test.json \\
-        --vqa_subsample 350 \\
-        --max_new_tokens 150 \\
-        --output_path vqa_predictions_sub.json
+    python inference/generate.py \
+        --config configs/experiments/stage3_vqa_lora.yaml \
+        --checkpoint /workspace/checkpoints/stage3_vqa/stage3_best.pt \
+        --task vqa \
+        --vqa_path /workspace/data/vqa_test.json \
+        --vqa_subsample 350 \
+        --max_new_tokens 150 \
+        --output_path /workspace/vqa_predictions_sub.json
 """
 
 import os
