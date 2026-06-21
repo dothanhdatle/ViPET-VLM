@@ -12,14 +12,13 @@ Following LLaVA convention:
 """
 
 import torch
-import torch.nn as nn
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import get_peft_model, LoraConfig, TaskType
 from typing import Optional
 
 from models.base import BaseVLM
 from models.projector import get_projector
-from models.visual_encoders.ctvit_clip import DualCTViTCLIP
+from models.visual_encoders.ctvit_clip import CTViTEncoder
 
 
 # Special token to mark image position in prompt
@@ -32,20 +31,17 @@ class ViPETVLM(BaseVLM):
     ViPET Vision-Language Model.
 
     Architecture:
-        PET + CT → DualCTViTCLIP (frozen) → encode_image_tokens()
-                → (B, 2T, token_dim)
-                → LinearProjector → (B, 2T, llm_dim)
-                → concat with text tokens
-                → Mistral-7B → report
+        PET → Vision Encoder (frozen)
+            → (B, T, vision_dim)
+             → LinearProjector → (B, T, llm_dim)
+            → concat with text tokens
+            → Mistral-7B → report
 
     Args:
         pet_encoder_weights_path: path to Stage1 PET-encoder split checkpoint
                                    (stage1_best_pet_encoder.pt)
-        ct_encoder_weights_path:  path to Stage1 CT-encoder split checkpoint
-                                   (stage1_best_ct_encoder.pt)
         projector_type:       "linear" or "mlp"
         llm_name:             HuggingFace model name for LLM
-        token_dim:            vision encoder output token dim
         use_lora:             enable LoRA for Stage 3
         lora_r:               LoRA rank
         lora_alpha:           LoRA alpha
@@ -56,10 +52,8 @@ class ViPETVLM(BaseVLM):
     def __init__(
         self,
         pet_encoder_weights_path: str,
-        ct_encoder_weights_path:  str,
         projector_type:       str   = "linear",
         llm_name:             str   = "mistralai/Mistral-7B-Instruct-v0.2",
-        token_dim:            int   = 512,
         use_lora:             bool  = False,
         lora_r:               int   = 64,
         lora_alpha:           int   = 16,
@@ -74,21 +68,18 @@ class ViPETVLM(BaseVLM):
                 "o_proj", "gate_proj", "up_proj", "down_proj",
             ]
 
-        # ── Vision encoder (frozen after Stage 1) ──
+        # Vision encoder (frozen after Stage 1)
         print("Loading vision encoder...")
-        self.vision_encoder = DualCTViTCLIP(
-            pet_weights_path=pet_encoder_weights_path,
-            ct_weights_path=ct_encoder_weights_path,
-            embed_dim=token_dim,
-            freeze_text=True,
-            freeze_vision=False,
+        self.vision_encoder = CTViTEncoder(
+            weights_path=pet_encoder_weights_path,
+            freeze=True,
         )
         # Freeze entire vision encoder for Stage 2/3
         for p in self.vision_encoder.parameters():
             p.requires_grad = False
         print("Vision encoder frozen.")
 
-        # ── LLM + tokenizer ──
+        # LLM + tokenizer
         print(f"Loading LLM: {llm_name}...")
         self.tokenizer = AutoTokenizer.from_pretrained(
             llm_name,
@@ -103,15 +94,16 @@ class ViPETVLM(BaseVLM):
         )
         llm_dim = self.llm.config.hidden_size  # Mistral-7B: 4096
 
-        # ── Projector (trained in Stage 2, continue in Stage 3) ──
-        print(f"Building {projector_type} projector: {token_dim} -> {llm_dim}...")
+        # Projector (trained in Stage 2, continue in Stage 3)
+        vision_dim = self.vision_encoder.output_dim
+        print(f"Building {projector_type} projector: {vision_dim} -> {llm_dim}...")
         self.projector = get_projector(
             projector_type,
-            token_dim=token_dim,   # each token dim after dim reduction
+            vision_dim=vision_dim,
             llm_dim=llm_dim,
         )
 
-        # ── LoRA for Stage 3 ──
+        # LoRA for Stage 3
         if use_lora:
             print(f"Applying LoRA: r={lora_r}, alpha={lora_alpha}, target_modules={lora_target_modules}...")
             lora_config = LoraConfig(
@@ -133,25 +125,22 @@ class ViPETVLM(BaseVLM):
 
     def _encode_visual(
         self,
-        pet: torch.Tensor,
-        ct:  torch.Tensor,
+        pet: torch.Tensor
     ) -> torch.Tensor:
         """
-        Encode PET + CT into visual token embeddings.
+        Encode PET into visual token embeddings.
 
         Returns:
-            (B, 2T, llm_dim) — projected visual tokens
+            (B, T, llm_dim) — projected visual tokens
         """
         with torch.no_grad():
-            # (B, 2T, token_dim) — concat PET and CT tokens
-            visual_tokens = self.vision_encoder.encode_image_tokens(pet, ct)
+            visual_tokens = self.vision_encoder(pet)
         # Project to LLM embedding space — projector is trainable
-        return self.projector(visual_tokens)  # (B, 2T, llm_dim)
+        return self.projector(visual_tokens)  # (B, T, llm_dim)
 
     def _build_input_embeddings(
         self,
         pet:            torch.Tensor,
-        ct:             torch.Tensor,
         input_ids:      torch.Tensor,
         attention_mask: torch.Tensor,
         labels:         Optional[torch.Tensor] = None,
@@ -160,16 +149,16 @@ class ViPETVLM(BaseVLM):
         Build full input sequence by replacing <image> token with visual embeddings.
 
         Returns:
-            inputs_embeds:  (B, 2T + seq_len, llm_dim)
-            attention_mask: (B, 2T + seq_len)
-            labels:         (B, 2T + seq_len) with visual positions masked -100
+            inputs_embeds:  (B, T + seq_len, llm_dim)
+            attention_mask: (B, T + seq_len)
+            labels:         (B, T + seq_len) with visual positions masked -100
         """
         B = pet.shape[0]
         device = pet.device
 
         # Visual tokens
-        visual_embeds = self._encode_visual(pet, ct)   # (B, 2T, llm_dim)
-        num_visual    = visual_embeds.shape[1]          # 2T
+        visual_embeds = self._encode_visual(pet)   # (B, T, llm_dim)
+        num_visual    = visual_embeds.shape[1]          # T
 
         # Text embeddings from LLM embedding layer
         text_embeds = self.llm.get_input_embeddings()(input_ids)  # (B, seq_len, llm_dim)
@@ -196,7 +185,6 @@ class ViPETVLM(BaseVLM):
     def forward(
         self,
         pet:            torch.Tensor,
-        ct:             torch.Tensor,
         input_ids:      torch.Tensor,
         attention_mask: torch.Tensor,
         labels:         Optional[torch.Tensor] = None,
@@ -204,7 +192,6 @@ class ViPETVLM(BaseVLM):
         """
         Args:
             pet:            (B, 1, D, H, W)
-            ct:             (B, 1, D, H, W)
             input_ids:      (B, seq_len) tokenized prompt + report
             attention_mask: (B, seq_len)
             labels:         (B, seq_len) — -100 for prompt, token ids for report
@@ -212,7 +199,7 @@ class ViPETVLM(BaseVLM):
             dict: loss, logits
         """
         inputs_embeds, attention_mask, labels = self._build_input_embeddings(
-            pet, ct, input_ids, attention_mask, labels
+            pet, input_ids, attention_mask, labels
         )
 
         outputs = self.llm(
@@ -230,7 +217,6 @@ class ViPETVLM(BaseVLM):
     def generate(
         self,
         pet:            torch.Tensor,
-        ct:             torch.Tensor,
         input_ids:      torch.Tensor,
         attention_mask: torch.Tensor,
         max_new_tokens: int = 512,
@@ -243,7 +229,7 @@ class ViPETVLM(BaseVLM):
             generated token ids (B, max_new_tokens)
         """
         inputs_embeds, attention_mask, _ = self._build_input_embeddings(
-            pet, ct, input_ids, attention_mask, labels=None
+            pet, input_ids, attention_mask, labels=None
         )
 
         with torch.no_grad():
@@ -269,17 +255,15 @@ def build_model(config: dict, device: torch.device) -> ViPETVLM:
     cfg = config["model"]
     model = ViPETVLM(
         pet_encoder_weights_path = cfg["pet_encoder_weights_path"],
-        ct_encoder_weights_path  = cfg["ct_encoder_weights_path"],
         projector_type       = cfg.get("projector_type", "linear"),
         llm_name             = cfg["llm_name"],
-        token_dim            = cfg.get("token_dim", 512),
         use_lora             = cfg.get("use_lora", False),
         lora_r               = cfg.get("lora_r", 64),
         lora_alpha           = cfg.get("lora_alpha", 16),
         lora_target_modules  = cfg.get("lora_target_modules", None),
         lora_dropout         = cfg.get("lora_dropout", 0.05),
     )
-    # Chỉ move encoder và projector — LLM đã được device_map="auto" xử lý
+
     model.vision_encoder.to(device)
     model.projector.to(device)
     return model
