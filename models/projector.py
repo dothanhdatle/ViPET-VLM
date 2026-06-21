@@ -99,9 +99,9 @@ def get_projector(
         **kwargs:       additional args (hidden_dim for mlp)
 
     Example:
-        >>> # CT-ViT vision_dim=131072, Mistral-7B llm_dim=4096
-        >>> proj = get_projector("linear", vision_dim=131072, llm_dim=4096)
-        >>> proj = get_projector("mlp", vision_dim=131072, llm_dim=4096)
+        >>> # Official ViPET CT-ViT vision_dim=294912, Mistral-7B llm_dim=4096
+        >>> proj = get_projector("linear", vision_dim=294912, llm_dim=4096)
+        >>> proj = get_projector("mlp", vision_dim=294912, llm_dim=4096)
     """
     if projector_type == "linear":
         return LinearProjector(vision_dim, llm_dim, **kwargs)
