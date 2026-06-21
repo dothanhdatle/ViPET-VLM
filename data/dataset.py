@@ -27,7 +27,7 @@ import json
 import random
 import numpy as np
 import pandas as pd
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Dict, Any
 from torch.utils.data import Dataset
 from huggingface_hub import hf_hub_download
 
@@ -239,10 +239,6 @@ class ViPET3DDataset(BaseViPETDataset):
 
         item = {
             "patient_id": row["name"],
-            "sex":        row.get("sex", ""),
-            "height":     float(row["height"]) if pd.notna(row.get("height")) else None,
-            "weight":     float(row["weight"]) if pd.notna(row.get("weight")) else None,
-            "year":       int(row["year"])      if pd.notna(row.get("year"))   else None,
             "report":     report,
         }
 
@@ -517,7 +513,7 @@ class MixedStage2Dataset(Dataset):
         if idx < len(self.report_dataset):
             item = self.report_dataset[idx]
             return {
-                "pet": item["pet"], "ct": item["ct"],
+                "pet": item["pet"],
                 "patient_id": item["patient_id"],
                 "prompt": self.report_prompt,
                 "target": item["report"]["full_text"],
@@ -525,14 +521,14 @@ class MixedStage2Dataset(Dataset):
 
         qa = self.qa_items[idx - len(self.report_dataset)]
         pet = self.qa_dataset._load_npz(qa["pet_path"])
-        ct  = self.qa_dataset._load_npz(qa["ct_path"])
+        #ct  = self.qa_dataset._load_npz(qa["ct_path"])
         if self.qa_dataset.pet_transform and pet is not None:
             pet = self.qa_dataset.pet_transform(pet)
-        if self.qa_dataset.ct_transform and ct is not None:
-            ct = self.qa_dataset.ct_transform(ct)
+        #if self.qa_dataset.ct_transform and ct is not None:
+            #ct = self.qa_dataset.ct_transform(ct)
 
         return {
-            "pet": pet, "ct": ct,
+            "pet": pet,
             "patient_id": qa["patient_id"],
             "prompt": self.QA_PROMPT.format(question=qa["question"]),
             "target": qa["answer"],
