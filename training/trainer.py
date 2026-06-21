@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 
-from data.dataset import ViPET3DDataset, split_metadata, MixedStage2Dataset
+from data.dataset import ViPET3DDataset, MixedStage2Dataset
 from data.preprocessing import get_transform
 
 
@@ -57,15 +57,15 @@ class Stage1Trainer:
     def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
-        ct_transform  = get_transform(encoder_name, modality="ct")
+        #ct_transform  = get_transform(encoder_name, modality="ct")
 
         dataset = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
-            load_ct=True,
+            load_ct=False,
             load_pet=True,
             pet_transform=pet_transform,
-            ct_transform=ct_transform,
+            ct_transform=None,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -83,12 +83,12 @@ class Stage1Trainer:
         self.optimizer.zero_grad()
 
         pet   = batch["pet"].to(self.device)
-        ct    = batch["ct"].to(self.device)
+        #ct    = batch["ct"].to(self.device)
         texts = batch["report"]["full_text"]
 
         # AMP forward pass
         with torch.cuda.amp.autocast(enabled=self.use_amp, dtype=torch.bfloat16):
-            out  = self.model(pet, ct, texts)
+            out  = self.model(pet, texts)
             loss = out["loss"]
 
         # Backward với scaler
@@ -123,11 +123,11 @@ class Stage1Trainer:
 
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
-            ct    = batch["ct"].to(self.device)
+            #ct    = batch["ct"].to(self.device)
             texts = batch["report"]["full_text"]
 
             with torch.cuda.amp.autocast(enabled=self.use_amp, dtype=torch.bfloat16):
-                out = self.model(pet, ct, texts)
+                out = self.model(pet, texts)
 
             losses.append(out["loss"].item())
             B      = pet.shape[0]
@@ -158,12 +158,8 @@ class Stage1Trainer:
         if is_best:
             torch.save(ckpt, os.path.join(self.checkpoint_dir, "stage1_best.pt"))
             torch.save(
-                self.model.pet_encoder.state_dict(),
-                f"{self.checkpoint_dir}/stage1_best_pet_encoder.pt"
-            )
-            torch.save(
-                self.model.ct_encoder.state_dict(),
-                f"{self.checkpoint_dir}/stage1_best_ct_encoder.pt"
+                self.model.vision_encoder.state_dict(),
+                f"{self.checkpoint_dir}/stage1_best_vision_encoder.pt"
             )
             print(f"Best saved (val_loss={val_loss:.4f})")
 
@@ -227,11 +223,6 @@ class Stage1Trainer:
         print(f"\nTraining complete! Best val loss: {self.best_val_loss:.4f}")
 
 
-
-# changed in your trainer.py. Everything above this line is
-# only test scaffolding.
-# ============================================================
-
 class Stage2Trainer:
     PROMPT = (
         "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
@@ -280,15 +271,15 @@ class Stage2Trainer:
 
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
-        ct_transform  = get_transform(encoder_name, modality="ct")
+        #ct_transform  = get_transform(encoder_name, modality="ct")
 
         dataset = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
-            load_ct=True,
+            load_ct=False,
             load_pet=True,
             pet_transform=pet_transform,
-            ct_transform=ct_transform,
+            ct_transform=None,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -297,10 +288,10 @@ class Stage2Trainer:
             qa_dataset = ViPETVQADataset(
                 metadata_path=self.config["data"]["metadata_path"],
                 vqa_path=self.qa_path,
-                load_ct=True,
+                load_ct=False,
                 load_pet=True,
                 pet_transform=pet_transform,
-                ct_transform=ct_transform,
+                ct_transform=None,
                 local_data_dir=self.config["data"].get("local_data_dir", None),
             )
             dataset = MixedStage2Dataset(
@@ -319,17 +310,21 @@ class Stage2Trainer:
 
     def _tokenize(self, prompts: list, targets: list):
         tokenizer = self.model.tokenizer
+
         prompt_lens = [
             len(tokenizer(p, add_special_tokens=True).input_ids)
             for p in prompts
         ]
-        full_texts = [p + t for p, t in zip(prompts, targets)]
+
+        eos = tokenizer.eos_token or ""
+        full_texts = [p + t + eos for p, t in zip(prompts, targets)]
+
         encoded = tokenizer(
             full_texts,
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=self.config["training"].get("max_length", 512),
+            max_length=self.config["training"].get("max_length", 2048),
         ).to(self.device)
 
         labels = encoded.input_ids.clone()
@@ -351,11 +346,11 @@ class Stage2Trainer:
         self.optimizer.zero_grad()
 
         pet = batch["pet"].to(self.device)
-        ct  = batch["ct"].to(self.device)
+        #ct  = batch["ct"].to(self.device)
         prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
 
         input_ids, attention_mask, labels = self._tokenize(prompts, targets)
-        out  = self.model(pet, ct, input_ids, attention_mask, labels)
+        out  = self.model(pet, input_ids, attention_mask, labels)
         loss = out["loss"]
 
         loss.backward()
@@ -375,10 +370,10 @@ class Stage2Trainer:
 
         for batch in val_loader:
             pet = batch["pet"].to(self.device)
-            ct  = batch["ct"].to(self.device)
+            #ct  = batch["ct"].to(self.device)
             prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
             input_ids, attention_mask, labels = self._tokenize(prompts, targets)
-            out = self.model(pet, ct, input_ids, attention_mask, labels)
+            out = self.model(pet, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())
 
         return {"val_loss": np.mean(losses)}
@@ -390,7 +385,7 @@ class Stage2Trainer:
             "val_loss":    val_loss,
             "projector":   self.model.projector.state_dict(),
             "optimizer":   self.optimizer.state_dict(),
-            "scheduler":   self.scheduler.state_dict(),  # ← thêm
+            "scheduler":   self.scheduler.state_dict(), 
             "config":      self.config,
         }
         torch.save(ckpt, os.path.join(self.checkpoint_dir, "stage2_latest.pt"))
@@ -449,6 +444,7 @@ class Stage2Trainer:
 
         print(f"\nTraining complete! Best val loss: {self.best_val_loss:.4f}")
 
+
 class Stage3Trainer:
     """
     Trainer for Stage 3: Instruction Tuning with LoRA.
@@ -503,14 +499,14 @@ class Stage3Trainer:
     def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
-        ct_transform  = get_transform(encoder_name, modality="ct")
+        #ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPET3DDataset(
             metadata_path=self.config["data"]["metadata_path"],
             use_english=self.config["data"].get("use_english", False),
-            load_ct=True,
+            load_ct=False,
             load_pet=True,
             pet_transform=pet_transform,
-            ct_transform=ct_transform,
+            ct_transform=None,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
@@ -523,23 +519,24 @@ class Stage3Trainer:
         )
 
     def _tokenize(self, reports: list):
-        """Tokenize prompt + report, mask prompt tokens with -100."""
-        tokenizer  = self.model.tokenizer
+        tokenizer = self.model.tokenizer
         prompt_len = tokenizer(
             self.PROMPT, return_tensors="pt", add_special_tokens=True,
         ).input_ids.shape[1]
 
-        full_texts = [self.PROMPT + r for r in reports]
-        encoded    = tokenizer(
+        eos = tokenizer.eos_token or ""
+        full_texts = [self.PROMPT + r + eos for r in reports]
+
+        encoded = tokenizer(
             full_texts,
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=self.config["training"].get("max_length", 512),
+            max_length=self.config["training"].get("max_length", 2048),
         ).to(self.device)
 
         labels = encoded.input_ids.clone()
-        labels[:, :prompt_len]                   = -100
+        labels[:, :prompt_len] = -100
         labels[labels == tokenizer.pad_token_id] = -100
 
         return encoded.input_ids, encoded.attention_mask, labels
@@ -549,11 +546,11 @@ class Stage3Trainer:
         self.optimizer.zero_grad()
 
         pet   = batch["pet"].to(self.device)
-        ct    = batch["ct"].to(self.device)
+        #ct    = batch["ct"].to(self.device)
         texts = batch["report"]["full_text"]
 
         input_ids, attention_mask, labels = self._tokenize(texts)
-        out  = self.model(pet, ct, input_ids, attention_mask, labels)
+        out  = self.model(pet, input_ids, attention_mask, labels)
         loss = out["loss"]
 
         loss.backward()
@@ -572,10 +569,10 @@ class Stage3Trainer:
         losses = []
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
-            ct    = batch["ct"].to(self.device)
+            #ct    = batch["ct"].to(self.device)
             texts = batch["report"]["full_text"]
             input_ids, attention_mask, labels = self._tokenize(texts)
-            out   = self.model(pet, ct, input_ids, attention_mask, labels)
+            out   = self.model(pet, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())                     
         return {"val_loss": np.mean(losses)}
 
@@ -681,15 +678,15 @@ class Stage3VQATrainer(Stage3Trainer):
 
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
-        ct_transform  = get_transform(encoder_name, modality="ct")
+        #ct_transform  = get_transform(encoder_name, modality="ct")
         dataset   = ViPETVQADataset(
             metadata_path=self.config["data"]["metadata_path"],
             vqa_path=vqa_path,
             use_english=self.config["data"].get("use_english", False),
-            load_ct=True,
+            load_ct=False,
             load_pet=True,
             pet_transform=pet_transform,
-            ct_transform=ct_transform,
+            ct_transform=None,
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
 
@@ -711,28 +708,26 @@ class Stage3VQATrainer(Stage3Trainer):
         )
 
     def _tokenize_vqa(self, questions: list, answers: list):
-        """
-        Tokenize per-sample prompt (with question) + answer.
-        Mask prompt tokens with -100.
-        """
-        tokenizer   = self.model.tokenizer
-        full_texts  = []
+        tokenizer = self.model.tokenizer
+        eos = tokenizer.eos_token or ""
+
+        full_texts = []
         prompt_lens = []
 
         for q, a in zip(questions, answers):
-            prompt     = self.PROMPT_VQA.format(question=q)
+            prompt = self.PROMPT_VQA.format(question=q)
             prompt_len = tokenizer(
                 prompt, return_tensors="pt", add_special_tokens=True,
             ).input_ids.shape[1]
             prompt_lens.append(prompt_len)
-            full_texts.append(prompt + a)
+            full_texts.append(prompt + a + eos)
 
         encoded = tokenizer(
             full_texts,
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=self.config["training"].get("max_length", 512),
+            max_length=self.config["training"].get("max_length", 2048),
         ).to(self.device)
 
         labels = encoded.input_ids.clone()
@@ -747,12 +742,12 @@ class Stage3VQATrainer(Stage3Trainer):
         self.optimizer.zero_grad()
 
         pet = batch["pet"].to(self.device)
-        ct  = batch["ct"].to(self.device)
+        #ct  = batch["ct"].to(self.device)
 
         input_ids, attention_mask, labels = self._tokenize_vqa(
             batch["question"], batch["answer"]
         )
-        out  = self.model(pet, ct, input_ids, attention_mask, labels)
+        out  = self.model(pet, input_ids, attention_mask, labels)
         loss = out["loss"]
 
         loss.backward()
@@ -771,11 +766,11 @@ class Stage3VQATrainer(Stage3Trainer):
         losses = []
         for batch in val_loader:
             pet = batch["pet"].to(self.device)
-            ct  = batch["ct"].to(self.device)
+            #ct  = batch["ct"].to(self.device)
             input_ids, attention_mask, labels = self._tokenize_vqa(
                 batch["question"], batch["answer"]
             )
-            out = self.model(pet, ct, input_ids, attention_mask, labels)
+            out = self.model(pet, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())
         return {"val_loss": np.mean(losses)}
 

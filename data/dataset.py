@@ -24,6 +24,7 @@ Split strategy (temporal, following paper):
 import os
 import re
 import json
+import random
 import numpy as np
 import pandas as pd
 from typing import Optional, Tuple, Dict, Any
@@ -471,25 +472,8 @@ class ViPETVQADataset(BaseViPETDataset):
 class MixedStage2Dataset(Dataset):
     """
     Combines full-report samples (a ViPET3DDataset, restricted to the
-    train split) with a sample of single-turn QA pairs (loaded from a
-    TRAIN-ONLY vqa json via ViPETVQADataset) into ONE dataset for Stage 2
-    training.
-
-    Why: Stage 2 trained on full-report targets ONLY teaches the model
-    one response style (a full structured report) regardless of what's
-    asked -- this is the root cause of VQA answers all starting with
-    "Đây là ảnh PET/CT toàn thân..." even for very specific questions.
-    Mixing in QA-style (short, question-specific answer) targets gives
-    the projector exposure to "the right response depends on the
-    question" before Stage 3 ever sees a question at all.
-
-    CRITICAL: qa_dataset must be built from a TRAIN-only vqa json (e.g.
-    vqa_train.json), never vqa_test.json -- otherwise this leaks test
-    patients' QA pairs into training.
-
-    Each item is normalized to {"pet", "ct", "patient_id", "prompt",
-    "target"} regardless of source, so the trainer doesn't need to know
-    which type a given sample is.
+    train split) with a sample of single-turn QA pairs
+    into ONE dataset for Stage 2 training.
     """
 
     QA_PROMPT = (
@@ -509,10 +493,6 @@ class MixedStage2Dataset(Dataset):
             report_prompt:   the fixed prompt used for report samples
                              (pass Stage2Trainer.PROMPT)
             qa_per_patient:  how many QA pairs to sample per patient.
-                             Paper's single-turn pool averages ~5
-                             questions per image; with only 684 report
-                             samples here, keep this small (1-3) so QA
-                             doesn't dominate the training signal.
         """
         self.report_dataset = report_dataset
         self.qa_dataset      = qa_dataset
