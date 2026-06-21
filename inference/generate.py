@@ -172,7 +172,7 @@ def generate_vqa_outputs(
     model,
     dataset:        "ViPETVQADataset",
     device:         torch.device,
-    max_new_tokens: int = 150,
+    max_new_tokens: int = 256,
     mask_ct:        bool = False,
 ) -> list:
     """
