@@ -2,9 +2,10 @@
 Training entry point for ViPET-VLM.
 
 Usage:
-    python scripts/train.py --config configs/experiments/stage1_dual_encoder.yaml
-    python scripts/train.py --config configs/experiments/stage2_alignment.yaml
+    python scripts/train.py --config configs/experiments/stage1_vast.yaml
+    python scripts/train.py --config configs/experiments/stage2_mistral.yaml
     python scripts/train.py --config configs/experiments/stage3_lora.yaml
+    python scripts/train.py --config configs/experiments/stage3_vqa_lora.yaml
 """
 
 import os
@@ -18,12 +19,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from data.dataset import split_metadata
 from training.trainer import Stage1Trainer, Stage2Trainer, Stage3Trainer, Stage3VQATrainer
-from models.visual_encoders.ctvit_clip import DualCTViTCLIP
+from models.visual_encoders.ctvit_clip import CTViTCLIP
 from models.vlms.vipet_vlm import build_model
 
 
 def load_config(config_path: str) -> dict:
-    with open(config_path) as f:
+    with open(config_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
@@ -48,12 +49,12 @@ def main():
     stage = config["stage"]
 
     if stage == "stage1":
-        # Stage 1: DualCTViTCLIP CLIP fine-tuning
-        model = DualCTViTCLIP(
-            weights_path = config["model"]["weights_path"],
-            embed_dim    = config["model"].get("embed_dim", 512),
-            freeze_text  = config["model"].get("freeze_text", True),
-            freeze_vision= config["model"].get("freeze_vision", False),
+        # # Stage 1: PET-only CT-ViT CLIP fine-tuning
+        model = CTViTCLIP(
+            weights_path=config["model"]["weights_path"],
+            embed_dim=config["model"].get("embed_dim", 512),
+            freeze_text=config["model"].get("freeze_text", True),
+            freeze_vision=config["model"].get("freeze_vision", False),
         ).to(device)
         trainer = Stage1Trainer(model, config, device)
 
