@@ -1,9 +1,9 @@
-# Stage 1: DualCTViTCLIP CLIP fine-tuning (for Vast.ai A100)
+# Stage 1: PET-only CT-ViT CLIP fine-tuning (for Vast.ai A100)
 
 stage: "stage1"
 
 model:
-  type:          "dual_ctvit_clip"
+  type:          "ctvit_clip"
   weights_path:  "/workspace/weights/ctvit_pretrained.pt"
   embed_dim:     512
   freeze_text:   true
@@ -16,11 +16,11 @@ data:
   encoder:        "ctvit"
 
 training:
-  epochs:        50
+  epochs:        10
   batch_size:    8
   learning_rate: 1.25e-6
   weight_decay:  0.01
-  warmup_steps:  130
+  warmup_steps:  100
   log_every:     10
   gradient_clip: 1.0
   num_workers:   4
