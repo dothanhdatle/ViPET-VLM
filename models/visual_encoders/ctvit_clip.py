@@ -71,13 +71,13 @@ class CTViTEncoder(nn.Module):
             
             tokens = self.ctvit.encode(tokens)           # (B, T, h, w, 512)
             
-            tokens = tokens.reshape(b, t * h * w, d)     # (B, T*h*w, 512)
-            tokens, indices, commit_loss = self.ctvit.vq(tokens)
+            #tokens = tokens.reshape(b, t * h * w, d)     # (B, T*h*w, 512)
+            #tokens, indices, commit_loss = self.ctvit.vq(tokens)
             
-            tokens = tokens.reshape(b, t, h, w, d)       # (B, T, h, w, 512)
-            tokens = tokens.reshape(b, t, h * w * d)     # (B, T, 294912)
+            #tokens = tokens.reshape(b, t, h, w, d)       # (B, T, h, w, 512)
+            tokens = tokens.reshape(b, t, h * w * d)     # (B, T, h*w*512)
         
-        return tokens.float()  # (B, T, 294912)
+        return tokens.float()
 
     @property
     def output_dim(self) -> int:
