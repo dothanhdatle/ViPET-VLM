@@ -358,6 +358,30 @@ def split_metadata(
 # VQA dataset — multi-turn conversations from GPT
 # ─────────────────────────────────────────────
 
+def _extract_qa_pairs_from_conversations(conversations: list) -> list:
+    qa_pairs = []
+
+    i = 0
+    while i < len(conversations) - 1:
+        human = conversations[i]
+        gpt = conversations[i + 1]
+
+        if human.get("from") == "human" and gpt.get("from") == "gpt":
+            question = human.get("value", "").replace("<image>", "").strip()
+            answer = gpt.get("value", "").strip()
+
+            if question and answer:
+                qa_pairs.append({
+                    "question": question,
+                    "answer": answer,
+                })
+
+            i += 2
+        else:
+            i += 1
+
+    return qa_pairs
+
 class ViPETVQADataset(BaseViPETDataset):
     """
     VQA dataset built from GPT-generated multi-turn conversations
@@ -366,18 +390,20 @@ class ViPETVQADataset(BaseViPETDataset):
     Each conversation is exploded into individual (image, question, answer)
     training samples — one PET/CT volume paired with each QA pair.
 
-    Expected JSON format (vqa_path):
-        [
-            {
-                "patient_id": "patient_0",
-                "report": "...",
-                "conversation": [
-                    {"question": "...", "answer": "..."},
-                    ...
-                ]
-            },
-            ...
-        ]
+    Expected JSON format:
+    [
+        {
+            "patient_id": "patient_0",
+            "report_path": "...",
+            "pet_path": "...",
+            "report": "...",
+            "conversations": [
+                {"from": "human", "value": "<image>\n..."},
+                {"from": "gpt", "value": "..."},
+                ...
+            ]
+        }
+    ]
 
     Args:
         vqa_path: path to VQA conversations JSON
@@ -398,6 +424,7 @@ class ViPETVQADataset(BaseViPETDataset):
         ct_transform=None,
         cache_dir:      Optional[str] = None,
         local_data_dir: Optional[str] = None,
+        allowed_report_paths: Optional[set] = None,
     ):
         super().__init__(metadata_path, repo_id, use_english, cache_dir, local_data_dir)
         self.load_ct       = load_ct
@@ -407,40 +434,58 @@ class ViPETVQADataset(BaseViPETDataset):
 
         # Load VQA conversations and explode into flat QA pairs
         with open(vqa_path, "r", encoding="utf-8") as f:
-            conversations = json.load(f)
-
+            vqa_records = json.load(f)
+            
         self.qa_pairs = []
-        for conv in conversations:
-            patient_id  = conv["patient_id"]
+        self.conversation_items = []
+
+        for conv in vqa_records:
+            patient_id = conv["patient_id"]
             report_path = conv.get("report_path")
 
-            # Match by report_path (unique per study/visit) when available.
-            # Some patients have multiple PET/CT visits (different years/months),
-            # so matching by patient_id alone would silently pair QA pairs from
-            # one visit's report with the image from a DIFFERENT visit.
-            # Fallback to patient_id match for older VQA files without report_path.
             if report_path:
                 matches = self.df[self.df["report_path"] == report_path]
             else:
                 matches = self.df[self.df["name"] == patient_id]
 
             if len(matches) == 0:
-                print(f"Warning: no match for patient_id='{patient_id}' "
-                      f"report_path='{report_path}', skipping")
+                print(
+                    f"Warning: no match for patient_id='{patient_id}' "
+                    f"report_path='{report_path}', skipping"
+                )
                 continue
-            row = matches.iloc[0]
 
-            for qa in conv["conversation"]:
-                self.qa_pairs.append({
-                    "patient_id":  patient_id,
+            row = matches.iloc[0]
+            multiturn = conv.get("conversations", [])
+            matched_report_path = row["report_path"]
+            if allowed_report_paths is not None and matched_report_path not in allowed_report_paths:
+                continue
+
+            if multiturn:
+                self.conversation_items.append({
+                    "patient_id": patient_id,
                     "report_path": row["report_path"],
-                    "ct_path":     row["ct_path"],
-                    "pet_path":    row["pet_path"],
-                    "question":    qa["question"],
-                    "answer":      qa["answer"],
+                    "ct_path": row["ct_path"],
+                    "pet_path": row["pet_path"],
+                    "conversations": multiturn,
                 })
 
-        print(f"Loaded {len(self.qa_pairs)} QA pairs from {len(conversations)} conversations")
+            qa_list = _extract_qa_pairs_from_conversations(multiturn)
+
+            for qa in qa_list:
+                self.qa_pairs.append({
+                    "patient_id": patient_id,
+                    "report_path": row["report_path"],
+                    "ct_path": row["ct_path"],
+                    "pet_path": row["pet_path"],
+                    "question": qa["question"],
+                    "answer": qa["answer"],
+                })
+
+        print(
+            f"Loaded {len(self.qa_pairs)} QA pairs "
+            f"from {len(self.conversation_items)} multi-turn conversations"
+        )
 
     def __len__(self) -> int:
         return len(self.qa_pairs)
@@ -463,7 +508,33 @@ class ViPETVQADataset(BaseViPETDataset):
             result["pet"] = self.pet_transform(pet) if (self.pet_transform and pet is not None) else pet
 
         return result
+    
+class ViPETMultiTurnVQADataset(ViPETVQADataset):
+    """
+    Multi-turn VQA dataset for Stage 3 instruction tuning.
+    Uses the same VQA JSON as ViPETVQADataset, but returns full conversations.
+    """
 
+    def __len__(self) -> int:
+        return len(self.conversation_items)
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        item = self.conversation_items[idx]
+
+        result = {
+            "patient_id": item["patient_id"],
+            "conversations": item["conversations"],
+        }
+
+        if self.load_ct:
+            ct = self._load_npz(item["ct_path"])
+            result["ct"] = self.ct_transform(ct) if (self.ct_transform and ct is not None) else ct
+
+        if self.load_pet:
+            pet = self._load_npz(item["pet_path"])
+            result["pet"] = self.pet_transform(pet) if (self.pet_transform and pet is not None) else pet
+
+        return result
 
 class MixedStage2Dataset(Dataset):
     """
@@ -479,7 +550,7 @@ class MixedStage2Dataset(Dataset):
     )
 
     def __init__(self, report_dataset, qa_dataset, report_prompt: str,
-                 qa_per_patient: int = 2, seed: int = 42):
+                 qa_per_study: int = 2, seed: int = 42):
         """
         Args:
             report_dataset: a ViPET3DDataset instance, already restricted
@@ -488,23 +559,27 @@ class MixedStage2Dataset(Dataset):
                              TRAIN-ONLY vqa json
             report_prompt:   the fixed prompt used for report samples
                              (pass Stage2Trainer.PROMPT)
-            qa_per_patient:  how many QA pairs to sample per patient.
+            qa_per_study:  how many QA pairs to sample per study/report.
         """
         self.report_dataset = report_dataset
         self.qa_dataset      = qa_dataset
         self.report_prompt   = report_prompt
 
         rng = random.Random(seed)
-        by_patient = {}
-        for qa in qa_dataset.qa_pairs:
-            by_patient.setdefault(qa["patient_id"], []).append(qa)
-        self.qa_items = []
-        for pid, items in by_patient.items():
-            self.qa_items.extend(rng.sample(items, min(qa_per_patient, len(items))))
 
-        print(f"MixedStage2Dataset: {len(report_dataset)} report samples + "
-              f"{len(self.qa_items)} QA samples "
-              f"(from {len(by_patient)} patients, {qa_per_patient}/patient max)")
+        by_study = {}
+        for qa in qa_dataset.qa_pairs:
+            by_study.setdefault(qa["report_path"], []).append(qa)
+
+        self.qa_items = []
+        for _, items in by_study.items():
+            self.qa_items.extend(rng.sample(items, min(qa_per_study, len(items))))
+
+        print(
+            f"MixedStage2Dataset: {len(report_dataset)} report samples + "
+            f"{len(self.qa_items)} QA samples "
+            f"(from {len(by_study)} studies, {qa_per_study}/study max)"
+        )
 
     def __len__(self):
         return len(self.report_dataset) + len(self.qa_items)
@@ -533,3 +608,4 @@ class MixedStage2Dataset(Dataset):
             "prompt": self.QA_PROMPT.format(question=qa["question"]),
             "target": qa["answer"],
         }
+    

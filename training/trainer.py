@@ -231,12 +231,12 @@ class Stage2Trainer:
     )
 
     def __init__(self, model, config: dict, device: torch.device,
-                 qa_path: str = None, qa_per_patient: int = 2):
+                 qa_path: str = None, qa_per_study: int = 2):
         self.model  = model
         self.config = config
         self.device = device
         self.qa_path        = qa_path
-        self.qa_per_patient = qa_per_patient
+        self.qa_per_study = qa_per_study
 
         self.optimizer = AdamW(
             list(model.projector.parameters()),
@@ -297,7 +297,7 @@ class Stage2Trainer:
             dataset = MixedStage2Dataset(
                 dataset, qa_dataset,
                 report_prompt=self.PROMPT,
-                qa_per_patient=self.qa_per_patient,
+                qa_per_study=self.qa_per_study,
             )
 
         return DataLoader(
