@@ -87,7 +87,7 @@ class CTViTTransform(BaseViPETTransform):
     """
     CT-ViT encoder.
     """
-    def __init__(self, modality="pet", depth=200, height=480, width=480):
+    def __init__(self, modality="pet", depth=200, height=256, width=256):
         super().__init__(modality)
         self._depth, self._height, self._width = depth, height, width
 

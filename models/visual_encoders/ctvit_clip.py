@@ -17,18 +17,19 @@ class CTViTEncoder(nn.Module):
     CTVIT_CONFIG = dict(
         dim=512,
         codebook_size=8192,
-        image_size=480,
-        patch_size=20,
-        temporal_patch_size=10,
+        image_size=256,
+        patch_size=16,
+        temporal_patch_size=2,
         spatial_depth=4,
         temporal_depth=4,
         dim_head=32,
         heads=8,
         use_vgg_and_gan=False,
     )
+    
     PATCH_GRID = CTVIT_CONFIG["image_size"] // CTVIT_CONFIG["patch_size"]
     RAW_DIM = PATCH_GRID * PATCH_GRID * CTVIT_CONFIG["dim"]
-    #RAW_DIM = 24 * 24 * 512  # 294912
+    #RAW_DIM = 16 * 16 * 512  # 131072
     OUTPUT_DIM = RAW_DIM
 
     def __init__(self, weights_path: str, freeze: bool = False):
