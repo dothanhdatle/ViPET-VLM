@@ -5,7 +5,7 @@
 set -e
 
 echo "=== Downloading ViMed-PET-CT PET-only dataset ==="
-
+export HF_HUB_ENABLE_HF_TRANSFER=1
 python - <<'EOF'
 import os
 import json

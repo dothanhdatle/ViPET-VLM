@@ -15,14 +15,14 @@ pip install -q \
     peft \
     accelerate \
     datasets \
-    huggingface_hub \
+    "huggingface_hub[hf_transfer]" \
     pandas \
     numpy \
     tqdm \
     pyyaml \
     beartype \
     einops \
-    vector_quantize_pytorch \
+    vector-quantize-pytorch \
     rouge-score \
     bert-score \
     nltk \
@@ -30,30 +30,35 @@ pip install -q \
 
 # ── Download CT-ViT weights ───────────────────────────────
 echo "Downloading CT-ViT pretrained weights..."
+export HF_HUB_ENABLE_HF_TRANSFER=1
 python -c "
 from huggingface_hub import hf_hub_download
 import shutil, os
 
-# Verify repo trước khi chạy — thử Project-MONAI/GenerateCT
-try:
-    path = hf_hub_download(
-        repo_id='Project-MONAI/GenerateCT',
-        filename='pretrained_models/ctvit_pretrained.pt',
-        local_dir='/workspace/weights',
-    )
-except Exception as e:
-    print(f'Project-MONAI failed: {e}')
-    print('Trying generatect/GenerateCT...')
-    path = hf_hub_download(
-        repo_id='generatect/GenerateCT',
-        filename='pretrained_models/ctvit_pretrained.pt',
-        local_dir='/workspace/weights',
-    )
-
 dest = '/workspace/weights/ctvit_pretrained.pt'
-if path != dest:
-    shutil.move(path, dest)
-print(f'CT-ViT weights saved to {dest}')
+
+if os.path.exists(dest):
+    print(f'CT-ViT weights already exists at {dest}')
+else:
+    try:
+        path = hf_hub_download(
+            repo_id='Project-MONAI/GenerateCT',
+            filename='pretrained_models/ctvit_pretrained.pt',
+            local_dir='/workspace/weights',
+        )
+    except Exception as e:
+        print(f'Project-MONAI failed: {e}')
+        print('Trying generatect/GenerateCT...')
+        path = hf_hub_download(
+            repo_id='generatect/GenerateCT',
+            filename='pretrained_models/ctvit_pretrained.pt',
+            local_dir='/workspace/weights',
+        )
+
+    if os.path.abspath(path) != os.path.abspath(dest):
+        shutil.move(path, dest)
+
+    print(f'CT-ViT weights saved to {dest}')
 "
 
 # ── Verify PyTorch CUDA ───────────────────────────────────
