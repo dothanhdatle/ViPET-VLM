@@ -23,7 +23,7 @@ from models.visual_encoders.ctvit_clip import CTViTEncoder
 
 # Special token to mark image position in prompt
 IMAGE_TOKEN      = "<image>"
-IMAGE_TOKEN_ID   = -1  # placeholder, replaced at runtime
+#IMAGE_TOKEN_ID   = -1  # placeholder, replaced at runtime
 
 
 class ViPETVLM(BaseVLM):
@@ -38,8 +38,7 @@ class ViPETVLM(BaseVLM):
             → Mistral-7B → report
 
     Args:
-        pet_encoder_weights_path: path to Stage1 PET-encoder split checkpoint
-                                   (stage1_best_pet_encoder.pt)
+        pet_encoder_weights_path: path to Stage 1 vision encoder checkpoint
         projector_type:       "linear" or "mlp"
         llm_name:             HuggingFace model name for LLM
         use_lora:             enable LoRA for Stage 3
@@ -85,13 +84,15 @@ class ViPETVLM(BaseVLM):
             llm_name,
             padding_side="right",
         )
-        self.tokenizer.pad_token = self.tokenizer.eos_token
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
 
         self.llm = AutoModelForCausalLM.from_pretrained(
             llm_name,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.bfloat16,
             device_map="auto",
         )
+        self.llm.config.pad_token_id = self.tokenizer.pad_token_id
         llm_dim = self.llm.config.hidden_size  # Mistral-7B: 4096
 
         # Projector (trained in Stage 2, continue in Stage 3)
@@ -162,10 +163,13 @@ class ViPETVLM(BaseVLM):
 
         # Text embeddings from LLM embedding layer
         text_embeds = self.llm.get_input_embeddings()(input_ids)  # (B, seq_len, llm_dim)
+        device = text_embeds.device
 
         # Concat: [visual | text]
         # Cast to float16 to match LLM dtype
-        visual_embeds = visual_embeds.to(text_embeds.dtype)
+        visual_embeds = visual_embeds.to(device=device, dtype=text_embeds.dtype)
+        attention_mask = attention_mask.to(device)
+
         inputs_embeds = torch.cat([visual_embeds, text_embeds], dim=1)
 
         # Extend attention mask for visual tokens
@@ -174,6 +178,7 @@ class ViPETVLM(BaseVLM):
 
         # Extend labels — mask visual positions with -100
         if labels is not None:
+            labels = labels.to(device)
             visual_labels = torch.full(
                 (B, num_visual), -100,
                 device=device, dtype=labels.dtype,
@@ -210,36 +215,38 @@ class ViPETVLM(BaseVLM):
         )
 
         return {
-            "loss":   outputs.loss,
+            "loss": outputs.loss if labels is not None else None,
             "logits": outputs.logits,
         }
-
+    
+    @torch.no_grad()
     def generate(
         self,
         pet:            torch.Tensor,
         input_ids:      torch.Tensor,
         attention_mask: torch.Tensor,
-        max_new_tokens: int = 512,
+        max_new_tokens: int = 1024,
         **generate_kwargs,
     ) -> torch.Tensor:
         """
         Auto-regressive generation for inference.
 
         Returns:
-            generated token ids (B, max_new_tokens)
+            generated token ids with shape (B, generated_len),
+            where generated_len <= max_new_tokens.
         """
         inputs_embeds, attention_mask, _ = self._build_input_embeddings(
             pet, input_ids, attention_mask, labels=None
         )
 
-        with torch.no_grad():
-            output_ids = self.llm.generate(
-                inputs_embeds=inputs_embeds,
-                attention_mask=attention_mask,
-                max_new_tokens=max_new_tokens,
-                pad_token_id=self.tokenizer.eos_token_id,
-                **generate_kwargs,
-            )
+        output_ids = self.llm.generate(
+            inputs_embeds=inputs_embeds,
+            attention_mask=attention_mask,
+            max_new_tokens=max_new_tokens,
+            pad_token_id=self.tokenizer.pad_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            **generate_kwargs,
+        )
 
         return output_ids
 

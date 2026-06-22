@@ -1,0 +1,37 @@
+# Stage 3: Multi-turn VQA instruction tuning with LoRA (PET-only)
+
+stage: "stage3_vqa_multiturn"
+
+model:
+  pet_encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best_vision_encoder.pt"
+  projector_type: "linear"
+  llm_name: "mistralai/Mistral-7B-Instruct-v0.2"
+
+  use_lora: true
+  lora_r: 64
+  lora_alpha: 16
+  lora_dropout: 0.05
+  lora_target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  projector_weights_path: "/workspace/checkpoints/stage2/stage2_best.pt"
+
+data:
+  metadata_path: "/workspace/data/metadata.csv"
+  vqa_path: "/workspace/data/vqa_full.json"
+  local_data_dir: "/workspace/data"
+  use_english: false
+  encoder: "ctvit"
+
+training:
+  epochs: 3
+  batch_size: 8
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_steps: 100
+  max_length: 2048
+  log_every: 10
+  gradient_clip: 1.0
+  num_workers: 4
+
+output:
+  checkpoint_dir: "/workspace/checkpoints/stage3_vqa_multiturn"
+  log_dir: "/workspace/logs"

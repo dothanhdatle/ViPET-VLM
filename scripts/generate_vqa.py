@@ -86,22 +86,24 @@ def build_messages(report_text: str) -> list:
         {
             "role": "user",
             "content": (
-                "Dựa trên báo cáo PET/CT dưới đây, hãy tạo 8-14 cặp hỏi đáp bằng tiếng Việt. "
+                "Dựa trên báo cáo PET/CT dưới đây, hãy tạo đúng 3 cuộc hội thoại VQA độc lập bằng tiếng Việt. "
+                "Mỗi cuộc hội thoại có đúng 5 cặp hỏi đáp. "
                 "Câu hỏi và câu trả lời phải bám sát báo cáo, không thêm thông tin ngoài báo cáo. "
                 "Chỉ trả về JSON object đúng định dạng sau:\n"
-                '{"conversation": [{"question": "...", "answer": "..."}]}\n\n'
+                '{"conversations": [[{"question": "...", "answer": "..."}], [{"question": "...", "answer": "..."}], [{"question": "...", "answer": "..."}]]}\n\n'
                 f"Báo cáo:\n{report_text}"
             ),
         },
     ]
 
 
-def generate_conversation(client, report_text: str, model: str, max_retries: int = 3) -> list:
+def generate_conversations(client, report_text: str, model: str, max_retries: int = 3) -> list:
     """
-    Call GPT API to generate VQA conversation from a report.
+    Call GPT API to generate 3 VQA conversations from a report.
 
     Returns:
-        list of {"question": ..., "answer": ...} dicts
+        list of conversations, each conversation is:
+        list of {"question": ..., "answer": ...}
     """
     messages = build_messages(report_text)
 
@@ -117,38 +119,64 @@ def generate_conversation(client, report_text: str, model: str, max_retries: int
             content = response.choices[0].message.content.strip()
             obj = json.loads(content)
 
-            if isinstance(obj, list):
-                conversation = obj
-            elif isinstance(obj, dict):
-                conversation = None
-                for key in ["conversation", "conversations", "qa", "questions"]:
+            raw_conversations = None
+
+            if isinstance(obj, dict):
+                for key in ["conversations", "conversation", "qa", "questions"]:
                     if key in obj:
-                        conversation = obj[key]
+                        raw_conversations = obj[key]
                         break
-                if conversation is None:
-                    print(f"  WARNING: JSON object has no conversation key: {list(obj.keys())}")
-                    return []
-            else:
-                print(f"  WARNING: Unexpected JSON type: {type(obj)}")
+            elif isinstance(obj, list):
+                raw_conversations = obj
+
+            if raw_conversations is None:
+                print(f"  WARNING: JSON has no conversations key")
                 return []
 
-            cleaned = []
-            for qa in conversation:
-                if not isinstance(qa, dict):
-                    continue
+            # Case A: {"conversations": [[qa, qa], [qa, qa], [qa, qa]]}
+            if (
+                isinstance(raw_conversations, list)
+                and raw_conversations
+                and all(isinstance(x, list) for x in raw_conversations)
+            ):
+                conversation_groups = raw_conversations
 
-                question = str(qa.get("question", "")).strip()
-                answer = str(qa.get("answer", "")).strip()
+            # Case B: {"conversations": [qa, qa, qa]} -> fallback to one conversation
+            elif (
+                isinstance(raw_conversations, list)
+                and raw_conversations
+                and all(isinstance(x, dict) for x in raw_conversations)
+            ):
+                conversation_groups = [raw_conversations]
 
-                if not question or not answer:
-                    continue
+            else:
+                print("  WARNING: unexpected conversations format")
+                return []
 
-                cleaned.append({
-                    "question": question,
-                    "answer": answer,
-                })
+            cleaned_groups = []
 
-            return cleaned
+            for group in conversation_groups:
+                cleaned = []
+
+                for qa in group:
+                    if not isinstance(qa, dict):
+                        continue
+
+                    question = str(qa.get("question", "")).strip()
+                    answer = str(qa.get("answer", "")).strip()
+
+                    if not question or not answer:
+                        continue
+
+                    cleaned.append({
+                        "question": question,
+                        "answer": answer,
+                    })
+
+                if cleaned:
+                    cleaned_groups.append(cleaned)
+
+            return cleaned_groups
 
         except Exception as e:
             print(f"  WARNING: API/parse failed attempt {attempt}/{max_retries}: {e}")
@@ -186,6 +214,10 @@ def main():
     parser.add_argument("--max_samples",    type=int, default=None)
     args = parser.parse_args()
 
+    output_dir = os.path.dirname(args.output_path)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
     client = OpenAI(api_key=args.api_key)
 
     # Load metadata + reports
@@ -200,7 +232,29 @@ def main():
         df = df.head(args.max_samples)
 
     results = []
+    done_keys = set()
+    if os.path.exists(args.output_path):
+        with open(args.output_path, "r", encoding="utf-8") as f:
+            results = json.load(f)
+
+        done_keys = {
+            (r.get("report_path"), int(r.get("conversation_id", 0)))
+            for r in results
+            if r.get("report_path")
+        }
+        print(f"Resuming from {len(results)} existing records")
+
     for i, row in df.iterrows():
+        existing_ids = {
+            conv_id
+            for report_path, conv_id in done_keys
+            if report_path == row["report_path"]
+        }
+
+        if len(existing_ids) >= 3:
+            print(f"[{i+1}/{len(df)}] {row['name']} — already has 3 conversations, skip")
+            continue
+
         report = dataset._load_report(row)
         report_text = report["full_text"]
 
@@ -209,28 +263,42 @@ def main():
             continue
 
         print(f"[{i+1}/{len(df)}] {row['name']} — generating...")
-        conversation = generate_conversation(client, report_text, args.model)
-            
-        if conversation:
-            results.append({
-                "patient_id": row["name"],
-                "report_path": row["report_path"],
-                "pet_path": row["pet_path"],
-                "report": report_text,
-                "conversations": to_llava_conversations(conversation),
-            })
-            print(f"  -> {len(conversation)} QA pairs")
-        else:
-            print(f"  -> failed")
+        conversation_groups = generate_conversations(client, report_text, args.model)
 
-    # Save
+        if conversation_groups:
+            added = 0
+
+            for conv_id, qa_pairs in enumerate(conversation_groups[:3]):
+                key = (row["report_path"], conv_id)
+                if key in done_keys:
+                    continue
+
+                results.append({
+                    "patient_id": row["name"],
+                    "report_path": row["report_path"],
+                    "pet_path": row["pet_path"],
+                    "report": report_text,
+                    "conversation_id": conv_id,
+                    "conversations": to_llava_conversations(qa_pairs),
+                })
+
+                done_keys.add(key)
+                added += 1
+
+            with open(args.output_path, "w", encoding="utf-8") as f:
+                json.dump(results, f, ensure_ascii=False, indent=2)
+
+            total_pairs = sum(len(group) for group in conversation_groups[:3])
+            print(f"Generated {added} conversations, {total_pairs} QA pairs")
+        else:
+            print("Generate failed")
+
     with open(args.output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
-
-    total_qa = sum(len(r["conversation"]) for r in results)
-    print(f"\nDone! {len(results)} conversations, {total_qa} QA pairs total.")
+    
+    total_qa = sum(len(r["conversations"]) // 2 for r in results)
+    print(f"\nGenerated {len(results)} conversations, {total_qa} QA pairs total.")
     print(f"Saved to {args.output_path}")
-
 
 if __name__ == "__main__":
     main()

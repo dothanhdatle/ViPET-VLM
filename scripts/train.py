@@ -18,7 +18,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from data.dataset import split_metadata
-from training.trainer import Stage1Trainer, Stage2Trainer, Stage3Trainer, Stage3VQATrainer
+from training.trainer import Stage1Trainer, Stage2Trainer, Stage3Trainer, Stage3VQATrainer, Stage3MultiTurnVQATrainer
 from models.visual_encoders.ctvit_clip import CTViTCLIP
 from models.vlms.vipet_vlm import build_model
 
@@ -91,7 +91,20 @@ def main():
         else:
             print(f"[stage3_vqa] WARNING: no Stage 2 projector loaded (path={proj_path}) — projector is RANDOM")
         trainer = Stage3VQATrainer(model, config, device)
+    
+    elif stage == "stage3_vqa_multiturn":
+        config["model"]["use_lora"] = True
+        model = build_model(config, device)
 
+        proj_path = config["model"].get("projector_weights_path")
+        if proj_path and os.path.exists(proj_path):
+            ckpt = torch.load(proj_path, map_location="cpu", weights_only=False)
+            model.projector.load_state_dict(ckpt["projector"])
+            print(f"[stage3_vqa_multiturn] Loaded Stage 2 projector from {proj_path}")
+        else:
+            print(f"[stage3_vqa_multiturn] WARNING: no Stage 2 projector loaded")
+
+        trainer = Stage3MultiTurnVQATrainer(model, config, device)
     else:
         raise ValueError(f"Unknown stage: {stage}. Choose: stage1, stage2, stage3, stage3_vqa")
 

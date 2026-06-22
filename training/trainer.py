@@ -35,11 +35,14 @@ class Stage1Trainer:
         os.makedirs(self.checkpoint_dir, exist_ok=True)
 
         # AMP scaler cho bfloat16 trên A100
-        self.scaler = torch.cuda.amp.GradScaler()
+        #self.scaler = torch.cuda.amp.GradScaler()
         self.use_amp = torch.cuda.is_available()
 
     def _build_scheduler(self, total_steps: int):
-        warmup_steps = self.config["training"].get("warmup_steps", 130)
+        warmup_steps = min(
+            self.config["training"].get("warmup_steps", 130),
+            max(total_steps - 1, 1),
+        )
         warmup = LinearLR(
             self.optimizer, start_factor=0.1, end_factor=1.0,
             total_iters=warmup_steps,
@@ -87,23 +90,21 @@ class Stage1Trainer:
         texts = batch["report"]["full_text"]
 
         # AMP forward pass
-        with torch.cuda.amp.autocast(enabled=self.use_amp, dtype=torch.bfloat16):
+        with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
             out  = self.model(pet, texts)
             loss = out["loss"]
 
         # Backward với scaler
-        self.scaler.scale(loss).backward()
-        self.scaler.unscale_(self.optimizer)
+        loss.backward()
         torch.nn.utils.clip_grad_norm_(
             self.model.parameters(),
             self.config["training"].get("gradient_clip", 1.0),
         )
-        self.scaler.step(self.optimizer)
-        self.scaler.update()
+        self.optimizer.step()
         self.scheduler.step()
 
         with torch.no_grad():
-            B      = pet.shape[0]
+            B = pet.shape[0]
             labels = torch.arange(B, device=self.device)
             acc = (
                 (out["logits_per_image"].argmax(dim=1) == labels).float().mean() +
@@ -130,7 +131,7 @@ class Stage1Trainer:
                 out = self.model(pet, texts)
 
             losses.append(out["loss"].item())
-            B      = pet.shape[0]
+            B = pet.shape[0]
             labels = torch.arange(B, device=self.device)
             acc = (
                 (out["logits_per_image"].argmax(dim=1) == labels).float().mean() +
@@ -238,8 +239,11 @@ class Stage2Trainer:
         self.qa_path        = qa_path
         self.qa_per_study = qa_per_study
 
+        for p in self.model.projector.parameters():
+            p.requires_grad = True
+
         self.optimizer = AdamW(
-            list(model.projector.parameters()),
+            [p for p in self.model.projector.parameters() if p.requires_grad],
             lr=config["training"]["learning_rate"],
             weight_decay=config["training"].get("weight_decay", 0.01),
         )
@@ -250,7 +254,10 @@ class Stage2Trainer:
         os.makedirs(self.checkpoint_dir, exist_ok=True)
 
     def _build_scheduler(self, total_steps: int):
-        warmup_steps = self.config["training"].get("warmup_steps", 100)
+        warmup_steps = min(
+            self.config["training"].get("warmup_steps", 100),
+            max(total_steps - 1, 1),
+        )
         warmup = LinearLR(
             self.optimizer, start_factor=0.1, end_factor=1.0,
             total_iters=warmup_steps,
@@ -356,7 +363,7 @@ class Stage2Trainer:
 
         loss.backward()
         torch.nn.utils.clip_grad_norm_(
-            self.model.projector.parameters(),
+            [p for p in self.model.projector.parameters() if p.requires_grad],
             self.config["training"].get("gradient_clip", 1.0),
         )
         self.optimizer.step()
@@ -448,15 +455,16 @@ class Stage2Trainer:
 
 class Stage3Trainer:
     """
-    Trainer for Stage 3: Instruction Tuning with LoRA.
+    Trainer for Stage 3: Report-generation instruction tuning with LoRA.
 
     Frozen:  vision encoder
-    Trained: projector + LLM with LoRA
+    Trained: projector + LLM LoRA adapters
 
-    Same pipeline as Stage 2 but:
-        - LLM is unfrozen with LoRA adapters
-        - Uses VQA dataset (single-turn + multi-turn conversations)
-        - Lower learning rate than Stage 2
+    Same report-generation pipeline as Stage 2 but:
+        - LLM is adapted with LoRA
+        - projector continues to be tuned
+        - uses full report targets
+        - lower learning rate than Stage 2
     """
 
     PROMPT = (
@@ -486,7 +494,10 @@ class Stage3Trainer:
         os.makedirs(self.checkpoint_dir, exist_ok=True)
 
     def _build_scheduler(self, total_steps: int):
-        warmup_steps = self.config["training"].get("warmup_steps", 100)
+        warmup_steps = min(
+            self.config["training"].get("warmup_steps", 100),
+            max(total_steps - 1, 1),
+        )
         warmup = LinearLR(
             self.optimizer, start_factor=0.1, end_factor=1.0, total_iters=warmup_steps,
         )
@@ -578,20 +589,21 @@ class Stage3Trainer:
         return {"val_loss": np.mean(losses)}
 
     def save_checkpoint(self, epoch: int, val_loss: float, is_best: bool):
+        from peft import get_peft_model_state_dict
+
         ckpt = {
-            "epoch":       epoch,
+            "epoch": epoch,
             "global_step": self.global_step,
-            "val_loss":    val_loss,
-            "projector":   self.model.projector.state_dict(),
-            "lora":        {
-                k: v for k, v in self.model.llm.state_dict().items()
-                if "lora" in k
-            },
-            "optimizer":   self.optimizer.state_dict(),
-            "scheduler":   self.scheduler.state_dict(),   # ← thêm
-            "config":      self.config,
+            "val_loss": val_loss,
+            "projector": self.model.projector.state_dict(),
+            "lora": get_peft_model_state_dict(self.model.llm),
+            "optimizer": self.optimizer.state_dict(),
+            "scheduler": self.scheduler.state_dict(),
+            "config": self.config,
         }
+
         torch.save(ckpt, os.path.join(self.checkpoint_dir, "stage3_latest.pt"))
+
         if is_best:
             torch.save(ckpt, os.path.join(self.checkpoint_dir, "stage3_best.pt"))
             print(f"Best saved (val_loss={val_loss:.4f})")
@@ -615,6 +627,8 @@ class Stage3Trainer:
         print(f"Total steps:      {total_steps}")
         print(f"LR:               {cfg['learning_rate']}")
         print(f"Trainable params: {trainable/1e6:.1f}M (projector + LoRA)")
+        print(f"Warmup steps:     {cfg.get('warmup_steps', 100)}")
+        print(f"Max length:       {cfg.get('max_length', 2048)}")
         print(f"{'='*60}\n")
 
         for epoch in range(cfg["epochs"]):
@@ -680,7 +694,7 @@ class Stage3VQATrainer(Stage3Trainer):
         encoder_name  = self.config["data"].get("encoder", "ctvit")
         pet_transform = get_transform(encoder_name, modality="pet")
         #ct_transform  = get_transform(encoder_name, modality="ct")
-        dataset   = ViPETVQADataset(
+        dataset = ViPETVQADataset(
             metadata_path=self.config["data"]["metadata_path"],
             vqa_path=vqa_path,
             use_english=self.config["data"].get("use_english", False),
@@ -689,16 +703,8 @@ class Stage3VQATrainer(Stage3Trainer):
             pet_transform=pet_transform,
             ct_transform=None,
             local_data_dir=self.config["data"].get("local_data_dir", None),
+            allowed_report_paths=set(df["report_path"]),
         )
-
-        # Filter by report_path (per-study) — patients with multiple visits
-        # could otherwise leak QA pairs across splits.
-        valid_report_paths = set(df["report_path"])
-        dataset.qa_pairs = [
-            qa for qa in dataset.qa_pairs
-            if qa.get("report_path") in valid_report_paths
-        ]
-        print(f"  Filtered to {len(dataset.qa_pairs)} QA pairs for this split")
 
         return DataLoader(
             dataset,
@@ -716,6 +722,8 @@ class Stage3VQATrainer(Stage3Trainer):
         prompt_lens = []
 
         for q, a in zip(questions, answers):
+            q = str(q).replace("<image>", "").strip()
+            a = str(a).strip()
             prompt = self.PROMPT_VQA.format(question=q)
             prompt_len = tokenizer(
                 prompt, return_tensors="pt", add_special_tokens=True,
@@ -819,6 +827,248 @@ class Stage3VQATrainer(Stage3Trainer):
             is_best     = val_metrics["val_loss"] < self.best_val_loss
             if is_best:
                 self.best_val_loss = val_metrics["val_loss"]
+            self.save_checkpoint(epoch, val_metrics["val_loss"], is_best)
+
+            elapsed = time.time() - t0
+            print(
+                f"[Epoch {epoch+1}/{cfg['epochs']}] "
+                f"Loss: {np.mean(losses):.4f} | "
+                f"Val Loss: {val_metrics['val_loss']:.4f} | "
+                f"Time: {elapsed:.1f}s"
+                + (" ← best" if is_best else "")
+            )
+
+        print(f"\nTraining complete! Best val loss: {self.best_val_loss:.4f}")
+
+def collate_multiturn_vqa(batch):
+    return {
+        "pet": torch.stack([x["pet"] for x in batch]),
+        "patient_id": [x["patient_id"] for x in batch],
+        "conversations": [x["conversations"] for x in batch],
+    }
+
+
+class Stage3MultiTurnVQATrainer(Stage3Trainer):
+    """
+    Stage 3 VQA instruction tuning using full multi-turn conversations.
+
+    Expected batch item:
+        {
+            "pet": Tensor,
+            "patient_id": str,
+            "conversations": [
+                {"from": "human", "value": "<image>\\n..."},
+                {"from": "gpt", "value": "..."},
+                ...
+            ]
+        }
+    """
+
+    USER_PREFIX = "Người dùng: "
+    ASSISTANT_PREFIX = "Trợ lý: "
+
+    def _build_dataloader(self, df: pd.DataFrame, shuffle: bool) -> DataLoader:
+        from data.dataset import ViPETMultiTurnVQADataset
+
+        vqa_path_cfg = self.config["data"]["vqa_path"]
+        if isinstance(vqa_path_cfg, dict):
+            vqa_path = vqa_path_cfg["train"] if shuffle else vqa_path_cfg["val"]
+        else:
+            vqa_path = vqa_path_cfg
+
+        encoder_name = self.config["data"].get("encoder", "ctvit")
+        pet_transform = get_transform(encoder_name, modality="pet")
+
+        dataset = ViPETMultiTurnVQADataset(
+            metadata_path=self.config["data"]["metadata_path"],
+            vqa_path=vqa_path,
+            use_english=self.config["data"].get("use_english", False),
+            load_ct=False,
+            load_pet=True,
+            pet_transform=pet_transform,
+            ct_transform=None,
+            local_data_dir=self.config["data"].get("local_data_dir", None),
+            allowed_report_paths=set(df["report_path"]),
+        )
+
+        print(
+            f"  Loaded {len(dataset.conversation_items)} multi-turn conversations "
+            f"for this split"
+        )
+
+        return DataLoader(
+            dataset,
+            batch_size=self.config["training"]["batch_size"],
+            shuffle=shuffle,
+            num_workers=self.config["training"].get("num_workers", 2),
+            pin_memory=True,
+            collate_fn=collate_multiturn_vqa,
+        )
+
+    def _encode_text(self, text: str, add_special_tokens: bool = False):
+        return self.model.tokenizer(
+            text,
+            add_special_tokens=add_special_tokens,
+        ).input_ids
+
+    def _tokenize_multiturn(self, batch_conversations: list):
+        """
+        Tokenize full multi-turn conversations.
+        Human turns are masked with -100.
+        GPT turns are used as labels.
+        """
+        tokenizer = self.model.tokenizer
+        eos = tokenizer.eos_token or ""
+
+        all_input_ids = []
+        all_labels = []
+
+        for conversations in batch_conversations:
+            input_ids = []
+            labels = []
+
+            first_segment = True
+
+            for turn in conversations:
+                role = turn.get("from", "")
+                value = turn.get("value", "").replace("<image>", "").strip()
+
+                if not value:
+                    continue
+
+                if role == "human":
+                    text = f"{self.USER_PREFIX}{value}\n"
+                    ids = self._encode_text(text, add_special_tokens=first_segment)
+                    input_ids.extend(ids)
+                    labels.extend([-100] * len(ids))
+
+                elif role == "gpt":
+                    prefix_ids = self._encode_text(
+                        self.ASSISTANT_PREFIX,
+                        add_special_tokens=False,
+                    )
+                    answer_ids = self._encode_text(
+                        f"{value}{eos}\n",
+                        add_special_tokens=False,
+                    )
+
+                    input_ids.extend(prefix_ids + answer_ids)
+                    labels.extend([-100] * len(prefix_ids) + answer_ids)
+
+                first_segment = False
+
+            max_length = self.config["training"].get("max_length", 2048)
+            input_ids = input_ids[:max_length]
+            labels = labels[:max_length]
+
+            all_input_ids.append(torch.tensor(input_ids, dtype=torch.long))
+            all_labels.append(torch.tensor(labels, dtype=torch.long))
+
+        input_ids = torch.nn.utils.rnn.pad_sequence(
+            all_input_ids,
+            batch_first=True,
+            padding_value=tokenizer.pad_token_id,
+        )
+        labels = torch.nn.utils.rnn.pad_sequence(
+            all_labels,
+            batch_first=True,
+            padding_value=-100,
+        )
+
+        attention_mask = input_ids.ne(tokenizer.pad_token_id).long()
+
+        return (
+            input_ids.to(self.device),
+            attention_mask.to(self.device),
+            labels.to(self.device),
+        )
+
+    def _train_step(self, batch: dict) -> dict:
+        self.model.train()
+        self.optimizer.zero_grad()
+
+        pet = batch["pet"].to(self.device)
+
+        input_ids, attention_mask, labels = self._tokenize_multiturn(
+            batch["conversations"]
+        )
+
+        out = self.model(pet, input_ids, attention_mask, labels)
+        loss = out["loss"]
+
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(
+            [p for p in self.model.parameters() if p.requires_grad],
+            self.config["training"].get("gradient_clip", 1.0),
+        )
+        self.optimizer.step()
+        self.scheduler.step()
+
+        return {"loss": loss.item(), "lr": self.optimizer.param_groups[0]["lr"]}
+
+    @torch.no_grad()
+    def _val_epoch(self, val_loader: DataLoader) -> dict:
+        self.model.eval()
+        losses = []
+
+        for batch in val_loader:
+            pet = batch["pet"].to(self.device)
+
+            input_ids, attention_mask, labels = self._tokenize_multiturn(
+                batch["conversations"]
+            )
+
+            out = self.model(pet, input_ids, attention_mask, labels)
+            losses.append(out["loss"].item())
+
+        return {"val_loss": np.mean(losses)}
+
+    def train(self, train_df: pd.DataFrame, val_df: pd.DataFrame):
+        cfg = self.config["training"]
+
+        train_loader = self._build_dataloader(train_df, shuffle=True)
+        val_loader = self._build_dataloader(val_df, shuffle=False)
+
+        total_steps = cfg["epochs"] * len(train_loader)
+        self.scheduler = self._build_scheduler(total_steps)
+
+        trainable = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+
+        print(f"\n{'='*60}")
+        print("Stage 3 (VQA Multi-turn): Instruction Tuning with LoRA")
+        print(f"{'='*60}")
+        print(f"Train: {len(train_loader.dataset.conversation_items)} conversations")
+        print(f"Val:   {len(val_loader.dataset.conversation_items)} conversations")
+        print(f"Batch size:       {cfg['batch_size']}")
+        print(f"Epochs:           {cfg['epochs']}")
+        print(f"Steps/epoch:      {len(train_loader)}")
+        print(f"Total steps:      {total_steps}")
+        print(f"LR:               {cfg['learning_rate']}")
+        print(f"Max length:       {cfg.get('max_length', 2048)}")
+        print(f"Trainable params: {trainable/1e6:.1f}M (projector + LoRA)")
+        print(f"{'='*60}\n")
+
+        for epoch in range(cfg["epochs"]):
+            losses = []
+            t0 = time.time()
+
+            for batch in train_loader:
+                metrics = self._train_step(batch)
+                losses.append(metrics["loss"])
+                self.global_step += 1
+
+                if self.global_step % cfg.get("log_every", 10) == 0:
+                    print(
+                        f"Ep {epoch+1:2d} | Step {self.global_step:5d} | "
+                        f"Loss: {metrics['loss']:.4f} | LR: {metrics['lr']:.2e}"
+                    )
+
+            val_metrics = self._val_epoch(val_loader)
+            is_best = val_metrics["val_loss"] < self.best_val_loss
+
+            if is_best:
+                self.best_val_loss = val_metrics["val_loss"]
+
             self.save_checkpoint(epoch, val_metrics["val_loss"], is_best)
 
             elapsed = time.time() - t0

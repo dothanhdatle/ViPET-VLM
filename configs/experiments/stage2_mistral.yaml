@@ -13,16 +13,16 @@ data:
   local_data_dir: "/workspace/data"
   use_english:    false
   encoder:        "ctvit"
-  qa_path: "/workspace/data/vqa_train.json"
+  qa_path: "/workspace/data/vqa_full.json"
   qa_per_study: 2
 
 training:
-  epochs:        20
+  epochs:        5
   batch_size:    8
   learning_rate: 2.0e-3
   weight_decay:  0.01
   warmup_steps:  150
-  max_length:    512
+  max_length:    2048
   log_every:     10
   gradient_clip: 1.0
   num_workers:   4
