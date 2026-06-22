@@ -16,7 +16,7 @@ data:
   encoder:        "ctvit"
 
 training:
-  epochs:        10
+  epochs:        5
   batch_size:    8
   learning_rate: 1.25e-6
   weight_decay:  0.01
