@@ -293,6 +293,7 @@ class Stage2Trainer:
                 pet_transform=pet_transform,
                 ct_transform=None,
                 local_data_dir=self.config["data"].get("local_data_dir", None),
+                allowed_report_paths = set(df["report_path"]),
             )
             dataset = MixedStage2Dataset(
                 dataset, qa_dataset,

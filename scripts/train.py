@@ -64,7 +64,7 @@ def main():
         model   = build_model(config, device)
         trainer = Stage2Trainer(model, config, device,
                                 qa_path=config["data"].get("qa_path"),
-                                qa_per_patient=config["data"].get("qa_per_patient", 2))
+                                qa_per_study=config["data"].get("qa_per_study", 2))
 
     elif stage == "stage3":
         # Stage 3: LoRA instruction tuning

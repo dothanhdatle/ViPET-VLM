@@ -6,7 +6,6 @@ model:
   pet_encoder_weights_path: "/workspace/checkpoints/stage1/stage1_best_vision_encoder.pt"
   projector_type:       "linear"
   llm_name:             "mistralai/Mistral-7B-Instruct-v0.2"
-  token_dim:            131072
   use_lora:             false
 
 data:
@@ -15,7 +14,7 @@ data:
   use_english:    false
   encoder:        "ctvit"
   qa_path: "/workspace/data/vqa_train.json"
-  qa_per_patient: 2
+  qa_per_study: 2
 
 training:
   epochs:        20
