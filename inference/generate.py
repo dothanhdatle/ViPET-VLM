@@ -323,6 +323,7 @@ def main():
     parser.add_argument("--output_path", default="predictions.json")
     parser.add_argument("--max_new_tokens", type=int, default=None)
     parser.add_argument("--batch_size", type=int, default=1)
+    parser.add_argument("--max_samples", type=int, default=None)
     args = parser.parse_args()
 
     if args.task == "vqa" and not args.vqa_path:
@@ -350,6 +351,8 @@ def main():
     if args.task == "vqa":
         df = pd.read_csv(config["data"]["metadata_path"])
         data_df = split_metadata(df, args.split)
+        if args.max_samples:
+            data_df = data_df.head(args.max_samples)
         allowed_report_paths = set(data_df["report_path"])
 
         vqa_dataset = ViPETVQADataset(
@@ -390,6 +393,8 @@ def main():
     else:
         df = pd.read_csv(config["data"]["metadata_path"])
         data_df = split_metadata(df, args.split)
+        if args.max_samples:
+            data_df = data_df.head(args.max_samples)
 
         dataset = ViPET3DDataset(
             metadata_path=config["data"]["metadata_path"],
