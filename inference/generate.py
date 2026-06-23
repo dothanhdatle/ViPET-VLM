@@ -150,55 +150,55 @@ def generate_outputs(
     return results
 
 
-# ── VQA generation (one sample) ──
+# VQA batch generation
 def generate_vqa_outputs(
     model,
-    dataset: "ViPETVQADataset",
+    dataloader: DataLoader,
     device: torch.device,
-    max_new_tokens: int = 256,
+    max_new_tokens: int = 128,
 ) -> list:
-    """
-    Generate an answer for every (image, question) pair in a ViPETVQADataset.
-    """
     model.eval()
     results = []
 
-    for idx in tqdm(range(len(dataset)), desc="Generating VQA"):
-        item = dataset[idx]
+    for batch in tqdm(dataloader, desc="Generating VQA"):
+        pet = batch["pet"].to(device)
 
-        pet = item["pet"].unsqueeze(0).to(device)
+        prompts = [
+            PROMPT_VQA.format(question=q)
+            for q in batch["question"]
+        ]
 
-        prompt = PROMPT_VQA.format(question=item["question"])
-
-        prompt_ids = model.tokenizer(
-            prompt,
+        encoded = model.tokenizer(
+            prompts,
             return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=512,
             add_special_tokens=True,
-        ).input_ids.to(device)
-
-        prompt_mask = torch.ones_like(prompt_ids)
+        ).to(device)
 
         output_ids = model.generate(
             pet=pet,
-            input_ids=prompt_ids,
-            attention_mask=prompt_mask,
+            input_ids=encoded.input_ids,
+            attention_mask=encoded.attention_mask,
             max_new_tokens=max_new_tokens,
             do_sample=False,
             repetition_penalty=1.15,
         )
 
-        generated = model.decode(output_ids)[0]
+        generated = model.decode(output_ids)
 
-        results.append({
-            "patient_id": item["patient_id"],
-            "question": item["question"],
-            "generated": generated,
-            "ground_truth": item["answer"],
-        })
+        for i in range(len(generated)):
+            results.append({
+                "patient_id": batch["patient_id"][i],
+                "question": batch["question"][i],
+                "generated": generated[i],
+                "ground_truth": batch["answer"][i],
+            })
 
     return results
 
-# Single-sample inference
+# Single sample inference
 def load_npz_volume(npz_path: str):
     """Load a raw PET .npz file."""
     import numpy as np
@@ -255,6 +255,14 @@ def predict_single(
 
     generated = model.decode(output_ids)
     return generated[0]
+
+def collate_vqa_inference(batch):
+    return {
+        "pet": torch.stack([x["pet"] for x in batch]),
+        "patient_id": [x["patient_id"] for x in batch],
+        "question": [x["question"] for x in batch],
+        "answer": [x["answer"] for x in batch],
+    }
 
 
 def main():
