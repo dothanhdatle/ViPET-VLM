@@ -74,7 +74,7 @@ PROMPT_VQA = (
 )
 
 
-# ── Checkpoint loading ────────────────────────────────────
+# Checkpoint loading
 def load_checkpoint(model, checkpoint_path: str):
     """Load projector + LoRA weights from checkpoint."""
     ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -99,8 +99,28 @@ def load_checkpoint(model, checkpoint_path: str):
     print(f"Checkpoint: epoch={epoch}, val_loss={val_loss:.4f}")
     return epoch, val_loss
 
+# Clean generated texts
+def clean_generated_text(text: str) -> str:
+    text = text.strip()
 
-# ── Report generation (batched — same fixed prompt for everyone) ──
+    stop_markers = [
+        "\nNgười dùng:",
+        "\nTrợ lý:",
+        "Người dùng:",
+        "Trợ lý:",
+        "\nNguoi dung:",
+        "\nTro ly:",
+        "Nguoi dung:",
+        "Tro ly:",
+    ]
+
+    for marker in stop_markers:
+        if marker in text:
+            text = text.split(marker)[0].strip()
+
+    return text
+
+# Report generation (bathed)
 def generate_outputs(
     model,
     dataloader: DataLoader,
@@ -138,7 +158,7 @@ def generate_outputs(
             repetition_penalty=1.15,
         )
 
-        generated = model.decode(output_ids)
+        generated = [clean_generated_text(x) for x in model.decode(output_ids)]
 
         for i in range(B):
             results.append({
@@ -201,7 +221,7 @@ def generate_vqa_outputs(
             repetition_penalty=1.15,
         )
 
-        generated = model.decode(output_ids)
+        generated = [clean_generated_text(x) for x in model.decode(output_ids)]
 
         for i in range(len(generated)):
             results.append({
@@ -242,7 +262,7 @@ def predict_single(
 
     if task == "vqa":
         prompt = PROMPT_VQA.format(question=question)
-        max_new_tokens = max_new_tokens or 256
+        max_new_tokens = max_new_tokens or 128
     elif task == "report":
         prompt = PROMPT_REPORT
         max_new_tokens = max_new_tokens or 1024
@@ -268,7 +288,7 @@ def predict_single(
         repetition_penalty=1.15,
     )
 
-    generated = model.decode(output_ids)
+    generated = [clean_generated_text(x) for x in model.decode(output_ids)]
     return generated[0]
 
 def main():
@@ -347,7 +367,7 @@ def main():
                 f"(stride={stride})"
             )
 
-        max_new_tokens = args.max_new_tokens or 256
+        max_new_tokens = args.max_new_tokens or 128
         
         vqa_loader = DataLoader(
             vqa_dataset,
