@@ -160,12 +160,14 @@ def generate_outputs(
         )
 
         generated = [clean_generated_text(x) for x in model.decode(output_ids)]
+        report = batch["report"]
+        ground_truths = report.get("structured_text", report["full_text"])
 
         for i in range(B):
             results.append({
                 "patient_id": batch["patient_id"][i],
                 "generated": generated[i],
-                "ground_truth": batch["report"]["full_text"][i],
+                "ground_truth": ground_truths[i],
             })
 
     return results
