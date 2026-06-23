@@ -150,7 +150,7 @@ def generate_outputs(
     return results
 
 
-# ── VQA generation (one sample at a time — each has its OWN question) ──
+# ── VQA generation (one sample) ──
 def generate_vqa_outputs(
     model,
     dataset: "ViPETVQADataset",
@@ -159,8 +159,6 @@ def generate_vqa_outputs(
 ) -> list:
     """
     Generate an answer for every (image, question) pair in a ViPETVQADataset.
-
-    Processes one sample at a time because each question has a different prompt.
     """
     model.eval()
     results = []
@@ -200,11 +198,9 @@ def generate_vqa_outputs(
 
     return results
 
-
-# ── Single-sample inference (for demo app) ─────────────────
-# ── Single-sample inference (for demo app) ─────────────────
+# Single-sample inference
 def load_npz_volume(npz_path: str):
-    """Load a raw PET .npz file the same way ViPET3DDataset does."""
+    """Load a raw PET .npz file."""
     import numpy as np
     return np.load(npz_path)["data"].astype(np.float32)
 
@@ -297,7 +293,7 @@ def main():
     with open(args.config, encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
-    # Stage 3 checkpoint contains LoRA weights, so the model must be built with LoRA.
+    # Stage 3 checkpoint
     if args.checkpoint and "stage3" in args.checkpoint:
         config["model"]["use_lora"] = True
 
@@ -314,6 +310,10 @@ def main():
     )
 
     if args.task == "vqa":
+        df = pd.read_csv(config["data"]["metadata_path"])
+        data_df = split_metadata(df, args.split)
+        allowed_report_paths = set(data_df["report_path"])
+
         vqa_dataset = ViPETVQADataset(
             metadata_path=config["data"]["metadata_path"],
             vqa_path=args.vqa_path,
@@ -322,6 +322,7 @@ def main():
             pet_transform=pet_transform,
             ct_transform=None,
             local_data_dir=config["data"].get("local_data_dir", None),
+            allowed_report_paths = allowed_report_paths
         )
 
         if args.vqa_subsample and args.vqa_subsample < len(vqa_dataset.qa_pairs):
