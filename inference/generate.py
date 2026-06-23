@@ -151,6 +151,21 @@ def generate_outputs(
 
 
 # VQA batch generation
+def collate_vqa_inference(batch):
+    pets = []
+    for x in batch:
+        pet = x["pet"]
+        if pet.ndim == 3:
+            pet = pet.unsqueeze(0)  # (D,H,W) -> (1,D,H,W)
+        pets.append(pet)
+
+    return {
+        "pet": torch.stack(pets),
+        "patient_id": [x["patient_id"] for x in batch],
+        "question": [x["question"] for x in batch],
+        "answer": [x["answer"] for x in batch],
+    }
+
 def generate_vqa_outputs(
     model,
     dataloader: DataLoader,
@@ -256,15 +271,6 @@ def predict_single(
     generated = model.decode(output_ids)
     return generated[0]
 
-def collate_vqa_inference(batch):
-    return {
-        "pet": torch.stack([x["pet"] for x in batch]),
-        "patient_id": [x["patient_id"] for x in batch],
-        "question": [x["question"] for x in batch],
-        "answer": [x["answer"] for x in batch],
-    }
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
@@ -342,14 +348,21 @@ def main():
             )
 
         max_new_tokens = args.max_new_tokens or 256
+        
+        vqa_loader = DataLoader(
+            vqa_dataset,
+            batch_size=args.batch_size,
+            shuffle=False,
+            num_workers=2,
+            collate_fn=collate_vqa_inference,
+        )
 
         results = generate_vqa_outputs(
             model,
-            vqa_dataset,
+            vqa_loader,
             device,
             max_new_tokens=max_new_tokens,
         )
-
     else:
         df = pd.read_csv(config["data"]["metadata_path"])
         data_df = split_metadata(df, args.split)
