@@ -85,14 +85,13 @@ def compute_bertscore(
     references: List[str],
     lang: str = "vi",
     batch_size: int = 32,
+    model_type: str = "xlm-roberta-base",
 ) -> float:
-    """
-    Average BERTScore F1 across all pairs.
-    Returns BERTScore F1 as a percentage (0-100).
-    """
     _, _, f1 = bert_score.score(
-        predictions, references,
+        predictions,
+        references,
         lang=lang,
+        model_type=model_type,
         batch_size=batch_size,
         verbose=False,
     )
@@ -132,16 +131,24 @@ def evaluate_predictions_file(
     ref_key: str = "ground_truth",
 ) -> Dict[str, float]:
     """
-    Load a JSON file of [{"prediction": ..., "reference": ...}, ...]
-    and compute NLP metrics over it. Use pred_key/ref_key to match your
-    actual predictions.json field names if they differ.
+    Load a JSON file of prediction records and compute NLP metrics.
     """
     import json
+
     with open(predictions_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    predictions = [d[pred_key] for d in data]
-    references  = [d[ref_key] for d in data]
+    pairs = [
+        (
+            str(d.get(pred_key, "")).strip(),
+            str(d.get(ref_key, "")).strip(),
+        )
+        for d in data
+        if str(d.get(ref_key, "")).strip()
+    ]
+
+    predictions = [p for p, _ in pairs]
+    references = [r for _, r in pairs]
 
     return compute_nlp_metrics(predictions, references)
 
