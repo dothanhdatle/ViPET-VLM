@@ -73,34 +73,69 @@ def extract_month(pet_path: str) -> str:
     match = re.search(r'(THANG \d+)', pet_path)
     return match.group(1) if match else ""
 
-
 def parse_report(data: Dict) -> Dict[str, str]:
     """
-    Parse report JSON thành structured dict.
+    Parse report JSON into report fields.
 
-    Returns dict với keys:
-        full_text, impression, findings,
+    Returns dict with keys:
+        full_text, structured_text, impression, findings,
         head_neck, chest, abdomen, skeleton
     """
-    impression    = data.get(IMPRESSION_KEY, "")
+    if isinstance(data, str):
+        text = data.strip()
+        return {
+            "full_text": text,
+            "structured_text": text,
+            "impression": "",
+            "findings": text,
+            "head_neck": "",
+            "chest": "",
+            "abdomen": "",
+            "skeleton": "",
+        }
+
+    impression = str(data.get(IMPRESSION_KEY, "")).strip()
     findings_dict = data.get(FINDINGS_KEY, {})
 
-    head_neck = findings_dict.get("Đầu - cổ", "")
-    chest     = findings_dict.get("Lồng ngực", "")
-    abdomen   = findings_dict.get("Ổ bụng - khung chậu", "")
-    skeleton  = findings_dict.get("Hệ cơ - xương", "")
+    if not isinstance(findings_dict, dict):
+        findings_dict = {}
 
-    findings_text = " ".join(filter(None, [head_neck, chest, abdomen, skeleton]))
-    full_text     = " ".join(filter(None, [findings_text, impression]))
+    head_neck = str(findings_dict.get("Đầu - cổ", "")).strip()
+    chest = str(findings_dict.get("Lồng ngực", "")).strip()
+    abdomen = str(findings_dict.get("Ổ bụng - khung chậu", "")).strip()
+    skeleton = str(findings_dict.get("Hệ cơ - xương", "")).strip()
+
+    findings_text = " ".join(
+        filter(None, [head_neck, chest, abdomen, skeleton])
+    )
+
+    full_text = " ".join(
+        filter(None, [findings_text, impression])
+    )
+
+    structured_parts = []
+    if head_neck:
+        structured_parts.append(f"Đầu - cổ: {head_neck}")
+    if chest:
+        structured_parts.append(f"Lồng ngực: {chest}")
+    if abdomen:
+        structured_parts.append(f"Ổ bụng - khung chậu: {abdomen}")
+    if skeleton:
+        structured_parts.append(f"Hệ cơ - xương: {skeleton}")
+    if impression:
+        structured_parts.append(f"Kết luận: {impression}")
+
+    structured_text = "\n".join(structured_parts)
 
     return {
-        "full_text":  full_text,
+        "full_text": full_text,
+        "structured_text": structured_text,
         "impression": impression,
-        "findings":   findings_text,
-        "head_neck":  head_neck,
-        "chest":      chest,
-        "abdomen":    abdomen,
-        "skeleton":   skeleton,
+        "findings": findings_text,
+        "head_neck": head_neck,
+        "chest": chest,
+        "abdomen": abdomen,
+        "skeleton": skeleton,
     }
 
 

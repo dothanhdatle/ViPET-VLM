@@ -469,8 +469,9 @@ class Stage3Trainer:
 
     PROMPT = (
         "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-        "Hãy viết báo cáo y tế chi tiết cho ảnh này.\n"
-        "Báo cáo: "
+        "Hãy viết báo cáo PET/CT bằng tiếng Việt theo đúng cấu trúc sau: "
+        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
+        "Báo cáo:\n"
     )
 
     def __init__(self, model, config: dict, device: torch.device):
@@ -559,7 +560,7 @@ class Stage3Trainer:
 
         pet   = batch["pet"].to(self.device)
         #ct    = batch["ct"].to(self.device)
-        texts = batch["report"]["full_text"]
+        texts = batch["report"].get("structured_text", batch["report"]["full_text"])
 
         input_ids, attention_mask, labels = self._tokenize(texts)
         out  = self.model(pet, input_ids, attention_mask, labels)
@@ -582,7 +583,7 @@ class Stage3Trainer:
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
             #ct    = batch["ct"].to(self.device)
-            texts = batch["report"]["full_text"]
+            texts = batch["report"].get("structured_text", batch["report"]["full_text"])
             input_ids, attention_mask, labels = self._tokenize(texts)
             out   = self.model(pet, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())                     

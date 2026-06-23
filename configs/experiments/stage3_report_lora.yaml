@@ -33,5 +33,5 @@ training:
   num_workers: 2
 
 output:
-  checkpoint_dir: "/workspace/checkpoints/stage3_report"
+  checkpoint_dir: "/workspace/checkpoints/stage3_report_structured"
   log_dir: "/workspace/logs"

@@ -63,12 +63,9 @@ from models.vlms.vipet_vlm import build_model
 # ── Prompts ──────────────────────────────────────────────
 PROMPT_REPORT = (
     "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-    "Hãy viết báo cáo PET/CT toàn thân bằng tiếng Việt theo đúng trình tự các phần: "
-    "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận. "
-    "Không bắt đầu bằng khuyến nghị như 'Đối chiếu'. "
-    "Bắt đầu trực tiếp bằng phần mô tả hình ảnh.\n"
+    "Hãy viết báo cáo PET/CT bằng tiếng Việt theo đúng cấu trúc sau: "
+    "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
     "Báo cáo:\n"
-    "Đầu - cổ: "
 )
 
 PROMPT_VQA = (
