@@ -23,10 +23,10 @@ data:
 
 training:
   epochs: 3
-  batch_size: 4
+  batch_size: 2
   learning_rate: 2.0e-5
   weight_decay: 0.01
-  warmup_steps: 200
+  warmup_steps: 300
   max_length: 2048
   log_every: 10
   gradient_clip: 1.0
