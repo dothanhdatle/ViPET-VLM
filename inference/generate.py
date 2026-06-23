@@ -51,6 +51,7 @@ import torch
 import pandas as pd
 from tqdm import tqdm
 from torch.utils.data import DataLoader
+from peft import set_peft_model_state_dict
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -80,15 +81,20 @@ def load_checkpoint(model, checkpoint_path: str):
 
     if "projector" in ckpt:
         model.projector.load_state_dict(ckpt["projector"])
-        print(f"Projector loaded.")
+        print("Projector loaded.")
 
     if "lora" in ckpt and ckpt["lora"]:
-        missing, unexpected = model.llm.load_state_dict(
-            ckpt["lora"], strict=False,
-        )
-        print(f"LoRA loaded — Missing: {len(missing)} | Unexpected: {len(unexpected)}")
+        incompatible = set_peft_model_state_dict(model.llm, ckpt["lora"])
 
-    epoch    = ckpt.get("epoch", -1)
+        missing = getattr(incompatible, "missing_keys", [])
+        unexpected = getattr(incompatible, "unexpected_keys", [])
+
+        print(
+            f"LoRA loaded with PEFT — "
+            f"Missing: {len(missing)} | Unexpected: {len(unexpected)}"
+        )
+
+    epoch = ckpt.get("epoch", -1)
     val_loss = ckpt.get("val_loss", -1)
     print(f"Checkpoint: epoch={epoch}, val_loss={val_loss:.4f}")
     return epoch, val_loss
