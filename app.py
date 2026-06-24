@@ -197,42 +197,187 @@ def run_vqa_chat(pet_path, question, history):
     return history, ""
 
 
-with gr.Blocks(title="ViPET-VLM Demo") as demo:
-    gr.Markdown("# ViPET-VLM PET-only Demo")
-    gr.Markdown("Research demo for PET/CT report generation and multi-turn VQA.")
+APP_CSS = """
+:root {
+    --app-bg: #f4f7f8;
+    --panel-bg: #ffffff;
+    --text-main: #14252b;
+    --text-muted: #52666d;
+    --border: #d7e0e3;
+    --primary: #087f75;
+    --primary-hover: #06685f;
+}
 
-    with gr.Row():
-        pet_file = gr.File(label="PET volume (.npz)", type="filepath")
-        pet_preview = gr.Plot(label="PET coronal slice preview")
+.gradio-container {
+    max-width: 1440px !important;
+    margin: 0 auto !important;
+    background: var(--app-bg) !important;
+    color: var(--text-main) !important;
+}
 
-    with gr.Tabs():
-        with gr.Tab("Sinh báo cáo"):
-            report_btn = gr.Button("Sinh báo cáo", variant="primary")
-            report_output = gr.Textbox(label="Báo cáo sinh ra", lines=14)
+.main {
+    background: var(--app-bg) !important;
+}
 
-        with gr.Tab("Hỏi đáp PET"):
-            chatbot = gr.Chatbot(label="Hội thoại VQA", height=420)
-            vqa_question = gr.Textbox(
-                label="Câu hỏi",
-                placeholder="Ví dụ: Có phát hiện tăng chuyển hóa FDG bất thường không?",
+#app-header h1 {
+    margin-bottom: 4px !important;
+    color: var(--text-main) !important;
+}
+
+#app-header p {
+    color: var(--text-muted) !important;
+}
+
+#pet-upload,
+#pet-preview,
+#report-output,
+#vqa-chat {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+}
+
+#pet-upload {
+    min-height: 72px !important;
+}
+
+#pet-preview {
+    height: 560px !important;
+}
+
+#pet-preview .plot-container {
+    height: 510px !important;
+}
+
+#report-output textarea {
+    min-height: 430px !important;
+    color: var(--text-main) !important;
+    line-height: 1.55 !important;
+}
+
+#vqa-chat {
+    height: 430px !important;
+}
+
+button.primary {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: white !important;
+}
+
+button.primary:hover {
+    background: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+.tabs button.selected {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+footer {
+    display: none !important;
+}
+"""
+
+theme = gr.themes.Base(
+    primary_hue=gr.themes.colors.teal,
+    neutral_hue=gr.themes.colors.slate,
+    radius_size=gr.themes.sizes.radius_sm,
+    font=[
+        gr.themes.GoogleFont("Inter"),
+        "Arial",
+        "sans-serif",
+    ],
+)
+
+with gr.Blocks(
+    title="ViPET-VLM Demo",
+    theme=theme,
+    css=APP_CSS,
+) as demo:
+    with gr.Column(elem_id="app-header"):
+        gr.Markdown("# ViPET-VLM PET-only Demo")
+        gr.Markdown(
+            "Sinh báo cáo và hỏi đáp từ ảnh PET toàn thân 3D. "
+            "**Công cụ nghiên cứu, không sử dụng để chẩn đoán "
+            "hoặc thay thế kết luận của bác sĩ.**"
+        )
+
+    with gr.Row(equal_height=True):
+        # Cột trái: PET input và preview.
+        with gr.Column(scale=4, min_width=360):
+            pet_file = gr.File(
+                label="PET volume (.npz)",
+                type="filepath",
+                elem_id="pet-upload",
             )
-            with gr.Row():
-                vqa_btn = gr.Button("Trả lời", variant="primary")
-                clear_btn = gr.Button("Xóa hội thoại")
 
-    pet_file.change(on_pet_change, inputs=pet_file, outputs=[pet_preview, chatbot, report_output])
-    report_btn.click(run_report, inputs=pet_file, outputs=report_output)
+            pet_preview = gr.Plot(
+                label="PET coronal slice preview",
+                elem_id="pet-preview",
+            )
+
+        # Cột phải: report hoặc VQA.
+        with gr.Column(scale=7, min_width=560):
+            with gr.Tabs():
+                with gr.Tab("Sinh báo cáo"):
+                    report_btn = gr.Button(
+                        "Sinh báo cáo",
+                        variant="primary",
+                    )
+                    report_output = gr.Textbox(
+                        label="Báo cáo sinh ra",
+                        lines=18,
+                        elem_id="report-output",
+                    )
+
+                with gr.Tab("Hỏi đáp PET"):
+                    chatbot = gr.Chatbot(
+                        label="Hội thoại VQA",
+                        height=430,
+                        elem_id="vqa-chat",
+                    )
+
+                    vqa_question = gr.Textbox(
+                        label="Câu hỏi",
+                        placeholder=(
+                            "Ví dụ: Có phát hiện tăng chuyển hóa "
+                            "FDG bất thường không?"
+                        ),
+                    )
+
+                    with gr.Row():
+                        vqa_btn = gr.Button(
+                            "Trả lời",
+                            variant="primary",
+                        )
+                        clear_btn = gr.Button("Xóa hội thoại")
+
+    pet_file.change(
+        on_pet_change,
+        inputs=pet_file,
+        outputs=[pet_preview, chatbot, report_output],
+    )
+
+    report_btn.click(
+        run_report,
+        inputs=pet_file,
+        outputs=report_output,
+    )
 
     vqa_btn.click(
         run_vqa_chat,
         inputs=[pet_file, vqa_question, chatbot],
         outputs=[chatbot, vqa_question],
     )
+
     vqa_question.submit(
         run_vqa_chat,
         inputs=[pet_file, vqa_question, chatbot],
         outputs=[chatbot, vqa_question],
     )
+
     clear_btn.click(lambda: [], outputs=chatbot)
 
 
