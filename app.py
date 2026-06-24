@@ -228,6 +228,21 @@ APP_CSS = """
     color: var(--text-muted) !important;
 }
 
+#main-workspace {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+}
+
+#function-panel,
+#image-panel {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    padding: 14px !important;
+}
+
 #pet-upload,
 #pet-preview,
 #report-output,
@@ -242,15 +257,15 @@ APP_CSS = """
 }
 
 #pet-preview {
-    height: 560px !important;
+    height: 520px !important;
 }
 
 #pet-preview .plot-container {
-    height: 510px !important;
+    height: 475px !important;
 }
 
 #report-output textarea {
-    min-height: 430px !important;
+    min-height: 470px !important;
     color: var(--text-main) !important;
     line-height: 1.55 !important;
 }
@@ -278,7 +293,14 @@ button.primary:hover {
 footer {
     display: none !important;
 }
+
+@media (max-width: 900px) {
+    #main-workspace {
+        flex-wrap: wrap !important;
+    }
+}
 """
+
 
 theme = gr.themes.Base(
     primary_hue=gr.themes.colors.teal,
@@ -290,6 +312,7 @@ theme = gr.themes.Base(
         "sans-serif",
     ],
 )
+
 
 with gr.Blocks(
     title="ViPET-VLM Demo",
@@ -304,32 +327,27 @@ with gr.Blocks(
             "hoặc thay thế kết luận của bác sĩ.**"
         )
 
-    with gr.Row(equal_height=True):
-        # Cột trái: PET input và preview.
-        with gr.Column(scale=4, min_width=360):
-            pet_file = gr.File(
-                label="PET volume (.npz)",
-                type="filepath",
-                elem_id="pet-upload",
-            )
-
-            pet_preview = gr.Plot(
-                label="PET coronal slice preview",
-                elem_id="pet-preview",
-            )
-
-        # Cột phải: report hoặc VQA.
-        with gr.Column(scale=7, min_width=560):
+    with gr.Row(
+        equal_height=True,
+        elem_id="main-workspace",
+    ):
+        # Cột trái: sinh báo cáo và VQA.
+        with gr.Column(
+            scale=6,
+            min_width=400,
+            elem_id="function-panel",
+        ):
             with gr.Tabs():
                 with gr.Tab("Sinh báo cáo"):
-                    report_btn = gr.Button(
-                        "Sinh báo cáo",
-                        variant="primary",
-                    )
                     report_output = gr.Textbox(
                         label="Báo cáo sinh ra",
                         lines=18,
                         elem_id="report-output",
+                    )
+
+                    report_btn = gr.Button(
+                        "Sinh báo cáo",
+                        variant="primary",
                     )
 
                 with gr.Tab("Hỏi đáp PET"):
@@ -353,6 +371,23 @@ with gr.Blocks(
                             variant="primary",
                         )
                         clear_btn = gr.Button("Xóa hội thoại")
+
+        # Cột phải: upload và preview PET.
+        with gr.Column(
+            scale=4,
+            min_width=320,
+            elem_id="image-panel",
+        ):
+            pet_file = gr.File(
+                label="PET volume (.npz)",
+                type="filepath",
+                elem_id="pet-upload",
+            )
+
+            pet_preview = gr.Plot(
+                label="PET coronal slice preview",
+                elem_id="pet-preview",
+            )
 
     pet_file.change(
         on_pet_change,
@@ -378,9 +413,15 @@ with gr.Blocks(
         outputs=[chatbot, vqa_question],
     )
 
-    clear_btn.click(lambda: [], outputs=chatbot)
+    clear_btn.click(
+        lambda: [],
+        outputs=chatbot,
+    )
 
 
 if __name__ == "__main__":
     demo.queue(default_concurrency_limit=1)
-    demo.launch(server_name="0.0.0.0", share=True)
+    demo.launch(
+        server_name="0.0.0.0",
+        share=True,
+    )
