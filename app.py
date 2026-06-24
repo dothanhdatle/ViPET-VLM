@@ -352,9 +352,7 @@ with gr.Blocks(
     with gr.Column(elem_id="app-header"):
         gr.Markdown("# ViPET-VLM PET-only Demo")
         gr.Markdown(
-            "Sinh báo cáo và hỏi đáp từ ảnh PET toàn thân 3D. "
-            "**Công cụ nghiên cứu, không sử dụng để chẩn đoán "
-            "hoặc thay thế kết luận của bác sĩ.**"
+            "Sinh báo cáo và hỏi đáp từ ảnh PET toàn thân 3D."
         )
 
     with gr.Row(
