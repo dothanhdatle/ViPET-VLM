@@ -64,18 +64,20 @@ def preview_pet_slice(pet_path):
 
     volume = load_npz_volume(pet_path)
 
+    if volume.ndim == 4 and volume.shape[0] == 1:
+        volume = volume[0]
+
     if volume.ndim != 3:
         raise ValueError(f"Expected PET volume 3D, got {volume.shape}")
 
-    # Volume thường có dạng (D, H, W); lấy lát coronal giữa.
-    img = volume[:, volume.shape[1] // 2, :]
-    #img = np.rot90(img)
+    # Coronal maximum-intensity projection
+    img = np.max(volume, axis=1)
 
-    lo, hi = np.percentile(img, [1, 99])
+    lo, hi = np.percentile(img, [1, 99.5])
     img = np.clip(img, lo, hi)
     img = (img - lo) / (hi - lo + 1e-6)
 
-    return img.astype(np.float32)
+    return (img * 255).astype(np.uint8)
 
 
 def transform_pet(pet_path: str) -> torch.Tensor:
@@ -199,7 +201,7 @@ with gr.Blocks(title="ViPET-VLM Demo") as demo:
 
     with gr.Row():
         pet_file = gr.File(label="PET volume (.npz)", type="filepath")
-        pet_preview = gr.Image(label="Middle PET slice preview", type="numpy", height=360)
+        pet_preview = gr.Image(label="PET coronal MIP preview", type="numpy", height=360)
 
     with gr.Tabs():
         with gr.Tab("Sinh báo cáo"):
