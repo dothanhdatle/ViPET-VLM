@@ -300,7 +300,7 @@ def main():
     parser.add_argument("--checkpoint", required=True)
     parser.add_argument(
         "--split",
-        default="test",
+        default=None,
         choices=["train", "val", "test"],
     )
     parser.add_argument(
@@ -349,7 +349,11 @@ def main():
 
     if args.task == "vqa":
         df = pd.read_csv(config["data"]["metadata_path"])
-        data_df = split_metadata(df, args.split)
+        if args.split is None:
+            data_df = df.reset_index(drop=True)
+            print(f"No split filtering: using all {len(data_df)} metadata rows")
+        else:
+            data_df = split_metadata(df, args.split)
         if args.max_samples:
             data_df = data_df.head(args.max_samples)
         allowed_report_paths = set(data_df["report_path"])
@@ -391,7 +395,10 @@ def main():
         )
     else:
         df = pd.read_csv(config["data"]["metadata_path"])
-        data_df = split_metadata(df, args.split)
+        if args.split is None:
+            data_df = df.reset_index(drop=True)
+        else:
+            data_df = split_metadata(df, args.split)
         if args.max_samples:
             data_df = data_df.head(args.max_samples)
 
