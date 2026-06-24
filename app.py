@@ -6,9 +6,7 @@ import gradio as gr
 import numpy as np
 import torch
 import yaml
-import io
 import matplotlib.pyplot as plt
-from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -70,39 +68,18 @@ def preview_pet_slice(pet_path):
     if volume.ndim == 4 and volume.shape[0] == 1:
         volume = volume[0]
 
-    if volume.ndim != 3:
-        raise ValueError(
-            f"Expected PET volume shape (D,H,W), got {volume.shape}"
-        )
-
-    # Volume shape (D,H,W), lấy lát coronal chính giữa.
     pet_coronal = volume[:, volume.shape[1] // 2, :]
 
     fig, ax = plt.subplots(figsize=(5, 8))
-
     ax.imshow(
         pet_coronal,
         cmap="gray_r",
         aspect="auto",
-        interpolation="nearest",
     )
-    ax.set_title("PET Coronal Slice")
     ax.axis("off")
+    fig.tight_layout()
 
-    fig.tight_layout(pad=0.5)
-
-    buffer = io.BytesIO()
-    fig.savefig(
-        buffer,
-        format="png",
-        dpi=150,
-        bbox_inches="tight",
-        facecolor="white",
-    )
-    plt.close(fig)
-
-    buffer.seek(0)
-    return np.asarray(Image.open(buffer).convert("RGB"))
+    return fig
 
 
 def transform_pet(pet_path: str) -> torch.Tensor:
@@ -226,7 +203,7 @@ with gr.Blocks(title="ViPET-VLM Demo") as demo:
 
     with gr.Row():
         pet_file = gr.File(label="PET volume (.npz)", type="filepath")
-        pet_preview = gr.Image(label="PET coronal MIP preview", type="numpy", height=360)
+        pet_preview = gr.Plot(label="PET coronal slice preview")
 
     with gr.Tabs():
         with gr.Tab("Sinh báo cáo"):
