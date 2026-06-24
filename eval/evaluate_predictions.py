@@ -99,8 +99,8 @@ class PredictionEvaluator:
         fields = self.fields
         
         return all(
-            (pred_sample.get(field) == gt_sample.get(field) and pred_sample.get(field) != 'khac' )
-            for field in fields
+            pred_sample.get(field) == gt_sample.get(field)
+            for field in self.fields
         )
     
     def evaluate(self) -> Dict[str, Any]:

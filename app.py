@@ -17,7 +17,7 @@ from models.vlms.vipet_vlm import build_model
 VQA_CONFIG = os.getenv("VIPET_VQA_CONFIG", "configs/experiments/stage3_vqa_multi_lora.yaml")
 VQA_CHECKPOINT = os.getenv("VIPET_VQA_CHECKPOINT", "/workspace/checkpoints/stage3_vqa_multiturn/stage3_best.pt")
 
-REPORT_CONFIG = os.getenv("VIPET_REPORT_CONFIG","configs/experiments/stage3_report_structured.yaml")
+REPORT_CONFIG = os.getenv("VIPET_REPORT_CONFIG","configs/experiments/stage3_report_lora.yaml")
 REPORT_CHECKPOINT = os.getenv("VIPET_REPORT_CHECKPOINT", "/workspace/checkpoints/stage3_report_structured/stage3_best.pt")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -62,18 +62,18 @@ def preview_pet_slice(pet_path):
     if pet_path is None:
         return None
 
-    volume = np.squeeze(load_npz_volume(pet_path))
+    volume = load_npz_volume(pet_path)
 
     if volume.ndim != 3:
         raise ValueError(f"Expected PET volume 3D, got {volume.shape}")
 
     # Volume thường có dạng (D, H, W); lấy lát coronal giữa.
     img = volume[:, volume.shape[1] // 2, :]
-    img = np.rot90(img)
+    #img = np.rot90(img)
 
-    lo, hi = np.percentile(img, [1, 99])
-    img = np.clip(img, lo, hi)
-    img = (img - lo) / (hi - lo + 1e-6)
+    #lo, hi = np.percentile(img, [1, 99])
+    #img = np.clip(img, lo, hi)
+    #img = (img - lo) / (hi - lo + 1e-6)
 
     return img.astype(np.float32)
 

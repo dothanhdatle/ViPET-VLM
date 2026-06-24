@@ -16,7 +16,7 @@ model:
   projector_weights_path: "/workspace/checkpoints/stage2/stage2_best.pt"
 
 data:
-  metadata_path: "/workspace/data/metadata.csv"
+  metadata_path: "/workspace/data/metadata_medical_test_78.csv"
   local_data_dir: "/workspace/data"
   use_english: false
   encoder: "ctvit"

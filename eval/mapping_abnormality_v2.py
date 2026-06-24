@@ -1,4 +1,18 @@
-from categories.categories_ver1 import hinh_dang_ton_thuong, vi_tri_ton_thuong, xam_lan_dict, tang_chuyen_hoa
+#from categories.categories_ver1 import hinh_dang_ton_thuong, vi_tri_ton_thuong, xam_lan_dict, tang_chuyen_hoa
+try:
+    from .categories.categories_ver1 import (
+        hinh_dang_ton_thuong,
+        vi_tri_ton_thuong,
+        xam_lan_dict,
+        tang_chuyen_hoa,
+    )
+except ImportError:
+    from categories.categories_ver1 import (
+        hinh_dang_ton_thuong,
+        vi_tri_ton_thuong,
+        xam_lan_dict,
+        tang_chuyen_hoa,
+    )
 import json
 from typing import Dict, Any, Optional
 
@@ -48,17 +62,20 @@ class AbnormalityMapper:
         return self._find_matching_category(invasion_desc, self.invasion_categories)
 
     def map_fdg(self, fdg_info: Dict[str, Any]) -> str:
-        """
-        Map mức độ tăng chuyển hóa FDG vào category
-        
-        Args:
-            fdg_info (Dict[str, Any]): Dictionary chứa thông tin FDG
-            
-        Returns:
-            str: Category phù hợp
-        """
-        fdg_desc = fdg_info.get("Tăng chuyển hoá FDG", "")
-        return self._find_matching_category(fdg_desc, self.fdg_categories)
+        """Map FDG uptake, supporting both Vietnamese spelling variants."""
+        if not isinstance(fdg_info, dict):
+            return "không rõ"
+
+        fdg_desc = (
+            fdg_info.get("Tăng chuyển hoá FDG")
+            or fdg_info.get("Tăng chuyển hóa FDG")
+            or ""
+        )
+
+        return self._find_matching_category(
+            fdg_desc,
+            self.fdg_categories,
+        )
 
     def map_sample(self, sample_data: Dict[str, Any]) -> Dict[str, str]:
         # print(type(sample_data))

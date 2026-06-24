@@ -44,7 +44,7 @@ hinh_dang_ton_thuong = {
         'Nốt mờ có bờ không đều',
         'Nốt mờ dạng hang',
         'Nốt mờ dưới màng phổi',
-        'Nốt mờ vôi hóa',
+        'Nốt mờ vôi hóa'
         'Hình ảnh nốt mờ bán đặc',
         'Hình ảnh nốt mờ đặc',
         'Hình ảnh nốt mờ, bờ đa cung',
@@ -71,7 +71,7 @@ hinh_dang_ton_thuong = {
         'nốt mờ bờ đa cung',
         'Nốt mờ, bờ đa cung', 
         'nốt mờ dưới màng phổi', 'nốt mờ nhỏ', 
-        'Nốt mờ bờ tua gai', 'Nốt mờ bờ đa cung',
+        'Nốt mờ bờ tua gai', 'Nốt mờ bờ đa cung'
         'nốt mờ và nốt mờ nhỏ rải rác', 
         'nốt mờ với bờ đa cung', 'nốt mờ kính', 
         'Hình ảnh nốt mờ dưới màng phổi',  
@@ -101,7 +101,7 @@ hinh_dang_ton_thuong = {
     ],
 
     "khối mờ": [
-        'Khối mờ có bờ không đều',
+        'Khối mờ có bờ không đều'
         'Khối mờ',
         'Hình ảnh khối mờ bờ không thuần nhất',
         'khối mờ', 'khối mờ bờ đa cung', 
@@ -114,7 +114,7 @@ hinh_dang_ton_thuong = {
         "hình ảnh khối mờ bờ tua gai",
         "hình ảnh khối mờ đa cung",
         "hình ảnh khối mờ",
-        "hình ảnh khối mờ, bờ đa cung",
+        "hình ảnh khối mờ, bờ đa cung"
         'Hình ảnh khối',
         'Hình ảnh khối mờ',
         'Hình ảnh khối mờ bờ tua gai',
@@ -199,7 +199,7 @@ hinh_dang_ton_thuong = {
         'Tổn thương tỉ trọng mô mềm', 
         'Hình ảnh tổn thương tỉ trọng mô mềm',
         'Hình ảnh tổn thương tỷ trọng mô mềm',
-        'Hình ảnh khối tổn thương tỉ trọng mô mềm',
+        'Hình ảnh khối tổn thương tỉ trọng mô mềm'
         "khối tỉ trọng tổ chức",
     ],
 
@@ -257,14 +257,14 @@ hinh_dang_ton_thuong = {
 
 
     "khac": [
-        'Không có', 'Kén khí',
+        'Không có', 'Kén khí'
         'Khung đại tràng',
         "không đặc hiệu",
         "nốt tuyến thượng thận",
         'Dày tổ chức dưới da', # --> CHUYỂN VÀO MỤC "KHÁC" ?
         'Dày khí quản',# --> CHUYỂN VÀO MỤC "KHÁC" ?
         'dày nhẹ niêm mạc', # NÊN CHO VÀO PHẦN "KHÁC"
-        'Dày tuyến vú', # NÊN CHO VÀO PHẦN "KHÁC" (TUYẾN VÚ)
+        'Dày tuyến vú' # NÊN CHO VÀO PHẦN "KHÁC" (TUYẾN VÚ)
         "khác",
         'không có', 
         'Hình ảnh không đặc hiệu',
@@ -280,7 +280,7 @@ hinh_dang_ton_thuong = {
         "tổn thương dạng thâm nhiễm",
         'Tổn thương', 'Tổn thương bất thường tại mô phổi', 
         'Hình ảnh tổn thương dạng lưới nốt',
-        'Hình ảnh tổn thương dạng lướn', 
+        'Hình ảnh tổn thương dạng lướn' 
         'Tổn thương không đặc hiệu'
     ]
 }
