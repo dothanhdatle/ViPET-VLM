@@ -209,14 +209,21 @@ APP_CSS = """
 }
 
 .gradio-container {
+    width: 100% !important;
     max-width: 1440px !important;
     margin: 0 auto !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
     background: var(--app-bg) !important;
     color: var(--text-main) !important;
 }
 
 .main {
     background: var(--app-bg) !important;
+}
+
+#app-header {
+    margin-bottom: 12px !important;
 }
 
 #app-header h1 {
@@ -229,14 +236,18 @@ APP_CSS = """
 }
 
 #main-workspace {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: stretch !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 3fr) minmax(320px, 2fr) !important;
+    width: 100% !important;
     gap: 16px !important;
+    align-items: stretch !important;
 }
 
 #function-panel,
 #image-panel {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
     background: var(--panel-bg) !important;
     border: 1px solid var(--border) !important;
     border-radius: 6px !important;
@@ -258,6 +269,7 @@ APP_CSS = """
 
 #pet-preview {
     height: 520px !important;
+    overflow: hidden !important;
 }
 
 #pet-preview .plot-container {
@@ -277,7 +289,7 @@ APP_CSS = """
 button.primary {
     background: var(--primary) !important;
     border-color: var(--primary) !important;
-    color: white !important;
+    color: #ffffff !important;
 }
 
 button.primary:hover {
@@ -294,9 +306,27 @@ footer {
     display: none !important;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 720px) {
+    .gradio-container {
+        padding: 12px !important;
+    }
+
     #main-workspace {
-        flex-wrap: wrap !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    #pet-preview {
+        height: 440px !important;
+    }
+
+    #pet-preview .plot-container {
+        height: 395px !important;
+    }
+
+    #report-output textarea,
+    #vqa-chat {
+        min-height: 380px !important;
+        height: 380px !important;
     }
 }
 """
@@ -322,7 +352,9 @@ with gr.Blocks(
     with gr.Column(elem_id="app-header"):
         gr.Markdown("# ViPET-VLM PET-only Demo")
         gr.Markdown(
-            "Sinh báo cáo và hỏi đáp từ ảnh PET 3D toàn thân."
+            "Sinh báo cáo và hỏi đáp từ ảnh PET toàn thân 3D. "
+            "**Công cụ nghiên cứu, không sử dụng để chẩn đoán "
+            "hoặc thay thế kết luận của bác sĩ.**"
         )
 
     with gr.Row(
@@ -330,11 +362,7 @@ with gr.Blocks(
         elem_id="main-workspace",
     ):
         # Cột trái: sinh báo cáo và VQA.
-        with gr.Column(
-            scale=6,
-            min_width=400,
-            elem_id="function-panel",
-        ):
+        with gr.Column(elem_id="function-panel"):
             with gr.Tabs():
                 with gr.Tab("Sinh báo cáo"):
                     report_output = gr.Textbox(
@@ -371,11 +399,7 @@ with gr.Blocks(
                         clear_btn = gr.Button("Xóa hội thoại")
 
         # Cột phải: upload và preview PET.
-        with gr.Column(
-            scale=4,
-            min_width=320,
-            elem_id="image-panel",
-        ):
+        with gr.Column(elem_id="image-panel"):
             pet_file = gr.File(
                 label="PET volume (.npz)",
                 type="filepath",
