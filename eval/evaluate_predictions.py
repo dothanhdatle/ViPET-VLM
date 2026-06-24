@@ -4,7 +4,10 @@ from collections import defaultdict
 from mapping_abnormality_v2 import AbnormalityMapper
 from utils import * 
 
-special_path = './vitri_dacbiet.txt'
+import os
+
+EVAL_DIR = os.path.dirname(os.path.abspath(__file__))
+special_path = os.path.join(EVAL_DIR, "vitri_dacbiet.txt")
 special_list = read_set_from_file(special_path)
 
 

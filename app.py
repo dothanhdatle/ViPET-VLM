@@ -17,15 +17,17 @@ from models.vlms.vipet_vlm import build_model
 VQA_CONFIG = os.getenv("VIPET_VQA_CONFIG", "configs/experiments/stage3_vqa_multi_lora.yaml")
 VQA_CHECKPOINT = os.getenv("VIPET_VQA_CHECKPOINT", "/workspace/checkpoints/stage3_vqa_multiturn/stage3_best.pt")
 
-REPORT_CONFIG = os.getenv("VIPET_REPORT_CONFIG", VQA_CONFIG)
-REPORT_CHECKPOINT = os.getenv("VIPET_REPORT_CHECKPOINT", VQA_CHECKPOINT)
+REPORT_CONFIG = os.getenv("VIPET_REPORT_CONFIG","configs/experiments/stage3_report_structured.yaml")
+REPORT_CHECKPOINT = os.getenv("VIPET_REPORT_CHECKPOINT", "/workspace/checkpoints/stage3_report_structured/stage3_best.pt")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 PROMPT_REPORT = (
     "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-    "Hãy viết báo cáo y tế chi tiết cho ảnh này.\n"
-    "Báo cáo: "
+    "Hãy viết báo cáo PET/CT bằng tiếng Việt theo đúng cấu trúc sau: "
+    "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, "
+    "Hệ cơ - xương, Kết luận.\n"
+    "Báo cáo:\n"
 )
 
 _model_cache = {}
@@ -62,25 +64,17 @@ def preview_pet_slice(pet_path):
 
     volume = np.squeeze(load_npz_volume(pet_path))
 
-    if volume.ndim == 2:
-        img = volume
-    elif volume.ndim == 3:
-        shape = volume.shape
-        if shape[1] == shape[2]:
-            axis = 0
-        elif shape[0] == shape[1]:
-            axis = 2
-        elif shape[0] == shape[2]:
-            axis = 1
-        else:
-            axis = int(np.argmax(shape))
-        img = np.take(volume, shape[axis] // 2, axis=axis)
-    else:
-        raise ValueError(f"Unsupported PET shape: {volume.shape}")
+    if volume.ndim != 3:
+        raise ValueError(f"Expected PET volume 3D, got {volume.shape}")
+
+    # Volume thường có dạng (D, H, W); lấy lát coronal giữa.
+    img = volume[:, volume.shape[1] // 2, :]
+    img = np.rot90(img)
 
     lo, hi = np.percentile(img, [1, 99])
     img = np.clip(img, lo, hi)
-    img = (img - img.min()) / (img.max() - img.min() + 1e-6)
+    img = (img - lo) / (hi - lo + 1e-6)
+
     return img.astype(np.float32)
 
 
@@ -92,14 +86,25 @@ def transform_pet(pet_path: str) -> torch.Tensor:
 
 def clean_generated_text(text: str) -> str:
     text = text.strip()
-    for marker in ["\nNgười dùng:", "\nTrợ lý:", "Người dùng:", "Trợ lý:"]:
+
+    if text.startswith("Trợ lý:"):
+        text = text[len("Trợ lý:"):].strip()
+
+    for marker in ["\nNgười dùng:", "\nUser:"]:
         if marker in text:
-            text = text.split(marker)[0].strip()
+            text = text.split(marker, 1)[0].strip()
+
     return text
 
 
-@torch.no_grad()
-def generate_with_prompt(model, pet_path: str, prompt: str, max_new_tokens: int) -> str:
+@torch.inference_mode()
+def generate_with_prompt(
+    model,
+    pet_path: str,
+    prompt: str,
+    max_new_tokens: int,
+    repetition_penalty: float = 1.15,
+) -> str:
     pet = transform_pet(pet_path)
 
     encoded = model.tokenizer(
@@ -114,34 +119,38 @@ def generate_with_prompt(model, pet_path: str, prompt: str, max_new_tokens: int)
         attention_mask=encoded.attention_mask,
         max_new_tokens=max_new_tokens,
         do_sample=False,
-        repetition_penalty=1.15,
+        repetition_penalty=repetition_penalty,
     )
 
     return clean_generated_text(model.decode(output_ids)[0])
 
 
-def build_multiturn_prompt(question: str, history: List[Tuple[str, str]]) -> str:
+def build_multiturn_prompt(
+    question: str,
+    history: List[Tuple[str, str]],
+    max_history_turns: int = 5,
+) -> str:
     parts = []
 
-    for user_msg, assistant_msg in history or []:
-        parts.append(f"Người dùng: {user_msg}\n")
-        parts.append(f"Trợ lý: {assistant_msg}\n")
+    for user_msg, assistant_msg in (history or [])[-max_history_turns:]:
+        parts.append(f"Người dùng: {user_msg.strip()}\n")
+        parts.append(f"Trợ lý: {assistant_msg.strip()}\n")
 
-    parts.append(
-        "Người dùng: Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-        f"{question}\n"
-        "Trợ lý: "
-    )
+    parts.append(f"Người dùng: {question.strip()}\n")
+    parts.append("Trợ lý: ")
+
     return "".join(parts)
 
 
 def on_pet_change(pet_path):
     if pet_path is None:
-        return None, []
+        return None, [], ""
+
     try:
-        return preview_pet_slice(pet_path), []
+        return preview_pet_slice(pet_path), [], ""
     except Exception as e:
-        return None, [("System", f"Lỗi đọc PET: {e}")]
+        gr.Warning(f"Không thể đọc PET: {e}")
+        return None, [], ""
 
 
 def run_report(pet_path):
@@ -156,11 +165,11 @@ def run_report(pet_path):
 
 
 def run_vqa_chat(pet_path, question, history):
-    history = history or []
+    history = list(history or [])
 
     if pet_path is None:
-        history.append(("System", "Vui lòng tải lên file PET (.npz)."))
-        return history, ""
+        gr.Warning("Vui lòng tải lên file PET (.npz).")
+        return history, question
 
     if not question or not question.strip():
         return history, ""
@@ -170,7 +179,13 @@ def run_vqa_chat(pet_path, question, history):
     try:
         model = get_model(VQA_CONFIG, VQA_CHECKPOINT)
         prompt = build_multiturn_prompt(question, history)
-        answer = generate_with_prompt(model, pet_path, prompt, max_new_tokens=128)
+        answer = generate_with_prompt(
+            model,
+            pet_path,
+            prompt,
+            max_new_tokens=128,
+            repetition_penalty=1.15,
+        )
     except Exception as e:
         answer = f"Lỗi: {e}"
 
@@ -201,7 +216,7 @@ with gr.Blocks(title="ViPET-VLM Demo") as demo:
                 vqa_btn = gr.Button("Trả lời", variant="primary")
                 clear_btn = gr.Button("Xóa hội thoại")
 
-    pet_file.change(on_pet_change, inputs=pet_file, outputs=[pet_preview, chatbot])
+    pet_file.change(on_pet_change, inputs=pet_file, outputs=[pet_preview, chatbot, report_output])
     report_btn.click(run_report, inputs=pet_file, outputs=report_output)
 
     vqa_btn.click(
@@ -218,4 +233,5 @@ with gr.Blocks(title="ViPET-VLM Demo") as demo:
 
 
 if __name__ == "__main__":
-    demo.launch(share=True)
+    demo.queue(default_concurrency_limit=1)
+    demo.launch(server_name="0.0.0.0", share=True)

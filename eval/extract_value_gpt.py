@@ -4,7 +4,11 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    timeout=120.0,
+    max_retries=5,
+)
 EXTRACTION_MODEL = "gpt-4o-mini"
 
 def extract_value(prompt):
