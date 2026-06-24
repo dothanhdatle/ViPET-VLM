@@ -6,6 +6,9 @@ import gradio as gr
 import numpy as np
 import torch
 import yaml
+import io
+import matplotlib.pyplot as plt
+from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -68,16 +71,38 @@ def preview_pet_slice(pet_path):
         volume = volume[0]
 
     if volume.ndim != 3:
-        raise ValueError(f"Expected PET volume 3D, got {volume.shape}")
+        raise ValueError(
+            f"Expected PET volume shape (D,H,W), got {volume.shape}"
+        )
 
-    # Coronal maximum-intensity projection
-    img = np.max(volume, axis=1)
+    # Volume shape (D,H,W), lấy lát coronal chính giữa.
+    pet_coronal = volume[:, volume.shape[1] // 2, :]
 
-    lo, hi = np.percentile(img, [1, 99.5])
-    img = np.clip(img, lo, hi)
-    img = (img - lo) / (hi - lo + 1e-6)
+    fig, ax = plt.subplots(figsize=(5, 8))
 
-    return (img * 255).astype(np.uint8)
+    ax.imshow(
+        pet_coronal,
+        cmap="gray_r",
+        aspect="auto",
+        interpolation="nearest",
+    )
+    ax.set_title("PET Coronal Slice")
+    ax.axis("off")
+
+    fig.tight_layout(pad=0.5)
+
+    buffer = io.BytesIO()
+    fig.savefig(
+        buffer,
+        format="png",
+        dpi=150,
+        bbox_inches="tight",
+        facecolor="white",
+    )
+    plt.close(fig)
+
+    buffer.seek(0)
+    return np.asarray(Image.open(buffer).convert("RGB"))
 
 
 def transform_pet(pet_path: str) -> torch.Tensor:
