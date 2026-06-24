@@ -70,7 +70,7 @@ def preview_pet_slice(pet_path):
 
     pet_coronal = volume[:, volume.shape[1] // 2, :]
 
-    fig, ax = plt.subplots(figsize=(5, 8))
+    fig, ax = plt.subplots(figsize=(3, 5))
     ax.imshow(
         pet_coronal,
         cmap="gray_r",
