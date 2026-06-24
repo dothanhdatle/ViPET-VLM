@@ -71,9 +71,9 @@ def preview_pet_slice(pet_path):
     img = volume[:, volume.shape[1] // 2, :]
     #img = np.rot90(img)
 
-    #lo, hi = np.percentile(img, [1, 99])
-    #img = np.clip(img, lo, hi)
-    #img = (img - lo) / (hi - lo + 1e-6)
+    lo, hi = np.percentile(img, [1, 99])
+    img = np.clip(img, lo, hi)
+    img = (img - lo) / (hi - lo + 1e-6)
 
     return img.astype(np.float32)
 
