@@ -244,8 +244,8 @@ class Stage2Trainer:
     PROMPT = (
         "Đây là ảnh PET toàn thân của bệnh nhân. "
         "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
-        "Nhận định kết quả, Đầu - cổ, Lồng ngực, "
-        "Ổ bụng - khung chậu, Hệ cơ - xương.\n"
+        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, "
+        "Hệ cơ - xương, Nhận định kết quả.\n"
         "Báo cáo:\n"
     )
 
@@ -520,8 +520,8 @@ class Stage3Trainer:
     PROMPT = (
         "Đây là ảnh PET toàn thân của bệnh nhân. "
         "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
-        "Nhận định kết quả, Đầu - cổ, Lồng ngực, "
-        "Ổ bụng - khung chậu, Hệ cơ - xương.\n"
+        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, "
+        "Hệ cơ - xương, Nhận định kết quả.\n"
         "Báo cáo:\n"
     )
 
