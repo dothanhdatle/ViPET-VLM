@@ -122,10 +122,12 @@ def parse_report(data: Dict) -> Dict[str, str]:
     )
 
     full_text = " ".join(
-        filter(None, [findings_text, impression])
+        filter(None, [impression, findings_text])
     )
 
     structured_parts = []
+    if impression:
+        structured_parts.append(f"Nhận định kết quả: {impression}")
     if head_neck:
         structured_parts.append(f"Đầu - cổ: {head_neck}")
     if chest:
@@ -134,8 +136,6 @@ def parse_report(data: Dict) -> Dict[str, str]:
         structured_parts.append(f"Ổ bụng - khung chậu: {abdomen}")
     if skeleton:
         structured_parts.append(f"Hệ cơ - xương: {skeleton}")
-    if impression:
-        structured_parts.append(f"Kết luận: {impression}")
 
     structured_text = "\n".join(structured_parts)
 

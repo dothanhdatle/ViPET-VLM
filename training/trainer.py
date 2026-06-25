@@ -87,7 +87,7 @@ class Stage1Trainer:
 
         pet   = batch["pet"].to(self.device)
         #ct    = batch["ct"].to(self.device)
-        texts = batch["report"]["structured_text"]
+        texts = batch["report"]["full_text"]
 
         # AMP forward pass
         with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
@@ -129,7 +129,7 @@ class Stage1Trainer:
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
             #ct    = batch["ct"].to(self.device)
-            texts = batch["report"]["structured_text"]
+            texts = batch["report"]["full_text"]
 
             with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
                 out = self.model(pet, texts)
@@ -232,7 +232,8 @@ class Stage2Trainer:
     PROMPT = (
         "Đây là ảnh PET toàn thân của bệnh nhân. "
         "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
-        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
+        "Nhận định kết quả, Đầu - cổ, Lồng ngực, "
+        "Ổ bụng - khung chậu, Hệ cơ - xương.\n"
         "Báo cáo:\n"
     )
 
@@ -501,7 +502,8 @@ class Stage3Trainer:
     PROMPT = (
         "Đây là ảnh PET toàn thân của bệnh nhân. "
         "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
-        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
+        "Nhận định kết quả, Đầu - cổ, Lồng ngực, "
+        "Ổ bụng - khung chậu, Hệ cơ - xương.\n"
         "Báo cáo:\n"
     )
 
@@ -591,7 +593,7 @@ class Stage3Trainer:
 
         pet   = batch["pet"].to(self.device)
         #ct    = batch["ct"].to(self.device)
-        texts = batch["report"].get("structured_text", batch["report"]["full_text"])
+        texts = batch["report"]["structured_text"]
 
         input_ids, attention_mask, labels = self._tokenize(texts)
         out  = self.model(pet, input_ids, attention_mask, labels)
@@ -614,7 +616,7 @@ class Stage3Trainer:
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
             #ct    = batch["ct"].to(self.device)
-            texts = batch["report"].get("structured_text", batch["report"]["full_text"])
+            texts = batch["report"]["structured_text"]
             input_ids, attention_mask, labels = self._tokenize(texts)
             out   = self.model(pet, input_ids, attention_mask, labels)
             losses.append(out["loss"].item())                     
