@@ -61,6 +61,33 @@ else:
     print(f'CT-ViT weights saved to {dest}')
 "
 
+echo "Downloading CT-CLIP pretrained weights..."
+export HF_HUB_ENABLE_HF_TRANSFER=1
+python -c "
+repo_id = 'ibrahimhamamci/CT-RATE'
+filename = 'models/CT-CLIP-Related/CT-CLIP_v2.pt'
+weights_dir = '/workspace/weights'
+dest = os.path.join(weights_dir, 'CT-CLIP_v2.pt')
+
+os.makedirs(weights_dir, exist_ok=True)
+
+if os.path.isfile(dest) and os.path.getsize(dest) > 0:
+    print(f'CT-CLIP weights already exist at {dest}')
+else:
+    path = hf_hub_download(
+        repo_id=repo_id,
+        filename=filename,
+        repo_type='dataset',
+        local_dir=weights_dir,
+    )
+
+    if os.path.abspath(path) != os.path.abspath(dest):
+        shutil.copy2(path, dest)
+
+    print(f'CT-CLIP weights saved to {dest}')
+    print(f'Size: {os.path.getsize(dest) / 1024**3:.2f} GB')
+"
+
 # ── Verify PyTorch CUDA ───────────────────────────────────
 echo "Verifying PyTorch CUDA..."
 python -c "
