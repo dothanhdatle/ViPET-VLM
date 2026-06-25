@@ -136,28 +136,50 @@ class Stage1Trainer:
     @torch.no_grad()
     def _val_epoch(self, val_loader: DataLoader) -> dict:
         self.model.eval()
-        losses, accs = [], []
+
+        total_loss = 0.0
+        total_acc = 0.0
+        total_samples = 0
 
         for batch in val_loader:
-            pet   = batch["pet"].to(self.device)
-            #ct    = batch["ct"].to(self.device)
+            pet = batch["pet"].to(
+                self.device,
+                non_blocking=True,
+            )
             texts = batch["report"]["full_text"]
 
-            with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
+            with torch.amp.autocast(
+                device_type="cuda",
+                enabled=self.use_amp,
+                dtype=torch.bfloat16,
+            ):
                 out = self.model(pet, texts)
 
-            losses.append(out["loss"].item())
-            B = pet.shape[0]
-            labels = torch.arange(B, device=self.device)
+            batch_size = pet.shape[0]
+            labels = torch.arange(
+                batch_size,
+                device=self.device,
+            )
+
             acc = (
-                (out["logits_per_image"].argmax(dim=1) == labels).float().mean() +
-                (out["logits_per_text"].argmax(dim=1)  == labels).float().mean()
+                (
+                    out["logits_per_image"].argmax(dim=1)
+                    == labels
+                ).float().mean()
+                +
+                (
+                    out["logits_per_text"].argmax(dim=1)
+                    == labels
+                ).float().mean()
             ) / 2
-            accs.append(acc.item())
+
+            total_loss += out["loss"].item() * batch_size
+            total_acc += acc.item() * batch_size
+            total_samples += batch_size
 
         return {
-            "val_loss":     np.mean(losses),
-            "val_accuracy": np.mean(accs),
+            "val_loss": total_loss / total_samples,
+            "val_accuracy": total_acc / total_samples,
         }
 
     def save_checkpoint(self, epoch: int, val_loss: float, is_best: bool):
