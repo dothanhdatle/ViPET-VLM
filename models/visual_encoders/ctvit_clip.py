@@ -206,7 +206,7 @@ class PhoBERTEncoder(nn.Module):
         super().__init__()
         print(f"Loading PhoBERT: {self.MODEL_NAME}...")
         self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL_NAME)
-        self.model     = AutoModel.from_pretrained(self.MODEL_NAME)
+        self.model     = AutoModel.from_pretrained(self.MODEL_NAME, add_pooling_layer=False)
 
         if freeze:
             for p in self.model.parameters():

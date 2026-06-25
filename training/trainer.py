@@ -90,6 +90,7 @@ class Stage1Trainer:
             pin_memory=True,
             worker_init_fn=seed_worker,
             generator=generator,
+            drop_last=shuffle,  # bỏ batch cuối B=1 ở train
         )
 
     def _train_step(self, batch: dict) -> dict:

@@ -54,6 +54,8 @@ def main():
     parser.add_argument("--official_gt_dir", required=True,
                         help="Local dir containing the downloaded medical_test_set/*.json files")
     parser.add_argument("--output_file", default="clinical_f1_official_overlap.json")
+    parser.add_argument("--extracted_output_file", default="extracted_medical_test.json",
+                        help="Save extracted generated reports for per-patient analysis",)
     args = parser.parse_args()
 
     with open(args.predictions_file, "r", encoding="utf-8") as f:
@@ -93,11 +95,17 @@ def main():
         extracted_generated = extract_value(pred_item["generated"])
 
         extracted_data.append({
-            "patient_id":             pred_item["patient_id"],
-            "extracted_generated":    extracted_generated,
+            "patient_id": pred_item["patient_id"],
+            "generated_report": pred_item["generated"],
+            "ground_truth_report": pred_item.get("ground_truth", ""),
+            "extracted_generated": extracted_generated,
             "extracted_ground_truth": official_gt,
         })
+    
+    with open(args.extracted_output_file, "w", encoding="utf-8") as f:
+        json.dump(extracted_data, f, ensure_ascii=False, indent=2)
 
+    print(f"\nSaved extracted data -> {args.extracted_output_file}")
     scores = compute_clinical_f1(extracted_data)
 
     print(f"\nKết quả trên {len(overlap_nums)}-patient overlap (model của bạn):")

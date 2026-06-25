@@ -52,19 +52,23 @@ def resize_volume(
     target_height: int,
     target_width: int,
 ) -> torch.Tensor:
-    """
-    Resize 3D volume bằng trilinear interpolation.
-    Input:  (D, H, W) np.ndarray
-    Output: (1, D_out, H_out, W_out) torch.Tensor
-    """
-    t = torch.tensor(volume, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
+    if volume.ndim != 3:
+        raise ValueError(
+            f"Expected volume shape (D,H,W), got {volume.shape}"
+        )
+
+    t = torch.from_numpy(
+        np.ascontiguousarray(volume)
+    ).float().unsqueeze(0).unsqueeze(0)
+
     t = F.interpolate(
         t,
         size=(target_depth, target_height, target_width),
         mode="trilinear",
         align_corners=False,
     )
-    return t.squeeze(0)  # (1, D, H, W)
+
+    return t.squeeze(0)
 
 
 class BaseViPETTransform(ABC):
