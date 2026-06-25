@@ -346,6 +346,7 @@ class Stage2Trainer:
                 dataset, qa_dataset,
                 report_prompt=self.PROMPT,
                 qa_per_study=self.qa_per_study,
+                seed=self.config["training"].get("seed", 42)
             )
 
         seed = self.config["training"].get("seed", 42)
@@ -364,28 +365,48 @@ class Stage2Trainer:
 
     def _tokenize(self, prompts: list, targets: list):
         tokenizer = self.model.tokenizer
+        max_length = self.config["training"].get(
+            "max_length",
+            2048,
+        )
 
         prompt_lens = [
-            len(tokenizer(p, add_special_tokens=True).input_ids)
-            for p in prompts
+            len(
+                tokenizer(
+                    prompt,
+                    add_special_tokens=True,
+                    truncation=True,
+                    max_length=max_length,
+                ).input_ids
+            )
+            for prompt in prompts
         ]
 
         eos = tokenizer.eos_token or ""
-        full_texts = [p + t + eos for p, t in zip(prompts, targets)]
+        full_texts = [
+            prompt + target + eos
+            for prompt, target in zip(prompts, targets)
+        ]
 
         encoded = tokenizer(
             full_texts,
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=self.config["training"].get("max_length", 2048),
+            max_length=max_length,
         ).to(self.device)
 
         labels = encoded.input_ids.clone()
-        for i, plen in enumerate(prompt_lens):
-            labels[i, :plen] = -100
-        #labels[labels == tokenizer.pad_token_id] = -100
-        labels[encoded.attention_mask == 0] = -100 # do mistral thường pad bằng eos
+
+        for i, prompt_len in enumerate(prompt_lens):
+            labels[i, :min(prompt_len, labels.shape[1])] = -100
+
+        labels[encoded.attention_mask == 0] = -100
+
+        if not (labels != -100).any():
+            raise RuntimeError(
+                "All target tokens were truncated or masked."
+            )
 
         return encoded.input_ids, encoded.attention_mask, labels
 
@@ -420,13 +441,18 @@ class Stage2Trainer:
             targets,
         )
 
-        out = self.model(
-            pet,
-            input_ids,
-            attention_mask,
-            labels,
-        )
-        loss = out["loss"]
+        with torch.amp.autocast(
+            device_type="cuda",
+            enabled=self.device.type == "cuda",
+            dtype=torch.bfloat16,
+        ):
+            out = self.model(
+                pet,
+                input_ids,
+                attention_mask,
+                labels,
+            )
+            loss = out["loss"]
 
         loss.backward()
 
@@ -446,17 +472,51 @@ class Stage2Trainer:
     @torch.no_grad()
     def _val_epoch(self, val_loader: DataLoader) -> dict:
         self.model.eval()
-        losses = []
+
+        total_loss = 0.0
+        total_tokens = 0
 
         for batch in val_loader:
-            pet = batch["pet"].to(self.device)
-            #ct  = batch["ct"].to(self.device)
-            prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
-            input_ids, attention_mask, labels = self._tokenize(prompts, targets)
-            out = self.model(pet, input_ids, attention_mask, labels)
-            losses.append(out["loss"].item())
+            pet = batch["pet"].to(
+                self.device,
+                non_blocking=True,
+            )
 
-        return {"val_loss": np.mean(losses)}
+            prompts, targets = self._prompts_and_targets(
+                batch,
+                self.PROMPT,
+            )
+
+            input_ids, attention_mask, labels = self._tokenize(
+                prompts,
+                targets,
+            )
+
+            with torch.amp.autocast(
+                device_type="cuda",
+                enabled=self.device.type == "cuda",
+                dtype=torch.bfloat16,
+            ):
+                out = self.model(
+                    pet,
+                    input_ids,
+                    attention_mask,
+                    labels,
+                )
+
+            valid_tokens = (labels != -100).sum().item()
+
+            total_loss += out["loss"].item() * valid_tokens
+            total_tokens += valid_tokens
+
+        if total_tokens == 0:
+            raise RuntimeError(
+                "Validation set contains no supervised target tokens."
+            )
+
+        return {
+            "val_loss": total_loss / total_tokens,
+        }
 
     def save_checkpoint(self, epoch: int, val_loss: float, is_best: bool):
         ckpt = {
