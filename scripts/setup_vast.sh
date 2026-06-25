@@ -40,20 +40,11 @@ dest = '/workspace/weights/ctvit_pretrained.pt'
 if os.path.exists(dest):
     print(f'CT-ViT weights already exists at {dest}')
 else:
-    try:
-        path = hf_hub_download(
-            repo_id='Project-MONAI/GenerateCT',
-            filename='pretrained_models/ctvit_pretrained.pt',
-            local_dir='/workspace/weights',
-        )
-    except Exception as e:
-        print(f'Project-MONAI failed: {e}')
-        print('Trying generatect/GenerateCT...')
-        path = hf_hub_download(
-            repo_id='generatect/GenerateCT',
-            filename='pretrained_models/ctvit_pretrained.pt',
-            local_dir='/workspace/weights',
-        )
+    path = hf_hub_download(
+        repo_id='generatect/GenerateCT',
+        filename='pretrained_models/ctvit_pretrained.pt',
+        local_dir='/workspace/weights',
+    )
 
     if os.path.abspath(path) != os.path.abspath(dest):
         shutil.move(path, dest)
@@ -64,6 +55,9 @@ else:
 echo "Downloading CT-CLIP pretrained weights..."
 export HF_HUB_ENABLE_HF_TRANSFER=1
 python -c "
+from huggingface_hub import hf_hub_download
+import shutil, os
+
 repo_id = 'ibrahimhamamci/CT-RATE'
 filename = 'models/CT-CLIP-Related/CT-CLIP_v2.pt'
 weights_dir = '/workspace/weights'
