@@ -5,6 +5,7 @@ CLIP-style fine-tuning CT-ViT trên PET data.
 
 import os
 import time
+import random
 import torch
 import numpy as np
 import pandas as pd
@@ -15,6 +16,10 @@ from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 from data.dataset import ViPET3DDataset, MixedStage2Dataset
 from data.preprocessing import get_transform
 
+def seed_worker(worker_id):
+    worker_seed = torch.initial_seed() % (2**32)
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
 
 class Stage1Trainer:
 
@@ -73,12 +78,18 @@ class Stage1Trainer:
         )
         dataset.df = df.reset_index(drop=True)
 
+        seed = self.config["training"].get("seed", 42)
+        generator = torch.Generator()
+        generator.manual_seed(seed)
+
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
             shuffle=shuffle,
             num_workers=self.config["training"].get("num_workers", 4),
             pin_memory=True,
+            worker_init_fn=seed_worker,
+            generator=generator,
         )
 
     def _train_step(self, batch: dict) -> dict:
@@ -314,12 +325,18 @@ class Stage2Trainer:
                 qa_per_study=self.qa_per_study,
             )
 
+        seed = self.config["training"].get("seed", 42)
+        generator = torch.Generator()
+        generator.manual_seed(seed)
+
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
             shuffle=shuffle,
             num_workers=self.config["training"].get("num_workers", 2),
             pin_memory=True,
+            worker_init_fn=seed_worker,
+            generator=generator,
         )
 
     def _tokenize(self, prompts: list, targets: list):
@@ -556,12 +573,18 @@ class Stage3Trainer:
             local_data_dir=self.config["data"].get("local_data_dir", None),
         )
         dataset.df = df.reset_index(drop=True)
+
+        seed = self.config["training"].get("seed", 42)
+        generator = torch.Generator()
+        generator.manual_seed(seed)
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
             shuffle=shuffle,
             num_workers=self.config["training"].get("num_workers", 2),
             pin_memory=True,
+            worker_init_fn=seed_worker,
+            generator=generator,
         )
 
     def _tokenize(self, reports: list):
@@ -740,12 +763,18 @@ class Stage3VQATrainer(Stage3Trainer):
             allowed_report_paths=set(df["report_path"]),
         )
 
+        seed = self.config["training"].get("seed", 42)
+        generator = torch.Generator()
+        generator.manual_seed(seed)
+
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
             shuffle=shuffle,
             num_workers=self.config["training"].get("num_workers", 2),
             pin_memory=True,
+            worker_init_fn=seed_worker,
+            generator=generator,
         )
 
     def _tokenize_vqa(self, questions: list, answers: list):
@@ -930,6 +959,10 @@ class Stage3MultiTurnVQATrainer(Stage3Trainer):
             f"for this split"
         )
 
+        seed = self.config["training"].get("seed", 42)
+        generator = torch.Generator()
+        generator.manual_seed(seed)
+
         return DataLoader(
             dataset,
             batch_size=self.config["training"]["batch_size"],
@@ -937,6 +970,8 @@ class Stage3MultiTurnVQATrainer(Stage3Trainer):
             num_workers=self.config["training"].get("num_workers", 2),
             pin_memory=True,
             collate_fn=collate_multiturn_vqa,
+            worker_init_fn=seed_worker,
+            generator=generator
         )
 
     def _encode_text(self, text: str, add_special_tokens: bool = False):

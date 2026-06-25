@@ -27,6 +27,25 @@ def load_config(config_path: str) -> dict:
     with open(config_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
+import random
+import numpy as np
+
+
+def set_seed(seed: int = 42):
+    os.environ["PYTHONHASHSEED"] = str(seed)
+
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+    torch.use_deterministic_algorithms(
+        True,
+        warn_only=True,
+    )
 
 def main():
     parser = argparse.ArgumentParser()
@@ -35,6 +54,11 @@ def main():
     args = parser.parse_args()
 
     config = load_config(args.config)
+    
+    seed = config.get("training", {}).get("seed", 42)
+    set_seed(seed)
+    print(f"Random seed: {seed}")
+
     if args.local_data_dir:
         config["data"]["local_data_dir"] = args.local_data_dir
 

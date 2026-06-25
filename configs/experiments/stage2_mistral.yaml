@@ -17,6 +17,7 @@ data:
   qa_per_study: 2
 
 training:
+  seed:          42
   epochs:        5
   batch_size:    4
   learning_rate: 2.0e-3
