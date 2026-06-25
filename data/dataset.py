@@ -73,6 +73,11 @@ def extract_month(pet_path: str) -> str:
     match = re.search(r'(THANG \d+)', pet_path)
     return match.group(1) if match else ""
 
+def _clean_report_value(value: Any) -> str:
+    if value is None:
+        return ""
+    return str(value).strip()
+
 def parse_report(data: Dict) -> Dict[str, str]:
     """
     Parse report JSON into report fields.
@@ -93,17 +98,24 @@ def parse_report(data: Dict) -> Dict[str, str]:
             "abdomen": "",
             "skeleton": "",
         }
+    
+    if not isinstance(data, dict):
+        data = {}
 
-    impression = str(data.get(IMPRESSION_KEY, "")).strip()
+    impression = _clean_report_value(data.get(IMPRESSION_KEY))
+
     findings_dict = data.get(FINDINGS_KEY, {})
-
     if not isinstance(findings_dict, dict):
         findings_dict = {}
 
-    head_neck = str(findings_dict.get("Đầu - cổ", "")).strip()
-    chest = str(findings_dict.get("Lồng ngực", "")).strip()
-    abdomen = str(findings_dict.get("Ổ bụng - khung chậu", "")).strip()
-    skeleton = str(findings_dict.get("Hệ cơ - xương", "")).strip()
+    head_neck = _clean_report_value(findings_dict.get("Đầu - cổ"))
+    chest = _clean_report_value(findings_dict.get("Lồng ngực"))
+    abdomen = _clean_report_value(
+        findings_dict.get("Ổ bụng - khung chậu")
+    )
+    skeleton = _clean_report_value(
+        findings_dict.get("Hệ cơ - xương")
+    )
 
     findings_text = " ".join(
         filter(None, [head_neck, chest, abdomen, skeleton])
@@ -626,7 +638,7 @@ class MixedStage2Dataset(Dataset):
                 "pet": item["pet"],
                 "patient_id": item["patient_id"],
                 "prompt": self.report_prompt,
-                "target": item["report"]["full_text"],
+                "target": item["report"]["structured_text"],
             }
 
         qa = self.qa_items[idx - len(self.report_dataset)]

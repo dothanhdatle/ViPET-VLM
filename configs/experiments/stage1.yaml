@@ -4,9 +4,9 @@ stage: "stage1"
 
 model:
   type:          "ctvit_clip"
-  weights_path:  "/workspace/weights/ctvit_pretrained.pt"
+  weights_path:  "/workspace/weights/CT-CLIP_v2.pt"
   embed_dim:     512
-  freeze_text:   true
+  freeze_text:   false
   freeze_vision: false
 
 data:

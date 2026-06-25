@@ -87,7 +87,7 @@ class Stage1Trainer:
 
         pet   = batch["pet"].to(self.device)
         #ct    = batch["ct"].to(self.device)
-        texts = batch["report"]["full_text"]
+        texts = batch["report"]["structured_text"]
 
         # AMP forward pass
         with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
@@ -96,8 +96,12 @@ class Stage1Trainer:
 
         # Backward với scaler
         loss.backward()
+        trainable_params = [
+            p for p in self.model.parameters()
+            if p.requires_grad
+        ]
         torch.nn.utils.clip_grad_norm_(
-            self.model.parameters(),
+            trainable_params,
             self.config["training"].get("gradient_clip", 1.0),
         )
         self.optimizer.step()
@@ -125,9 +129,9 @@ class Stage1Trainer:
         for batch in val_loader:
             pet   = batch["pet"].to(self.device)
             #ct    = batch["ct"].to(self.device)
-            texts = batch["report"]["full_text"]
+            texts = batch["report"]["structured_text"]
 
-            with torch.cuda.amp.autocast(enabled=self.use_amp, dtype=torch.bfloat16):
+            with torch.amp.autocast("cuda", enabled=self.use_amp, dtype=torch.bfloat16):
                 out = self.model(pet, texts)
 
             losses.append(out["loss"].item())
@@ -226,9 +230,10 @@ class Stage1Trainer:
 
 class Stage2Trainer:
     PROMPT = (
-        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-        "Hãy viết báo cáo y tế chi tiết cho ảnh này.\n"
-        "Báo cáo: "
+        "Đây là ảnh PET toàn thân của bệnh nhân. "
+        "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
+        "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
+        "Báo cáo:\n"
     )
 
     def __init__(self, model, config: dict, device: torch.device,
@@ -338,7 +343,8 @@ class Stage2Trainer:
         labels = encoded.input_ids.clone()
         for i, plen in enumerate(prompt_lens):
             labels[i, :plen] = -100
-        labels[labels == tokenizer.pad_token_id] = -100
+        #labels[labels == tokenizer.pad_token_id] = -100
+        labels[encoded.attention_mask == 0] = -100 # do mistral thường pad bằng eos
 
         return encoded.input_ids, encoded.attention_mask, labels
 
@@ -346,30 +352,55 @@ class Stage2Trainer:
     def _prompts_and_targets(batch: dict, fixed_prompt: str):
         if "prompt" in batch:
             return batch["prompt"], batch["target"]
-        texts = batch["report"]["full_text"]
+        texts = batch["report"]["structured_text"]
         return [fixed_prompt] * len(texts), texts
 
     def _train_step(self, batch: dict) -> dict:
         self.model.train()
+
+        # Hai module này bị freeze trong Stage 2.
+        self.model.vision_encoder.eval()
+        self.model.llm.eval()
+        self.model.projector.train()
+
         self.optimizer.zero_grad()
 
-        pet = batch["pet"].to(self.device)
-        #ct  = batch["ct"].to(self.device)
-        prompts, targets = self._prompts_and_targets(batch, self.PROMPT)
+        pet = batch["pet"].to(
+            self.device
+        )
 
-        input_ids, attention_mask, labels = self._tokenize(prompts, targets)
-        out  = self.model(pet, input_ids, attention_mask, labels)
+        prompts, targets = self._prompts_and_targets(
+            batch,
+            self.PROMPT,
+        )
+
+        input_ids, attention_mask, labels = self._tokenize(
+            prompts,
+            targets,
+        )
+
+        out = self.model(
+            pet,
+            input_ids,
+            attention_mask,
+            labels,
+        )
         loss = out["loss"]
 
         loss.backward()
+
         torch.nn.utils.clip_grad_norm_(
-            [p for p in self.model.projector.parameters() if p.requires_grad],
+            self.model.projector.parameters(),
             self.config["training"].get("gradient_clip", 1.0),
         )
+
         self.optimizer.step()
         self.scheduler.step()
 
-        return {"loss": loss.item(), "lr": self.optimizer.param_groups[0]["lr"]}
+        return {
+            "loss": loss.item(),
+            "lr": self.optimizer.param_groups[0]["lr"],
+        }
 
     @torch.no_grad()
     def _val_epoch(self, val_loader: DataLoader) -> dict:
@@ -468,8 +499,8 @@ class Stage3Trainer:
     """
 
     PROMPT = (
-        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
-        "Hãy viết báo cáo PET/CT bằng tiếng Việt theo đúng cấu trúc sau: "
+        "Đây là ảnh PET toàn thân của bệnh nhân. "
+        "Hãy viết báo cáo PET bằng tiếng Việt theo đúng cấu trúc sau: "
         "Đầu - cổ, Lồng ngực, Ổ bụng - khung chậu, Hệ cơ - xương, Kết luận.\n"
         "Báo cáo:\n"
     )
@@ -677,7 +708,7 @@ class Stage3VQATrainer(Stage3Trainer):
     """
 
     PROMPT_VQA = (
-        "Đây là ảnh PET/CT toàn thân của bệnh nhân. "
+        "Đây là ảnh PET toàn thân của bệnh nhân. "
         "{question}\n"
         "Trả lời: "
     )

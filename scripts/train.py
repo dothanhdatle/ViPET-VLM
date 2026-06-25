@@ -53,7 +53,7 @@ def main():
         model = CTViTCLIP(
             weights_path=config["model"]["weights_path"],
             embed_dim=config["model"].get("embed_dim", 512),
-            freeze_text=config["model"].get("freeze_text", True),
+            freeze_text=config["model"].get("freeze_text", False),
             freeze_vision=config["model"].get("freeze_vision", False),
         ).to(device)
         trainer = Stage1Trainer(model, config, device)
